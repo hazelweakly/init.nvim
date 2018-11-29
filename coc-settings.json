@@ -1,0 +1,25 @@
+// The rest are done with coc extensions
+{
+    "coc.source.omni.filetypes": ["php"],
+    "languageserver": {
+        "Dockerfile": {
+            "command": "docker-langserver",
+            "args": ["--stdio"],
+            "filetypes": ["Dockerfile"]
+        },
+        "bash": {
+            "command": "bash-language-server",
+            "args": ["start"],
+            "filetypes": ["sh"],
+            "cwd": "./",
+            "initializationOptions": {},
+            "settings": {}
+        },
+        "yaml": {
+            "command": "node",
+            "args": ["/home/jared/dev/yaml-language-server/out/server/src/server.js", "--stdio"],
+            "filetypes": ["yaml", "yml"]
+        }
+    },
+    "prettier.requireConfig": true
+}
