@@ -17,6 +17,7 @@ function! VimrcLoadPlugins()
     call plug#begin('~/.local/share/nvim/plugged')
     " Linting + LSP
     Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+    Plug 'neoclide/jsonc.vim'
     Plug 'Shougo/neco-syntax'
     Plug 'wellle/tmux-complete.vim'
     Plug 'ludovicchabant/vim-gutentags'
@@ -59,20 +60,19 @@ function! VimrcLoadPlugins()
     Plug 'AndrewRadev/splitjoin.vim'
 
     " Languages
-    Plug 'mattn/emmet-vim', { 'for': [ 'javascript.jsx', 'javascript', 'php', 'css', 'scss', 'html']}
     Plug 'sheerun/vim-polyglot'
-    Plug 'StanAngeloff/php.vim', {'for': 'php'}
-    Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'scss']}
-    Plug 'ekalinin/Dockerfile.vim', { 'for': 'Dockerfile' }
-    Plug 'othree/yajs.vim', { 'for': ['javascript', 'javascript.jsx', 'typescript','typescript.tsx'] }
-    Plug 'othree/es.next.syntax.vim', { 'for': ['javascript', 'javascript.jsx', 'typescript','typescript.tsx'] }
-    Plug 'maxmellon/vim-jsx-pretty', { 'for': ['javascript', 'javascript.jsx', 'typescript','typescript.tsx'] }
-    Plug 'Quramy/vim-js-pretty-template', { 'for': ['javascript', 'javascript.jsx', 'typescript','typescript.tsx'] }
-    Plug 'leafgarland/typescript-vim', { 'for': ['typescript','typescript.tsx'] }
-    Plug 'styled-components/vim-styled-components',{ 'branch': 'main' }
-    Plug 'ap/vim-css-color', { 'for': ['css', 'scss', 'html', 'php', 'javascript', 'javascript.jsx'] }
-    Plug 'vim-pandoc/vim-pandoc-syntax', { 'for': ['markdown.pandoc'] }
-    Plug 'vim-pandoc/vim-pandoc', { 'for': ['markdown.pandoc'] }
+    Plug 'peitalin/vim-jsx-typescript'
+    Plug 'mattn/emmet-vim'
+    Plug 'othree/yajs.vim'
+    Plug 'othree/es.next.syntax.vim'
+    Plug 'StanAngeloff/php.vim'
+    Plug 'hail2u/vim-css3-syntax'
+    Plug 'ekalinin/Dockerfile.vim'
+    Plug 'styled-components/vim-styled-components'
+    Plug 'ap/vim-css-color'
+    Plug 'vim-pandoc/vim-pandoc-syntax'
+    Plug 'vim-pandoc/vim-pandoc'
+    Plug 'leafgarland/typescript-vim'
     call plug#end()
 
     autocmd VimEnter *
@@ -98,6 +98,7 @@ function! VimrcLoadPluginSettings()
     let g:matchup_matchparen_deferred = 1
     let g:matchup_matchparen_status_offscreen = 0
 
+    " coc.nvim
     set hidden " Required for rename
     nmap <silent> gd <Plug>(coc-implementation)
     nmap <silent> gr <Plug>(coc-rename)
@@ -109,11 +110,17 @@ function! VimrcLoadPluginSettings()
     nmap <silent> <C-n> <Plug>(coc-diagnostic-next)
     nmap <silent> <C-p> <Plug>(coc-diagnostic-prev)
 
+    autocmd BufNewFile,BufRead coc-settings.json setl ft=jsonc
+
     " Show signature help while editing
     autocmd CursorHoldI * silent! call CocActionAsync('showSignatureHelp')
 
     " Highlight symbol under cursor on CursorHold
     autocmd CursorHold * silent call CocActionAsync('highlight')
+
+    let g:coc_filetype_map = {
+                \ '*ghost*': 'html'
+                \ }
 
     " supertab
     let g:SuperTabDefaultCompletionType = "<c-n>"
@@ -169,7 +176,7 @@ function! VimrcLoadPluginSettings()
     let g:pandoc#formatting#equalprg=''
 
     " vim-polygot
-    let g:polygot_disabled = ['Dockerfile', 'markdown', 'graphql', 'javascript.jsx', 'typescript.tsx', 'typescript', 'css']
+    let g:polygot_disabled = ['Dockerfile', 'markdown', 'graphql', 'javascript.jsx', 'typescript.tsx', 'typescript', 'css', 'javascript', 'jsx', 'tsx']
     let g:haskell_enable_quantification = 1
     let g:haskell_enable_pattern_synonyms = 1
     let g:haskell_indent_disable = 1
@@ -179,11 +186,6 @@ function! VimrcLoadPluginSettings()
     "phpactor
     let g:phpactorBranch = "develop"
     autocmd BufEnter php setlocal omnifunc=phpactor#Complete
-
-    " vim web stuff
-    autocmd FileType javascript JsPreTmpl html
-    autocmd FileType typescript JsPreTmpl html
-    autocmd FileType typescript syn clear foldBraces
 
     " vim-table-mode
     let g:table_mode_motion_up_map = ''
@@ -247,7 +249,10 @@ function! VimrcLoadPluginSettings()
                 \ '*.phar', '*.ini', '*.rst', '*.md',
                 \ '*vendor/*/test*', '*vendor/*/Test*',
                 \ '*vendor/*/fixture*', '*vendor/*/Fixture*',
-                \ '*var/cache*', '*var/log*']
+                \ '*var/cache*', '*var/log*',
+                \ '*.min.js', '*.min.css', 'build', 'vendor',
+                \ '.git', 'node_modules', '*.vim/bundle/*'
+                \ ]
 
     " highlightedyank
     let g:highlightedyank_highlight_duration = 125

@@ -1,6 +1,14 @@
 // The rest are done with coc extensions
 {
+    "coc.preferences.diagnostic.errorSign"  : "🕱",
+    "coc.preferences.diagnostic.warningSign": "☢",
+    "coc.preferences.diagnostic.infoSign"   : "",
+    "coc.preferences.diagnostic.hintSign"   : "ﯦ",
+    "coc.preferences.snippetIndicator": " ",
+    "coc.preferences.messageLevel": "warning",
     "coc.source.omni.filetypes": ["php"],
+    "coc.preferences.hoverTarget": "echo",
+    "prettier.requireConfig": true,
     "languageserver": {
         "Dockerfile": {
             "command": "docker-langserver",
@@ -14,12 +22,6 @@
             "cwd": "./",
             "initializationOptions": {},
             "settings": {}
-        },
-        "yaml": {
-            "command": "node",
-            "args": ["/home/jared/dev/yaml-language-server/out/server/src/server.js", "--stdio"],
-            "filetypes": ["yaml", "yml"]
         }
-    },
-    "prettier.requireConfig": true
+    }
 }
