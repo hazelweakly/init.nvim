@@ -1,14 +1,20 @@
-// The rest are done with coc extensions
 {
-    "coc.preferences.diagnostic.errorSign"  : "🕱",
+    // The rest are done with coc extensions
+    "coc.preferences.preferCompleteThanJumpPlaceholder": true,
+    "coc.preferences.timeout": 5000,
+    "coc.preferences.diagnostic.errorSign": "🕱",
     "coc.preferences.diagnostic.warningSign": "☢",
-    "coc.preferences.diagnostic.infoSign"   : "",
-    "coc.preferences.diagnostic.hintSign"   : "ﯦ",
-    "coc.preferences.snippetIndicator": " ",
+    "coc.preferences.diagnostic.infoSign": "",
+    "coc.preferences.diagnostic.hintSign": "ﯦ",
     "coc.preferences.messageLevel": "warning",
-    "coc.source.omni.filetypes": ["php"],
+    "coc.preferences.codeLens.enable": true,
+    "coc.preferences.maxCompleteItemCount": 25,
+    // "coc.preferences.fixInsertedWord": false,
+    "coc.source.omni.filetypes": ["php", "sh", "html"],
     "coc.preferences.hoverTarget": "echo",
     "prettier.requireConfig": true,
+    "prettier.eslintIntegration": true,
+    "javascript.suggestionActions.enabled": false,
     "languageserver": {
         "Dockerfile": {
             "command": "docker-langserver",
@@ -19,9 +25,21 @@
             "command": "bash-language-server",
             "args": ["start"],
             "filetypes": ["sh"],
-            "cwd": "./",
-            "initializationOptions": {},
-            "settings": {}
-        }
+            "ignoredRootPaths": ["~"]
+        },
+        // "haskell": {
+        //     "command": "hie-wrapper",
+        //     "args": ["--stdio"],
+        //     "filetypes": ["haskell"],
+        //     "rootPatterns": [
+        //         "stack.yaml",
+        //         "stack.yml",
+        //         "cabal.project",
+        //         "shell.nix",
+        //         ".vim/",
+        //         ".git/",
+        //         ".hg/"
+        //     ]
+        // }
     }
 }

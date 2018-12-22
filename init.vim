@@ -6,7 +6,7 @@ function! VimrcLoadPlugins()
             let s:plug_upstream = 'https://raw.githubusercontent.com/'
                         \ .  'junegunn/vim-plug/master/plug.vim'
             call system('curl -fLo '
-                        \. shellescape(s:plug_dir) 
+                        \. shellescape(s:plug_dir)
                         \ . ' --create-dirs ' . shellescape(s:plug_upstream))
             autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
         endif
@@ -15,60 +15,63 @@ function! VimrcLoadPlugins()
     endif
 
     call plug#begin('~/.local/share/nvim/plugged')
+
     " Linting + LSP
-    Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-    Plug 'neoclide/jsonc.vim'
     Plug 'Shougo/neco-syntax'
-    Plug 'wellle/tmux-complete.vim'
-    Plug 'ludovicchabant/vim-gutentags'
+    Plug 'Shougo/neco-vim'
+    Plug 'neoclide/coc-neco'
+    Plug 'neoclide/coc.nvim', {'do': 'yarn install'}
+    Plug 'neoclide/jsonc.vim'
+    " Plug 'wellle/tmux-complete.vim'
     Plug 'w0rp/ale'
+    Plug 'ludovicchabant/vim-gutentags'
+    Plug 'skywind3000/gutentags_plus'
 
     " Enhancements: TODO, split into improvements, vimlike, and additions
     Plug 'airblade/vim-gitgutter'
     Plug 'christoomey/vim-tmux-navigator'
     Plug 'dhruvasagar/vim-table-mode'
-    Plug 'ervandew/supertab'
     Plug 'farmergreg/vim-lastplace'
-    Plug 'haya14busa/incsearch.vim'
-    Plug 'haya14busa/incsearch-fuzzy.vim'
-    Plug 'haya14busa/vim-asterisk'
     Plug 'jiangmiao/auto-pairs'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } | Plug 'junegunn/fzf.vim'
     Plug 'junegunn/vim-easy-align'
+    Plug 'kana/vim-textobj-user'
     Plug 'kana/vim-operator-user'
-    Plug 'matze/vim-move'
-    Plug 'sbdchd/neoformat'
-    Plug 'sickill/vim-pasta' " Smarter pasting with indention
+    Plug 'idbrii/textobj-word-column.vim'
     Plug 'tmux-plugins/vim-tmux'
     Plug 'tommcdo/vim-exchange'
     Plug 'tpope/vim-commentary'
-    " Look into caw and https://github.com/Shougo/shougo-s-github/tree/master/vim/rc
+    " Plug 'tomtom/tcomment_vim'
+    " Look into caw
     Plug 'tpope/vim-repeat'
     Plug 'tpope/vim-surround'
-    Plug 'triglav/vim-visual-increment'
     Plug 'wellle/targets.vim'
     Plug 'kassio/neoterm'
+    Plug 'markonm/traces.vim'
     Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
+    Plug 'Raimondi/yaifa'
+    Plug 'chaoren/vim-wordmotion'
+    Plug 'tpope/vim-rsi'
+    Plug 'google/vim-searchindex'
 
     Plug 'andymass/vim-matchup'
-    Plug 'tpope/vim-endwise'
     Plug 'machakann/vim-highlightedyank'
 
     Plug 'dkasak/gruvbox' " Gruvbox with better haskell highlighting
 
     Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
-    Plug 'AndrewRadev/splitjoin.vim'
 
     " Languages
     Plug 'sheerun/vim-polyglot'
-    Plug 'peitalin/vim-jsx-typescript'
-    Plug 'mattn/emmet-vim'
+    " Plug 'mattn/emmet-vim'
     Plug 'othree/yajs.vim'
+    Plug 'HerringtonDarkholme/yats.vim'
+    Plug 'peitalin/vim-jsx-typescript'
     Plug 'othree/es.next.syntax.vim'
     Plug 'StanAngeloff/php.vim'
-    Plug 'hail2u/vim-css3-syntax'
     Plug 'ekalinin/Dockerfile.vim'
-    Plug 'styled-components/vim-styled-components'
+    Plug 'hail2u/vim-css3-syntax'
+    Plug 'styled-components/vim-styled-components', {'branch': 'main' }
     Plug 'ap/vim-css-color'
     Plug 'vim-pandoc/vim-pandoc-syntax'
     Plug 'vim-pandoc/vim-pandoc'
@@ -98,22 +101,45 @@ function! VimrcLoadPluginSettings()
     let g:matchup_matchparen_deferred = 1
     let g:matchup_matchparen_status_offscreen = 0
 
+    " ale
+    autocmd FileType html,scss,css,javascript,javascript.jsx,typescript,typescript.tsx ALEDisableBuffer
+
+    " commentary.vim
+    autocmd FileType jsonc,php setlocal commentstring=//\ %s
+
     " coc.nvim
-    set hidden " Required for rename
+    function! s:show_documentation()
+        if &filetype == 'vim'
+            execute 'h '.expand('<cword>')
+        else
+            call CocAction('doHover')
+        endif
+    endfunction
+
+    call coc#add_extension('coc-css', 'coc-emmet', 'coc-eslint', 'coc-highlight',
+                \ 'coc-html', 'coc-json', 'coc-omni', 'coc-prettier',
+                \ 'coc-stylelint', 'coc-tag', 'coc-tslint', 'coc-tsserver',
+                \ 'coc-yaml')
+
+    " yarn global add eslint eslint-plugin-react eslint-plugin-import eslint-plugin-node prettier prettier-eslint eslint-plugin-babel eslint-plugin-jquery stylelint stylelint dockerfile-language-server-nodejs bash-language-server
     nmap <silent> gd <Plug>(coc-implementation)
     nmap <silent> gr <Plug>(coc-rename)
     nmap <silent> gs <Plug>(coc-definition)
     nmap <silent> <leader>f <Plug>(coc-format)
+    vmap <silent> <leader>f <Plug>(coc-format-selected)
     nmap <silent> gR <Plug>(coc-references)
-    nmap <silent> gh :call CocAction('doHover')<CR>
+    nmap <silent> gh :call <SID>show_documentation()<CR>
     nmap <silent> ga <Plug>(coc-codeaction)
     nmap <silent> <C-n> <Plug>(coc-diagnostic-next)
     nmap <silent> <C-p> <Plug>(coc-diagnostic-prev)
 
-    autocmd BufNewFile,BufRead coc-settings.json setl ft=jsonc
+    let g:coc_snippet_next = '<TAB>'
+    let g:coc_snippet_prev = '<S-TAB>'
+
+    autocmd BufNewFile,BufRead coc-settings.json,*eslintrc*.json setl ft=jsonc
 
     " Show signature help while editing
-    autocmd CursorHoldI * silent! call CocActionAsync('showSignatureHelp')
+    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 
     " Highlight symbol under cursor on CursorHold
     autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -122,53 +148,57 @@ function! VimrcLoadPluginSettings()
                 \ '*ghost*': 'html'
                 \ }
 
-    " supertab
-    let g:SuperTabDefaultCompletionType = "<c-n>"
+    " use <tab> for trigger completion and navigate next complete item
+    function! s:check_back_space() abort
+        let col = col('.') - 1
+        return !col || getline('.')[col - 1]  =~ '\s'
+    endfunction
 
-    " endwise + supertab chain/workaround
-    let g:endwise_no_mappings = 1
-    imap <C-X><CR>   <CR><Plug>AlwaysEnd
-    imap <expr> <CR> (pumvisible() ? "\<C-Y>\<CR>\<Plug>DiscretionaryEnd" : "\<CR>\<Plug>DiscretionaryEnd")
+    inoremap <silent><expr> <TAB>
+                \ pumvisible() ? "\<C-n>" :
+                \ <SID>check_back_space() ? "\<TAB>" :
+                \ coc#refresh()
 
-    " emmet.vim
-    let g:user_emmet_expandabbr_key = '<c-e>'
-    let g:use_emmet_complete_tag = 1
-    let g:user_emmet_install_global = 0
+    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-    let g:user_emmet_settings = {
-                \  'javascript.jsx' : {
-                \      'extends' : 'jsx',
-                \  },
-                \  'javascript' : {
-                \      'extends' : 'jsx',
-                \  },
-                \}
+    " Use <c-space> for trigger completion.
+    inoremap <silent><expr> <c-space> coc#refresh()
 
-    autocmd FileType html,php,scss,css,javascript,javascript.jsx,typescript,typescript.tsx EmmetInstall
+    " Use <cr> for confirm completion.
+    " Coc only does snippet and additional edit on confirm.
+    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-    " tmux-complete.vim
-    let g:tmuxcomplete#trigger = ''
-    let g:tmuxcomplete#asyncomplete_source_options = {
-                \ 'name':      'tmux',
-                \ 'whitelist': ['*'],
-                \ 'priority': -1,
-                \ 'config': {
-                \     'splitmode':      'words',
-                \     'filter_prefix':   0,
-                \     'show_incomplete': 1,
-                \     'sort_candidates': 0,
-                \     'scrollback':      0,
-                \     'truncate':        0
-                \     }
-                \ }
+    " " emmet.vim
+    " let g:user_emmet_expandabbr_key = '<c-e>'
+    " let g:use_emmet_complete_tag = 1
+    " let g:user_emmet_install_global = 0
 
-    " neoformat
-    let g:neoformat_basic_format_align = 1
-    let g:neoformat_basic_format_retab = 1
-    let g:neoformat_basic_format_trim  = 1
-    let g:neoformat_try_formatprg = 1
-    let g:neoformat_run_all_formatters = 1
-    let g:neoformat_only_msg_on_error = 1
+    " let g:user_emmet_settings = {
+    "             \  'javascript.jsx' : {
+    "             \      'extends' : 'jsx',
+    "             \  },
+    "             \  'javascript' : {
+    "             \      'extends' : 'jsx',
+    "             \  },
+    "             \}
+
+    " autocmd FileType html,php,scss,css,javascript,javascript.jsx,typescript,typescript.tsx EmmetInstall
+
+    " " tmux-complete.vim
+    " let g:tmuxcomplete#trigger = ''
+    " let g:tmuxcomplete#asyncomplete_source_options = {
+    "             \ 'name':      'tmux',
+    "             \ 'whitelist': ['*'],
+    "             \ 'priority': -1,
+    "             \ 'config': {
+    "             \     'splitmode':      'words',
+    "             \     'filter_prefix':   0,
+    "             \     'show_incomplete': 1,
+    "             \     'sort_candidates': 0,
+    "             \     'scrollback':      0,
+    "             \     'truncate':        0
+    "             \     }
+    "             \ }
 
     " vim-pandoc
     let g:pandoc#modules#disabled = ["folding"]
@@ -206,56 +236,23 @@ function! VimrcLoadPluginSettings()
     nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
     nnoremap <silent> <M-l> :TmuxNavigateRight<cr>
 
-    " vim-move
-    let g:move_key_modifier = 'C'
-
-    " incsearch.vim
-    function! s:config_fuzzyall(...) abort
-        return extend(copy({
-                    \   'converters': [
-                    \     incsearch#config#fuzzy#converter(),
-                    \     incsearch#config#fuzzyspell#converter()
-                    \   ],
-                    \ }), get(a:, 1, {}))
-    endfunction
-
-    noremap <silent><expr> z/ incsearch#go(<SID>config_fuzzyall({'is_stay': 0}))
-    noremap <silent><expr> z? incsearch#go(<SID>config_fuzzyall({'is_stay': 0, 'command': '?'}))
-    noremap <expr> / incsearch#go({'command': '/', 'is_stay': 0})
-    noremap <expr> ? incsearch#go({'command': '?', 'is_stay': 0})
-
-    let g:incsearch#auto_nohlsearch = 1
-
-    " Improved asterisk along with incsearch
-    map *   <Plug>(incsearch-nohl)<Plug>(asterisk-*)
-    map g*  <Plug>(incsearch-nohl)<Plug>(asterisk-g*)
-    map #   <Plug>(incsearch-nohl)<Plug>(asterisk-#)
-    map g#  <Plug>(incsearch-nohl)<Plug>(asterisk-g#)
-
-    map z*  <Plug>(incsearch-nohl0)<Plug>(asterisk-z*)
-    map gz* <Plug>(incsearch-nohl0)<Plug>(asterisk-gz*)
-    map z#  <Plug>(incsearch-nohl0)<Plug>(asterisk-z#)
-    map gz# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)
-
     " vim-gutter
     let g:gitgutter_map_keys = 0
 
     " vim-ghost
     autocmd BufNewFile,BufRead *ghost* setl ft=html
 
-    " vim-gutentags
-    let g:gutentags_cache_dir = '~/.cache/gutentags'
-    let g:gutentags_ctags_exclude = ['*.css', '*.html', '*.js', '*.json', '*.xml',
-                \ '*.phar', '*.ini', '*.rst', '*.md',
-                \ '*vendor/*/test*', '*vendor/*/Test*',
-                \ '*vendor/*/fixture*', '*vendor/*/Fixture*',
-                \ '*var/cache*', '*var/log*',
-                \ '*.min.js', '*.min.css', 'build', 'vendor',
-                \ '.git', 'node_modules', '*.vim/bundle/*'
-                \ ]
-
     " highlightedyank
     let g:highlightedyank_highlight_duration = 125
+
+    " gutentags
+    let g:gutentags_file_list_command = 'rg -l'
+
+    " config project root markers.
+    let g:gutentags_project_root = ['.git', '.idea', 'Makefile']
+
+    " generate datebases in my cache directory, prevent gtags files polluting my project
+    let g:gutentags_cache_dir = expand('~/.cache/tags')
 endfunction
 
 "
@@ -302,15 +299,23 @@ function! VimrcLoadMappings()
     call operator#user#define('adjust', 'Op_adjust_window_height')
     map _  <Plug>(operator-adjust)
 
-    call operator#user#define_ex_command('neoformat','Neoformat')
-    " map = <Plug>(operator-neoformat)
-
+    nnoremap <C-j> :m .+1<CR>==
+    nnoremap <C-k> :m .-2<CR>==
+    inoremap <C-j> <Esc>:m .+1<CR>==gi
+    inoremap <C-k> <Esc>:m .-2<CR>==gi
+    vnoremap <C-j> :m '>+1<CR>gv=gv
+    vnoremap <C-k> :m '<-2<CR>gv=gv
 endfunction
 
 
 " Settings
 
 function! VimrcLoadSettings()
+    set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+    set hidden " Required for coc.nvim
+    set completeopt=menu,menuone,noinsert
+    set nrformats=bin,hex,octal,alpha
+    set breakindent
     set backspace=indent,eol,start        " backspace over everything in insert mode
     set clipboard=unnamedplus             " Sets the default register of vim for system clipboard compatibility
     set backup
@@ -346,13 +351,13 @@ function! VimrcLoadSettings()
     set foldnestmax=10    " maximum fold depth
     set nofoldenable      " don't fold by default
 
-    set synmaxcol=500     " maximum length to apply syntax highlighting
+    set synmaxcol=2000     " maximum length to apply syntax highlighting
     set timeout           " enable timeout of key codes and mappings(the default)
     set ttimeout          " enable timeout of key codes and mappings(the default)
     set timeoutlen=3000   " big timeout for key sequences
     set ttimeoutlen=10    " small timeout for key sequences since these will be normally scripted
     set termguicolors     " Enable true color.
-    set updatetime=100    " How quickly, in ms, updates register
+    set updatetime=200    " How quickly, in ms, updates register
     set splitright        " make vertical splits open to the right
     set splitbelow        " make splits open below the current buffer
     set nofixendofline
@@ -366,7 +371,7 @@ endfunction
 function! VimrcLoadFiletypeSettings()
     augroup filetype_settings
         au!
-        au BufNewFile,BufRead * setl noincsearch
+        au BufNewFile,BufRead * setl incsearch
         au FileType vim setl foldmethod=marker
         au BufNewFile,BufRead $MYVIMRC setl filetype=vim
         au VimResized * :wincmd =
@@ -382,27 +387,9 @@ function! VimrcLoadFiletypeSettings()
         au BufNewFile,BufRead httpd setl filetype=apache
         " au FileType sh,bash,zsh setl noexpandtab
 
-        " Python
-        au FileType python
-                    \   setl softtabstop=2
-                    \ | setl shiftwidth=2
-                    \ | setl textwidth=79
-        command! DocTest !python -m doctest %
-
-        " Mail
-        au FileType mail
-                    \   setl foldmethod=indent
-                    \ | setl spell
-                    \ | setl spelllang=en
-        " \ | setl tw=72
-                    \ | setl fo+=w
-
-        " Conceal stuff is in nvim/after/syntax/haskell.vim
-        au FileType haskell map = <Plug>(operator-neoformat)
-
         au Filetype pandoc setl nowrap
+
         " Improve syntax hl accuracy. Larger = more accuracy = slower
-        " au BufEnter * :syntax sync fromstart
         au BufEnter * :syntax sync minlines=500
         au VimResized * :redraw!
     augroup END
