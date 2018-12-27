@@ -67,23 +67,18 @@ function! VimrcLoadPlugins()
 
     " Languages
     Plug 'sheerun/vim-polyglot'
-    " Plug 'mattn/emmet-vim'
-    Plug 'elzr/vim-json'
     Plug 'neoclide/jsonc.vim'
     Plug 'othree/yajs.vim'
     Plug 'HerringtonDarkholme/yats.vim'
     Plug 'peitalin/vim-jsx-typescript'
     Plug 'othree/es.next.syntax.vim'
     Plug 'othree/javascript-libraries-syntax.vim'
-    Plug 'StanAngeloff/php.vim'
-    Plug 'ekalinin/Dockerfile.vim'
     Plug 'hail2u/vim-css3-syntax'
     Plug 'styled-components/vim-styled-components', {'branch': 'main' }
     Plug 'ap/vim-css-color'
     Plug 'Valloric/MatchTagAlways'
     Plug 'vim-pandoc/vim-pandoc-syntax'
     Plug 'vim-pandoc/vim-pandoc'
-    Plug 'leafgarland/typescript-vim'
     call plug#end()
 
     autocmd VimEnter *
@@ -181,45 +176,13 @@ function! VimrcLoadPluginSettings()
     " Coc only does snippet and additional edit on confirm.
     inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-    " " emmet.vim
-    " let g:user_emmet_expandabbr_key = '<c-e>'
-    " let g:use_emmet_complete_tag = 1
-    " let g:user_emmet_install_global = 0
-
-    " let g:user_emmet_settings = {
-    "             \  'javascript.jsx' : {
-    "             \      'extends' : 'jsx',
-    "             \  },
-    "             \  'javascript' : {
-    "             \      'extends' : 'jsx',
-    "             \  },
-    "             \}
-
-    " autocmd FileType html,php,scss,css,javascript,javascript.jsx,typescript,typescript.tsx EmmetInstall
-
-    " " tmux-complete.vim
-    " let g:tmuxcomplete#trigger = ''
-    " let g:tmuxcomplete#asyncomplete_source_options = {
-    "             \ 'name':      'tmux',
-    "             \ 'whitelist': ['*'],
-    "             \ 'priority': -1,
-    "             \ 'config': {
-    "             \     'splitmode':      'words',
-    "             \     'filter_prefix':   0,
-    "             \     'show_incomplete': 1,
-    "             \     'sort_candidates': 0,
-    "             \     'scrollback':      0,
-    "             \     'truncate':        0
-    "             \     }
-    "             \ }
-
     " vim-pandoc
     let g:pandoc#modules#disabled = ["folding"]
     let g:pandoc#completion#bib#mode = "citeproc"
     let g:pandoc#formatting#equalprg=''
 
     " vim-polygot
-    let g:polygot_disabled = ['Dockerfile', 'markdown', 'graphql', 'javascript.jsx', 'typescript.tsx', 'typescript', 'css', 'javascript', 'jsx', 'tsx']
+    let g:polygot_disabled = ['markdown', 'javascript.jsx', 'css', 'javascript', 'jsx']
     let g:haskell_enable_quantification = 1
     let g:haskell_enable_pattern_synonyms = 1
     let g:haskell_indent_disable = 1
@@ -286,7 +249,6 @@ function! VimrcLoadMappings()
     "                   With those in mind, there are lots of empty binds in
     "                   vim available
 
-    " clear search highlight with \s
     nnoremap <silent> <leader>s :noh<CR>
 
     " paste over a visual selection without nuking your paste
@@ -360,47 +322,47 @@ function! VimrcLoadSettings()
     set completeopt=menu,menuone,noinsert
     set nrformats=bin,hex,octal,alpha
     set breakindent
-    set backspace=indent,eol,start        " backspace over everything in insert mode
-    set clipboard=unnamedplus             " Sets the default register of vim for system clipboard compatibility
+    set backspace=indent,eol,start
+    set clipboard=unnamedplus
     set backup
-    set undofile                          " create '.<FILENAME>.un~' for persiting undo history
-    set lazyredraw                        " speed increase, but doesn't seem to be needed
+    set undofile
+    set lazyredraw
     set virtualedit=block
     set mouse=
     set dir=~/.config/nvim/backup//
     set undodir=~/.config/nvim/backup//
     set backupdir=~/.config/nvim/backup//
-    set noerrorbells visualbell t_vb=     " disable annoying terminal sounds
+    set noerrorbells visualbell t_vb=
     set list
     set listchars=tab:▸\ ,extends:❯,precedes:❮,eol:¬,trail:⌴
     set showbreak=↪\ \ 
     set fillchars=diff:⣿,vert:│,fold:\
-    set showcmd                           " display incomplete commands
+    set showcmd
     set cmdheight=1
     set scrolloff=2
     set sidescrolloff=2
-    set number                             " display line numbers on the left
+    set number
     set shortmess+=caI
 
-    set expandtab         " expand tabs into spaces
-    set softtabstop=4     " number of spaces used with tab/bs
-    set shiftwidth=4      " indent with two spaces
-    set ignorecase        " ignore case when searching
-    set smartcase         " disable 'ignorecase' if search pattern has uppercase characters
-    set hlsearch          " highlight previous search matches
-    set noshowmatch       " briefly jump to the matching bracket on insert
-    set nowrap            " automatically wrap text when 'textwidth' is reached
-    set nofoldenable      " don't fold by default
+    set expandtab
+    set softtabstop=4
+    set shiftwidth=4
+    set ignorecase
+    set smartcase
+    set hlsearch
+    set noshowmatch
+    set nowrap
+    set nofoldenable
 
-    set synmaxcol=2000     " maximum length to apply syntax highlighting
-    set timeout           " enable timeout of key codes and mappings(the default)
-    set ttimeout          " enable timeout of key codes and mappings(the default)
-    set timeoutlen=3000   " big timeout for key sequences
-    set ttimeoutlen=10    " small timeout for key sequences since these will be normally scripted
-    set termguicolors     " Enable true color.
-    set updatetime=100    " How quickly, in ms, updates register
-    set splitright        " make vertical splits open to the right
-    set splitbelow        " make splits open below the current buffer
+    set synmaxcol=2000
+    set timeout
+    set ttimeout
+    set timeoutlen=3000
+    set ttimeoutlen=10
+    set termguicolors
+    set updatetime=100
+    set splitright
+    set splitbelow
     set nofixendofline
 
     set autoread
