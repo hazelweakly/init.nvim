@@ -41,7 +41,6 @@ function! VimrcLoadPlugins()
     Plug 'tmux-plugins/vim-tmux'
     Plug 'tommcdo/vim-exchange'
     Plug 'tpope/vim-commentary'
-    " Plug 'tomtom/tcomment_vim'
     " Look into caw
     Plug 'tpope/vim-repeat'
     Plug 'tpope/vim-surround'
@@ -133,8 +132,8 @@ function! VimrcLoadPluginSettings()
     nmap <silent> <C-n> <Plug>(coc-diagnostic-next)
     nmap <silent> <C-p> <Plug>(coc-diagnostic-prev)
 
-    let g:coc_snippet_next = '<TAB>'
-    let g:coc_snippet_prev = '<S-TAB>'
+    let g:coc_snippet_next = '<A-n>'
+    let g:coc_snippet_prev = '<A-p>'
 
     autocmd BufNewFile,BufRead coc-settings.json,*eslintrc*.json setl ft=jsonc
 
@@ -266,6 +265,32 @@ function! VimrcLoadMappings()
 
     " clear search highlight with ,s
     nnoremap <silent> <leader>s :noh<CR>
+
+    " paste over a visual selection without nuking your paste
+    function! RestoreRegister()
+        if &clipboard != "unnamed" && &clipboard != "unnamedplus"
+            let @" = s:restore_reg
+        elseif &clipboard == "unnamed"
+            let @* = s:restore_reg
+        elseif &clipboard == "unnamedplus"
+            let @+ = s:restore_reg
+        endif
+        return ''
+    endfunction
+
+    function! s:Repl()
+        if &clipboard != "unnamed" && &clipboard != "unnamedplus"
+            let s:restore_reg = @"
+        elseif &clipboard == "unnamed"
+            let s:restore_reg = @*
+        elseif &clipboard == "unnamedplus"
+            let s:restore_reg = @+
+        endif
+        return "p@=RestoreRegister()\<cr>"
+    endfunction
+
+    xnoremap <silent> <expr> p <sid>Repl()
+
     " move to last change
     nnoremap gI `.
     " BC calc from current line
@@ -303,8 +328,8 @@ function! VimrcLoadMappings()
     nnoremap <C-k> :m .-2<CR>==
     inoremap <C-j> <Esc>:m .+1<CR>==gi
     inoremap <C-k> <Esc>:m .-2<CR>==gi
-    vnoremap <C-j> :m '>+1<CR>gv=gv
-    vnoremap <C-k> :m '<-2<CR>gv=gv
+    xnoremap <C-j> :m '>+1<CR>gv=gv
+    xnoremap <C-k> :m '<-2<CR>gv=gv
 endfunction
 
 
@@ -336,7 +361,7 @@ function! VimrcLoadSettings()
     set scrolloff=2
     set sidescrolloff=2
     set number                             " display line numbers on the left
-    set shortmess+=aI
+    set shortmess+=caI
 
     set expandtab         " expand tabs into spaces
     set softtabstop=4     " number of spaces used with tab/bs
@@ -363,7 +388,11 @@ function! VimrcLoadSettings()
     set nofixendofline
 
     set autoread
-    au FocusGained * :checktime
+    augroup vimrc_settings
+        au!
+        au FocusGained * :checktime
+        au BufWritePost $MYVIMRC nested source $MYVIMRC
+    augroup END
 endfunction
 
 
@@ -392,22 +421,23 @@ function! VimrcLoadFiletypeSettings()
         " Improve syntax hl accuracy. Larger = more accuracy = slower
         au BufEnter * :syntax sync minlines=500
         au VimResized * :redraw!
+
+        " Web Dev
+        au BufNewFile,BufRead *.html setl ft=html
+
+        " Dev Ops
+        au BufNewFile,BufRead *.stack setl ft=yaml
+        au BufNewFile,BufRead *.docker,*.dockerfile setl ft=Dockerfile
+        au BufNewFile,BufRead *docker-compose.* setl ft=json
     augroup END
-
-    " Web Dev
-    autocmd BufNewFile,BufRead *.html setl ft=html
-
-    " Dev Ops
-    autocmd BufNewFile,BufRead *.stack setl ft=yaml
-    autocmd BufNewFile,BufRead *.docker,*.dockerfile setl ft=Dockerfile
-    autocmd BufNewFile,BufRead *docker-compose.* setl ft=json
 
     let g:LargeFile = 1024 * 1024 * 1
     augroup LargeFile
-        autocmd BufReadPre * let f=getfsize(expand("<afile>")) | if f > g:LargeFile || f == -2 | call LargeFile() | endif
+        au!
+        au BufReadPre * let f=getfsize(expand("<afile>")) | if f > g:LargeFile || f == -2 | call LargeFile() | endif
     augroup END
 
-    function LargeFile()
+    function! LargeFile()
         " no syntax highlighting etc
         setlocal eventignore+=FileType
         " save memory when other file is viewed

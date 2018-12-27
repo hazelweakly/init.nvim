@@ -9,7 +9,6 @@
     "coc.preferences.messageLevel": "warning",
     "coc.preferences.codeLens.enable": true,
     "coc.preferences.maxCompleteItemCount": 25,
-    // "coc.preferences.fixInsertedWord": false,
     "coc.source.omni.filetypes": ["php", "sh", "html"],
     "coc.preferences.hoverTarget": "echo",
     "prettier.requireConfig": true,
@@ -27,19 +26,19 @@
             "filetypes": ["sh"],
             "ignoredRootPaths": ["~"]
         },
-        // "haskell": {
-        //     "command": "hie-wrapper",
-        //     "args": ["--stdio"],
-        //     "filetypes": ["haskell"],
-        //     "rootPatterns": [
-        //         "stack.yaml",
-        //         "stack.yml",
-        //         "cabal.project",
-        //         "shell.nix",
-        //         ".vim/",
-        //         ".git/",
-        //         ".hg/"
-        //     ]
-        // }
+        "haskell": {
+            "command": "hie-wrapper",
+            "args": ["--stdio"],
+            "filetypes": ["haskell"],
+            "rootPatterns": [
+                "stack.yaml",
+                "stack.yml",
+                "cabal.project",
+                "shell.nix",
+                ".vim/",
+                ".git/",
+                ".hg/"
+            ]
+        }
     }
 }
