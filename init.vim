@@ -21,13 +21,13 @@ function! VimrcLoadPlugins()
     Plug 'Shougo/neco-vim'
     Plug 'neoclide/coc-neco'
     Plug 'neoclide/coc.nvim', {'do': 'yarn install'}
-    Plug 'neoclide/jsonc.vim'
     " Plug 'wellle/tmux-complete.vim'
     Plug 'w0rp/ale'
     Plug 'ludovicchabant/vim-gutentags'
     Plug 'skywind3000/gutentags_plus'
 
     " Enhancements: TODO, split into improvements, vimlike, and additions
+    Plug 'lambdalisue/suda.vim'
     Plug 'airblade/vim-gitgutter'
     Plug 'christoomey/vim-tmux-navigator'
     Plug 'dhruvasagar/vim-table-mode'
@@ -41,6 +41,11 @@ function! VimrcLoadPlugins()
     Plug 'tmux-plugins/vim-tmux'
     Plug 'tommcdo/vim-exchange'
     Plug 'tpope/vim-commentary'
+    Plug 'Shougo/context_filetype.vim'
+    Plug 'sickill/vim-pasta'
+    Plug 'tpope/vim-ragtag'
+    Plug '907th/vim-auto-save'
+
     " Look into caw
     Plug 'tpope/vim-repeat'
     Plug 'tpope/vim-surround'
@@ -63,15 +68,19 @@ function! VimrcLoadPlugins()
     " Languages
     Plug 'sheerun/vim-polyglot'
     " Plug 'mattn/emmet-vim'
+    Plug 'elzr/vim-json'
+    Plug 'neoclide/jsonc.vim'
     Plug 'othree/yajs.vim'
     Plug 'HerringtonDarkholme/yats.vim'
     Plug 'peitalin/vim-jsx-typescript'
     Plug 'othree/es.next.syntax.vim'
+    Plug 'othree/javascript-libraries-syntax.vim'
     Plug 'StanAngeloff/php.vim'
     Plug 'ekalinin/Dockerfile.vim'
     Plug 'hail2u/vim-css3-syntax'
     Plug 'styled-components/vim-styled-components', {'branch': 'main' }
     Plug 'ap/vim-css-color'
+    Plug 'Valloric/MatchTagAlways'
     Plug 'vim-pandoc/vim-pandoc-syntax'
     Plug 'vim-pandoc/vim-pandoc'
     Plug 'leafgarland/typescript-vim'
@@ -101,7 +110,12 @@ function! VimrcLoadPluginSettings()
     let g:matchup_matchparen_status_offscreen = 0
 
     " ale
+    let g:ale_sh_shellcheck_options = '-x'
     autocmd FileType html,scss,css,javascript,javascript.jsx,typescript,typescript.tsx ALEDisableBuffer
+    hi link ALEError Error
+    hi Warning term=underline cterm=underline ctermfg=Yellow gui=undercurl guisp=Gold
+    hi link ALEWarning Warning
+    hi link ALEInfo SpellCap
 
     " commentary.vim
     autocmd FileType jsonc,php setlocal commentstring=//\ %s
@@ -222,6 +236,11 @@ function! VimrcLoadPluginSettings()
     let g:table_mode_motion_left_map = ''
     let g:table_mode_motion_right_map = ''
 
+    " fzf
+    autocmd! FileType fzf
+    autocmd  FileType fzf set laststatus=0 noshowmode noruler
+          \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+
     " vim-easy-align
     xmap <CR> <Plug>(EasyAlign)
 
@@ -234,6 +253,10 @@ function! VimrcLoadPluginSettings()
     nnoremap <silent> <M-j> :TmuxNavigateDown<cr>
     nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
     nnoremap <silent> <M-l> :TmuxNavigateRight<cr>
+
+    " vim-auto-save
+    let g:auto_save = 1
+    let g:auto_save_events = ["FocusLost"]
 
     " vim-gutter
     let g:gitgutter_map_keys = 0
@@ -263,7 +286,7 @@ function! VimrcLoadMappings()
     "                   With those in mind, there are lots of empty binds in
     "                   vim available
 
-    " clear search highlight with ,s
+    " clear search highlight with \s
     nnoremap <silent> <leader>s :noh<CR>
 
     " paste over a visual selection without nuking your paste
@@ -294,21 +317,17 @@ function! VimrcLoadMappings()
     " move to last change
     nnoremap gI `.
     " BC calc from current line
-    map <leader>c yypkA<ESC>j:.!wcalc -E -P6<CR>kJ
+    map <leader>c :.!bc<CR>
     "Insert new lines in normal mode
-    nnoremap <silent> go :pu _<CR>:'[-1<CR>
+    nnoremap <silent> go :pu! _<CR>:'[-1<CR>
     nnoremap <silent> gO :pu! _<CR>:']+1<CR>
-    " J is 'join' so K is 'kut', which comes in useful a surprising amount
+    " J is 'join' so K is 'kut'
     nnoremap K i<CR><ESC>
-    " Why isn't this default? C = c$, D = d$...
     nnoremap Y y$
-    " For some reason, this works without breaking syntax highlighting
-    nnoremap <C-L> :redraw!<CR>
+    nnoremap <silent> <C-L> :redraw!<CR>
 
-    " Edit file with sudo: Does not work in neovim
-    " command W :execute ':silent w !sudo tee % > /dev/null' | :edit!
-    " command W :execute ':silent w !sudo tee > /dev/null %'
-    " command! W :SudoWrite
+    " suda.vim: Write file with sudo
+    command! W :w suda://%
 
     " Replace cursor under word. Pressing . will move to next match and repeat
     nnoremap c* /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
@@ -371,9 +390,6 @@ function! VimrcLoadSettings()
     set hlsearch          " highlight previous search matches
     set noshowmatch       " briefly jump to the matching bracket on insert
     set nowrap            " automatically wrap text when 'textwidth' is reached
-    set foldmethod=indent " by default, fold using indentation
-    set foldlevel=0       " if fold everything if 'foldenable' is set
-    set foldnestmax=10    " maximum fold depth
     set nofoldenable      " don't fold by default
 
     set synmaxcol=2000     " maximum length to apply syntax highlighting
@@ -382,7 +398,7 @@ function! VimrcLoadSettings()
     set timeoutlen=3000   " big timeout for key sequences
     set ttimeoutlen=10    " small timeout for key sequences since these will be normally scripted
     set termguicolors     " Enable true color.
-    set updatetime=200    " How quickly, in ms, updates register
+    set updatetime=100    " How quickly, in ms, updates register
     set splitright        " make vertical splits open to the right
     set splitbelow        " make splits open below the current buffer
     set nofixendofline
@@ -414,9 +430,6 @@ function! VimrcLoadFiletypeSettings()
         au BufNewFile,BufRead $ZDOTDIR/completion-functions/* setl filetype=zsh
         au BufNewFile,BufRead $ZDOTDIR/plugins/**/functions/* setl filetype=zsh
         au BufNewFile,BufRead httpd setl filetype=apache
-        " au FileType sh,bash,zsh setl noexpandtab
-
-        au Filetype pandoc setl nowrap
 
         " Improve syntax hl accuracy. Larger = more accuracy = slower
         au BufEnter * :syntax sync minlines=500

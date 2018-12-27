@@ -8,7 +8,7 @@
     "coc.preferences.diagnostic.hintSign": "ﯦ",
     "coc.preferences.messageLevel": "warning",
     "coc.preferences.codeLens.enable": true,
-    "coc.preferences.maxCompleteItemCount": 25,
+    "coc.preferences.maxCompleteItemCount": 35,
     "coc.source.omni.filetypes": ["php", "sh", "html"],
     "coc.preferences.hoverTarget": "echo",
     "prettier.requireConfig": true,
