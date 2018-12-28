@@ -45,17 +45,23 @@ function! VimrcLoadPlugins()
     Plug 'sickill/vim-pasta'
     Plug 'tpope/vim-ragtag'
     Plug '907th/vim-auto-save'
+    Plug 'ntpeters/vim-better-whitespace'
+
+    " For coworker's sanity
+    Plug 'mg979/vim-visual-multi', {'branch': 'test'}
+    Plug 'tpope/vim-rsi'
+
+    " Because I don't have a tiling WM at work
+    Plug 'kassio/neoterm'
 
     " Look into caw
     Plug 'tpope/vim-repeat'
     Plug 'tpope/vim-surround'
     Plug 'wellle/targets.vim'
-    Plug 'kassio/neoterm'
     Plug 'markonm/traces.vim'
     Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
     Plug 'Raimondi/yaifa'
     Plug 'chaoren/vim-wordmotion'
-    Plug 'tpope/vim-rsi'
     Plug 'google/vim-searchindex'
 
     Plug 'andymass/vim-matchup'
@@ -141,8 +147,8 @@ function! VimrcLoadPluginSettings()
     nmap <silent> <C-n> <Plug>(coc-diagnostic-next)
     nmap <silent> <C-p> <Plug>(coc-diagnostic-prev)
 
-    let g:coc_snippet_next = '<A-n>'
-    let g:coc_snippet_prev = '<A-p>'
+    let g:coc_snippet_next = '<M-n>'
+    let g:coc_snippet_prev = '<M-p>'
 
     autocmd BufNewFile,BufRead coc-settings.json,*eslintrc*.json setl ft=jsonc
 
@@ -238,6 +244,20 @@ function! VimrcLoadPluginSettings()
 
     " generate datebases in my cache directory, prevent gtags files polluting my project
     let g:gutentags_cache_dir = expand('~/.cache/tags')
+
+    " vim-better-whitespace
+    let g:better_whitespace_enabled=1
+
+    " vim-visual-multi (excessive maps by default are annoying)
+    " as close as realistically possible to phpstorm mappings
+    let g:VM_default_mappings = 0
+    let g:VM_maps = {}
+    let g:VM_maps['Find Under']         = ''
+    let g:VM_maps['Find Subword Under'] = '<M-j>'
+    let g:VM_maps["Find Next"]          = '<M-j>'
+    let g:VM_maps["Find Prev"]          = '<M-J>'
+    let g:VM_maps["Skip Region"]        = '<M-F3>'
+    let g:VM_maps["Visual Subtract"]    = '<M-F3>'
 endfunction
 
 "
@@ -281,7 +301,7 @@ function! VimrcLoadMappings()
     " BC calc from current line
     map <leader>c :.!bc<CR>
     "Insert new lines in normal mode
-    nnoremap <silent> go :pu! _<CR>:'[-1<CR>
+    nnoremap <silent> go :pu _<CR>:'[-1<CR>
     nnoremap <silent> gO :pu! _<CR>:']+1<CR>
     " J is 'join' so K is 'kut'
     nnoremap K i<CR><ESC>
