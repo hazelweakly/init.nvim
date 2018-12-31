@@ -65,7 +65,7 @@ function! VimrcLoadPlugins()
 
     Plug 'dkasak/gruvbox' " Gruvbox with better haskell highlighting
 
-    Plug 'raghur/vim-ghost', {'commit': '672d1052425cc9dd8f5f56ba31732f0637b95caa', 'do': ':GhostInstall'}
+    Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
 
     " Languages
     Plug 'sheerun/vim-polyglot', {'do': './build'}
