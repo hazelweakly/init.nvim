@@ -13,7 +13,6 @@
     "coc.preferences.hoverTarget": "echo",
     "prettier.requireConfig": true,
     "prettier.eslintIntegration": true,
-    "javascript.suggestionActions.enabled": true,
     "languageserver": {
         "Dockerfile": {
             "command": "docker-langserver",

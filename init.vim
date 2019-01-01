@@ -21,7 +21,6 @@ function! VimrcLoadPlugins()
     Plug 'Shougo/neco-vim'
     Plug 'neoclide/coc-neco'
     Plug 'neoclide/coc.nvim', {'do': 'yarn install'}
-    " Plug 'wellle/tmux-complete.vim'
     Plug 'w0rp/ale'
     Plug 'ludovicchabant/vim-gutentags'
     Plug 'skywind3000/gutentags_plus'
@@ -41,7 +40,6 @@ function! VimrcLoadPlugins()
     Plug 'tmux-plugins/vim-tmux'
     Plug 'tommcdo/vim-exchange'
     Plug 'tpope/vim-commentary'
-    Plug 'Shougo/context_filetype.vim'
     Plug 'sickill/vim-pasta'
     Plug 'tpope/vim-ragtag'
     Plug '907th/vim-auto-save'
@@ -58,9 +56,7 @@ function! VimrcLoadPlugins()
     Plug 'tpope/vim-repeat'
     Plug 'tpope/vim-surround'
     Plug 'wellle/targets.vim'
-    Plug 'kassio/neoterm'
     Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
-    Plug 'Raimondi/yaifa'
     Plug 'chaoren/vim-wordmotion'
     Plug 'google/vim-searchindex'
 
@@ -72,14 +68,13 @@ function! VimrcLoadPlugins()
     Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
 
     " Languages
-    Plug 'sheerun/vim-polyglot'
-    Plug 'neoclide/vim-jsx-improve'
+    Plug 'sheerun/vim-polyglot', {'do': './build'}
     Plug 'neoclide/jsonc.vim'
+    Plug 'chemzqm/vim-jsx-improve'
     Plug 'HerringtonDarkholme/yats.vim'
     Plug 'hail2u/vim-css3-syntax'
-    Plug 'styled-components/vim-styled-components', {'branch': 'main' }
-    Plug 'vim-pandoc/vim-pandoc-syntax'
     Plug 'vim-pandoc/vim-pandoc'
+    Plug 'vim-pandoc/vim-pandoc-syntax'
     call plug#end()
 
     autocmd VimEnter *
@@ -175,7 +170,7 @@ function! VimrcLoadPluginSettings()
     inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
     " vim-pandoc
-    let g:pandoc#modules#disabled = ["folding"]
+    let g:pandoc#modules#disabled = ["folding", "formatting", "keyboard", "toc", "chdir"]
     let g:pandoc#completion#bib#mode = "citeproc"
     let g:pandoc#formatting#equalprg=''
 
@@ -198,9 +193,11 @@ function! VimrcLoadPluginSettings()
     let g:table_mode_motion_right_map = ''
 
     " fzf
-    autocmd! FileType fzf
-    autocmd  FileType fzf set laststatus=0 noshowmode noruler
-          \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+    augroup fzf
+        au!
+        autocmd FileType fzf set laststatus=0 noshowmode noruler
+                    \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+    augroup END
 
     " vim-easy-align
     xmap <CR> <Plug>(EasyAlign)
@@ -223,7 +220,11 @@ function! VimrcLoadPluginSettings()
     let g:gitgutter_map_keys = 0
 
     " vim-ghost
-    autocmd BufNewFile,BufRead *ghost* setl ft=html
+    augroup ghost
+        au!
+        autocmd BufNewFile,BufRead *ghost* setl ft=html
+    augroup END
+    nnoremap <leader>g :GhostStart<CR>
 
     " highlightedyank
     let g:highlightedyank_highlight_duration = 125
@@ -295,7 +296,6 @@ function! VimrcLoadMappings()
     " J is 'join' so K is 'kut'
     nnoremap K i<CR><ESC>
     nnoremap Y y$
-    nnoremap <silent> <C-L> :redraw!<CR>
 
     " suda.vim: Write file with sudo
     command! W :w suda://%
@@ -361,7 +361,7 @@ function! VimrcLoadSettings()
     set nowrap
     set nofoldenable
 
-    set synmaxcol=2000
+    set synmaxcol=250
     set timeout
     set ttimeout
     set timeoutlen=3000
@@ -388,11 +388,6 @@ function! VimrcLoadFiletypeSettings()
         au BufNewFile,BufRead $MYVIMRC setl filetype=vim
         au VimResized * :wincmd =
 
-        " Add in the sane file types for certain extensions
-        au BufNewFile,BufFilePre,BufRead *.md setl filetype=markdown.pandoc
-        au BufNewFile,BufFilePre,BufRead *.md setl nowrap
-        au BufWrite *.md silent !touch /tmp/bufwrite
-
         au BufNewFile,BufRead $ZDOTDIR/functions/**/* setl filetype=zsh
         au BufNewFile,BufRead $ZDOTDIR/completion-functions/* setl filetype=zsh
         au BufNewFile,BufRead $ZDOTDIR/plugins/**/functions/* setl filetype=zsh
@@ -402,12 +397,8 @@ function! VimrcLoadFiletypeSettings()
         au BufEnter * :syntax sync minlines=500
         au VimResized * :redraw!
 
-        " Web Dev
-        au BufNewFile,BufRead *.html setl ft=html
-
         " Dev Ops
         au BufNewFile,BufRead *.stack setl ft=yaml
-        au BufNewFile,BufRead *.docker,*.dockerfile setl ft=Dockerfile
         au BufNewFile,BufRead *docker-compose.* setl ft=json
     augroup END
 
@@ -418,13 +409,9 @@ function! VimrcLoadFiletypeSettings()
     augroup END
 
     function! LargeFile()
-        " no syntax highlighting etc
         setlocal eventignore+=FileType
-        " save memory when other file is viewed
         setlocal bufhidden=unload
-        " no undo possible
         setlocal undolevels=-1
-        " display message
         autocmd VimEnter *  echo "The file is larger than " . (g:LargeFile / 1024 / 1024) . " MB, so some options are changed (see .vimrc for details)."
     endfunction
 endfunction
