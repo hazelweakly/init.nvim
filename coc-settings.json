@@ -9,11 +9,11 @@
     "coc.preferences.messageLevel": "warning",
     "coc.preferences.codeLens.enable": true,
     "coc.preferences.maxCompleteItemCount": 35,
-    "coc.source.omni.filetypes": ["php", "sh", "html"],
+    "coc.source.omni.filetypes": ["php", "sh", "css"],
     "coc.preferences.hoverTarget": "echo",
     "prettier.requireConfig": true,
     "prettier.eslintIntegration": true,
-    "javascript.suggestionActions.enabled": false,
+    "javascript.suggestionActions.enabled": true,
     "languageserver": {
         "Dockerfile": {
             "command": "docker-langserver",

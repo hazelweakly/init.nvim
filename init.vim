@@ -58,7 +58,7 @@ function! VimrcLoadPlugins()
     Plug 'tpope/vim-repeat'
     Plug 'tpope/vim-surround'
     Plug 'wellle/targets.vim'
-    Plug 'markonm/traces.vim'
+    Plug 'kassio/neoterm'
     Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
     Plug 'Raimondi/yaifa'
     Plug 'chaoren/vim-wordmotion'
@@ -73,16 +73,11 @@ function! VimrcLoadPlugins()
 
     " Languages
     Plug 'sheerun/vim-polyglot'
+    Plug 'neoclide/vim-jsx-improve'
     Plug 'neoclide/jsonc.vim'
-    Plug 'othree/yajs.vim'
     Plug 'HerringtonDarkholme/yats.vim'
-    Plug 'peitalin/vim-jsx-typescript'
-    Plug 'othree/es.next.syntax.vim'
-    Plug 'othree/javascript-libraries-syntax.vim'
     Plug 'hail2u/vim-css3-syntax'
     Plug 'styled-components/vim-styled-components', {'branch': 'main' }
-    Plug 'ap/vim-css-color'
-    Plug 'Valloric/MatchTagAlways'
     Plug 'vim-pandoc/vim-pandoc-syntax'
     Plug 'vim-pandoc/vim-pandoc'
     call plug#end()
@@ -93,9 +88,6 @@ function! VimrcLoadPlugins()
                 \| endif
 endfunction
 
-"
-" Plugin Configs
-"
 function! VimrcLoadPluginSettings()
     " neoterm
     tnoremap <Esc> <C-\><C-n>
@@ -165,7 +157,7 @@ function! VimrcLoadPluginSettings()
     " use <tab> for trigger completion and navigate next complete item
     function! s:check_back_space() abort
         let col = col('.') - 1
-        return !col || getline('.')[col - 1]  =~ '\s'
+        return !col || getline('.')[col - 1]  =~# '\s'
     endfunction
 
     inoremap <silent><expr> <TAB>
@@ -188,7 +180,7 @@ function! VimrcLoadPluginSettings()
     let g:pandoc#formatting#equalprg=''
 
     " vim-polygot
-    let g:polygot_disabled = ['markdown', 'javascript.jsx', 'css', 'javascript', 'jsx']
+    let g:polygot_disabled = ['markdown', 'javascript.jsx', 'javascript', 'jsx']
     let g:haskell_enable_quantification = 1
     let g:haskell_enable_pattern_synonyms = 1
     let g:haskell_indent_disable = 1
@@ -260,9 +252,6 @@ function! VimrcLoadPluginSettings()
     let g:VM_maps["Visual Subtract"]    = '<M-F3>'
 endfunction
 
-"
-" Mappings
-
 function! VimrcLoadMappings()
     " General thoughts: Operator + non-motion is an 'invalid operation' in vim
     "                   oprator + second operator is also 'invalid'
@@ -333,10 +322,8 @@ function! VimrcLoadMappings()
     xnoremap <C-k> :m '<-2<CR>gv=gv
 endfunction
 
-
-" Settings
-
 function! VimrcLoadSettings()
+    set inccommand=nosplit
     set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
     set hidden " Required for coc.nvim
     set completeopt=menu,menuone,noinsert
@@ -393,8 +380,6 @@ function! VimrcLoadSettings()
     augroup END
 endfunction
 
-
-" File type settings
 function! VimrcLoadFiletypeSettings()
     augroup filetype_settings
         au!
@@ -444,7 +429,6 @@ function! VimrcLoadFiletypeSettings()
     endfunction
 endfunction
 
-" Colors
 function! VimrcLoadColors()
     set background=dark
     let g:gruvbox_bold             = 1
@@ -455,7 +439,6 @@ function! VimrcLoadColors()
     colorscheme gruvbox
 endfunction
 
-" Initialization
 call VimrcLoadPlugins()
 call VimrcLoadPluginSettings()
 call VimrcLoadMappings()
