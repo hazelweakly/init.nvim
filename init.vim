@@ -70,7 +70,7 @@ function! VimrcLoadPlugins()
     " Languages
     Plug 'sheerun/vim-polyglot', {'do': './build'}
     Plug 'neoclide/jsonc.vim'
-    Plug 'chemzqm/vim-jsx-improve'
+    Plug 'neoclide/vim-jsx-improve'
     Plug 'HerringtonDarkholme/yats.vim'
     Plug 'hail2u/vim-css3-syntax'
     Plug 'vim-pandoc/vim-pandoc'
