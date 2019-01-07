@@ -30,7 +30,6 @@
         },
         "haskell": {
             "command": "hie-wrapper",
-            "args": ["--stdio"],
             "filetypes": ["haskell"],
             "rootPatterns": [
                 "stack.yaml",

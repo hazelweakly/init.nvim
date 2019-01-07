@@ -106,7 +106,11 @@ function! VimrcLoadPluginSettings()
     hi link ALEInfo SpellCap
 
     " commentary.vim
-    autocmd FileType jsonc,php setlocal commentstring=//\ %s
+    augroup commentary
+        au!
+        au FileType jsonc,php setl commentstring=//\ %s
+        au FileType resolv setl commentstring=#\ %s
+    augroup END
 
     " coc.nvim
     function! s:show_documentation()
@@ -119,7 +123,7 @@ function! VimrcLoadPluginSettings()
 
     call coc#add_extension('coc-css', 'coc-emmet', 'coc-eslint', 'coc-highlight',
                 \ 'coc-html', 'coc-json', 'coc-omni', 'coc-prettier',
-                \ 'coc-stylelint', 'coc-tag', 'coc-tslint', 'coc-tsserver',
+                \ 'coc-tag', 'coc-tslint', 'coc-tsserver', 'coc-rls',
                 \ 'coc-yaml')
 
     " yarn global add eslint eslint-plugin-react eslint-plugin-import eslint-plugin-node prettier prettier-eslint eslint-plugin-babel eslint-plugin-jquery stylelint stylelint dockerfile-language-server-nodejs bash-language-server
@@ -146,7 +150,7 @@ function! VimrcLoadPluginSettings()
     autocmd CursorHold * silent call CocActionAsync('highlight')
 
     let g:coc_filetype_map = {
-                \ '*ghost*': 'html'
+                \ 'ghost-*': 'html'
                 \ }
 
     " use <tab> for trigger completion and navigate next complete item
@@ -222,7 +226,7 @@ function! VimrcLoadPluginSettings()
     " vim-ghost
     augroup ghost
         au!
-        autocmd BufNewFile,BufRead *ghost* setl ft=html
+        autocmd BufNewFile,BufRead ghost-* setl ft=html
     augroup END
     nnoremap <leader>g :GhostStart<CR>
 
