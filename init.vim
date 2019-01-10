@@ -64,7 +64,6 @@ function! VimrcLoadPlugins()
     Plug 'tpope/vim-repeat'
     Plug 'tpope/vim-surround'
     Plug 'wellle/targets.vim'
-    Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
     Plug 'chaoren/vim-wordmotion'
     Plug 'romainl/vim-cool'
 
@@ -220,11 +219,7 @@ function! VimrcLoadPluginSettings()
     let g:haskell_enable_pattern_synonyms = 1
     let g:haskell_indent_disable = 1
     let g:haskell_enable_typeroles = 1
-    let g:php_html_load = 0
-
-    "phpactor
-    let g:phpactorBranch = "develop"
-    autocmd BufEnter php setlocal omnifunc=phpactor#Complete
+    let g:php_html_load = 1
 
     " vim-table-mode
     let g:table_mode_motion_up_map = ''
@@ -387,9 +382,8 @@ function! VimrcLoadSettings()
     set inccommand=nosplit
     set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
     set hidden " Required for coc.nvim
-    set complete+=k,i
-    set completeopt=menu,preview
-    " set completeopt=menu,menuone,noinsert
+    set complete+=k
+    set completeopt=menu,menuone,noinsert
     set nrformats=bin,hex,octal,alpha
     set breakindent
     set backspace=indent,eol,start

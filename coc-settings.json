@@ -9,7 +9,7 @@
     "coc.preferences.messageLevel": "warning",
     "coc.preferences.codeLens.enable": true,
     "coc.preferences.maxCompleteItemCount": 40,
-    "coc.source.omni.filetypes": ["php", "sh", "css", "scss"],
+    "coc.source.omni.filetypes": ["sh", "css", "scss"],
     "coc.preferences.hoverTarget": "preview",
     "prettier.requireConfig": true,
     "prettier.eslintIntegration": true,
