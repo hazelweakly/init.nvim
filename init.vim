@@ -73,6 +73,7 @@ function! VimrcLoadPlugins()
     Plug 'neoclide/vim-jsx-improve'
     Plug 'HerringtonDarkholme/yats.vim'
     Plug 'hail2u/vim-css3-syntax'
+    Plug 'cakebaker/scss-syntax.vim'
     Plug 'vim-pandoc/vim-pandoc'
     Plug 'vim-pandoc/vim-pandoc-syntax'
     call plug#end()
@@ -107,6 +108,7 @@ function! VimrcLoadPluginSettings()
 
     " commentary.vim
     autocmd FileType jsonc,php setlocal commentstring=//\ %s
+    autocmd FileType scss setlocal commentstring=/*\ %s\ */
 
     " coc.nvim
     function! s:show_documentation()
@@ -400,6 +402,8 @@ function! VimrcLoadFiletypeSettings()
         " Dev Ops
         au BufNewFile,BufRead *.stack setl ft=yaml
         au BufNewFile,BufRead *docker-compose.* setl ft=json
+        au BufNewFile,BufRead *.css setl ft=scss
+        au FileType scss,html setl iskeyword+=-
     augroup END
 
     let g:LargeFile = 1024 * 1024 * 1
