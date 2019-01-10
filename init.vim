@@ -1,3 +1,9 @@
+" Speed improvements
+let g:node_host_prog = '/usr/local/bin/neovim-node-host'
+let g:ruby_host_prog = '/usr/local/bin/neovim-ruby-host'
+let g:python3_host_prog = '/usr/bin/python3'
+let g:python_host_prog = '/usr/bin/python2'
+
 function! VimrcLoadPlugins()
     " Install vim-plug if not available
     if &runtimepath !~# '/plug.vim'
@@ -21,6 +27,7 @@ function! VimrcLoadPlugins()
     Plug 'Shougo/neco-vim'
     Plug 'neoclide/coc-neco'
     Plug 'neoclide/coc.nvim', {'do': 'yarn install'}
+    Plug 'neoclide/coc-sources'
     Plug 'w0rp/ale'
     Plug 'ludovicchabant/vim-gutentags'
     Plug 'skywind3000/gutentags_plus'
@@ -44,6 +51,7 @@ function! VimrcLoadPlugins()
     Plug 'tpope/vim-ragtag'
     Plug '907th/vim-auto-save'
     Plug 'ntpeters/vim-better-whitespace'
+    Plug 'unblevable/quick-scope'
 
     " For coworker's sanity
     Plug 'mg979/vim-visual-multi', {'branch': 'test'}
@@ -52,13 +60,12 @@ function! VimrcLoadPlugins()
     " Because I don't have a tiling WM at work
     Plug 'kassio/neoterm'
 
-    " Look into caw
+    " Look into caw (comment), vim-sandwich, sideways.vim
     Plug 'tpope/vim-repeat'
     Plug 'tpope/vim-surround'
     Plug 'wellle/targets.vim'
-    Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
     Plug 'chaoren/vim-wordmotion'
-    Plug 'google/vim-searchindex'
+    Plug 'romainl/vim-cool'
 
     Plug 'andymass/vim-matchup'
     Plug 'machakann/vim-highlightedyank'
@@ -85,6 +92,12 @@ function! VimrcLoadPlugins()
 endfunction
 
 function! VimrcLoadPluginSettings()
+    " quick-scope
+    let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
+    " vim-cool
+    let g:CoolTotalMatches = 1
+
     " neoterm
     tnoremap <Esc> <C-\><C-n>
     nnoremap <silent> <F12> :botright Ttoggle<CR>
@@ -105,14 +118,33 @@ function! VimrcLoadPluginSettings()
     hi Warning term=underline cterm=underline ctermfg=Yellow gui=undercurl guisp=Gold
     hi link ALEWarning Warning
     hi link ALEInfo SpellCap
+    let g:ale_set_signs = 0
+    let g:ale_lint_delay = 0
+    let g:ale_lint_on_text_changed = 'normal'
+    let g:ale_lint_on_insert_leave = 1
 
     " commentary.vim
-    autocmd FileType jsonc,php setlocal commentstring=//\ %s
-    autocmd FileType scss setlocal commentstring=/*\ %s\ */
+    augroup commentary
+        au!
+        au FileType jsonc,php setl commentstring=//\ %s
+        au FileType resolv setl commentstring=#\ %s
+    augroup END
+
+    " auto-pairs
+    let g:AutoPairsShortcutFastWrap = ''
+    let g:AutoPairsShortcutToggle = ''
+    let g:AutoPairsShortcutFastWrap = ''
+    let g:AutoPairsShortcutJump = ''
+    let g:AutoPairsShortcutBackInsert = ''
+    let g:AutoPairsCenterLine = 0
+    let g:AutoPairsMultilineClose = 0
+
+    " jsx_improve
+    let g:jsx_improve_motion_disable = 1
 
     " coc.nvim
     function! s:show_documentation()
-        if &filetype == 'vim'
+        if &filetype == 'vim' || &filetype == 'help'
             execute 'h '.expand('<cword>')
         else
             call CocAction('doHover')
@@ -121,13 +153,14 @@ function! VimrcLoadPluginSettings()
 
     call coc#add_extension('coc-css', 'coc-emmet', 'coc-eslint', 'coc-highlight',
                 \ 'coc-html', 'coc-json', 'coc-omni', 'coc-prettier',
-                \ 'coc-stylelint', 'coc-tag', 'coc-tslint', 'coc-tsserver',
-                \ 'coc-yaml')
+                \ 'coc-tag', 'coc-tslint', 'coc-tsserver', 'coc-rls',
+                \ 'coc-yaml', 'coc-dictionary', 'coc-phpls')
 
     " yarn global add eslint eslint-plugin-react eslint-plugin-import eslint-plugin-node prettier prettier-eslint eslint-plugin-babel eslint-plugin-jquery stylelint stylelint dockerfile-language-server-nodejs bash-language-server
-    nmap <silent> gd <Plug>(coc-implementation)
+    nmap <silent> gd <Plug>(coc-definition)
+    nmap <silent> gy <Plug>(coc-type-definition)
     nmap <silent> gr <Plug>(coc-rename)
-    nmap <silent> gs <Plug>(coc-definition)
+    nmap <silent> gi <Plug>(coc-implementation)
     nmap <silent> <leader>f <Plug>(coc-format)
     vmap <silent> <leader>f <Plug>(coc-format-selected)
     nmap <silent> gR <Plug>(coc-references)
@@ -139,16 +172,21 @@ function! VimrcLoadPluginSettings()
     let g:coc_snippet_next = '<M-n>'
     let g:coc_snippet_prev = '<M-p>'
 
-    autocmd BufNewFile,BufRead coc-settings.json,*eslintrc*.json setl ft=jsonc
+    augroup coc
+        au!
+        au CompleteDone * if pumvisible() == 0 | pclose | endif
+        au BufNewFile,BufRead coc-settings.json,*eslintrc*.json setl ft=jsonc
+        au User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+        au CursorHoldI,CursorMovedI call CocActionAsync('showSignatureHelp')
+        au CursorHold * silent call CocActionAsync('highlight')
+    augroup END
 
-    " Show signature help while editing
-    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 
-    " Highlight symbol under cursor on CursorHold
-    autocmd CursorHold * silent call CocActionAsync('highlight')
 
     let g:coc_filetype_map = {
-                \ '*ghost*': 'html'
+                \ 'ghost-*': 'html',
+                \ 'javascript.jsx': 'javascriptreact',
+                \ 'typescript.tsx' : 'typescriptreact'
                 \ }
 
     " use <tab> for trigger completion and navigate next complete item
@@ -182,11 +220,7 @@ function! VimrcLoadPluginSettings()
     let g:haskell_enable_pattern_synonyms = 1
     let g:haskell_indent_disable = 1
     let g:haskell_enable_typeroles = 1
-    let g:php_html_load = 0
-
-    "phpactor
-    let g:phpactorBranch = "develop"
-    autocmd BufEnter php setlocal omnifunc=phpactor#Complete
+    let g:php_html_load = 1
 
     " vim-table-mode
     let g:table_mode_motion_up_map = ''
@@ -224,7 +258,7 @@ function! VimrcLoadPluginSettings()
     " vim-ghost
     augroup ghost
         au!
-        autocmd BufNewFile,BufRead *ghost* setl ft=html
+        autocmd BufNewFile,BufRead ghost-* setl ft=html
     augroup END
     nnoremap <leader>g :GhostStart<CR>
 
@@ -288,8 +322,6 @@ function! VimrcLoadMappings()
 
     xnoremap <silent> <expr> p <sid>Repl()
 
-    " move to last change
-    nnoremap gI `.
     " BC calc from current line
     map <leader>c :.!bc<CR>
     "Insert new lines in normal mode
@@ -309,6 +341,24 @@ function! VimrcLoadMappings()
     nnoremap d* /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``dgn
     nnoremap d# ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``dgN
 
+    " Search for current selection when pressing * or # in visual mode
+    xnoremap <silent> * :call <SID>visualSearch('f')<CR>
+    xnoremap <silent> # :call <SID>visualSearch('b')<CR>
+
+    function!   s:visualSearch(direction)
+        let       l:saved_reg = @"
+        execute   'normal! vgvy'
+        let       l:pattern = escape(@", '\\/.*$^~[]')
+        let       l:pattern = substitute(l:pattern, "\n$", '', '')
+        if        a:direction ==# 'b'
+            execute 'normal! ?' . l:pattern . "\<cr>"
+        elseif    a:direction ==# 'f'
+            execute 'normal! /' . l:pattern . '^M'
+        endif
+        let       @/ = l:pattern
+        let       @" = l:saved_reg
+    endfunction
+
     function! Op_adjust_window_height(motion_wiseness)
         execute (line("']") - line("'[") + 1) 'wincmd' '_'
         normal! `[zt
@@ -322,12 +372,18 @@ function! VimrcLoadMappings()
     inoremap <C-k> <Esc>:m .-2<CR>==gi
     xnoremap <C-j> :m '>+1<CR>gv=gv
     xnoremap <C-k> :m '<-2<CR>gv=gv
+
+    nnoremap Q <Nop>
+
+    xnoremap < <gv
+    xnoremap > >gv
 endfunction
 
 function! VimrcLoadSettings()
     set inccommand=nosplit
     set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
     set hidden " Required for coc.nvim
+    set complete+=k
     set completeopt=menu,menuone,noinsert
     set nrformats=bin,hex,octal,alpha
     set breakindent
