@@ -1,6 +1,6 @@
 {
     // The rest are done with coc extensions
-    "coc.preferences.preferCompleteThanJumpPlaceholder": true,
+    // "coc.preferences.preferCompleteThanJumpPlaceholder": true,
     "coc.preferences.timeout": 5000,
     "coc.preferences.diagnostic.errorSign": "🕱",
     "coc.preferences.diagnostic.warningSign": "☢",
