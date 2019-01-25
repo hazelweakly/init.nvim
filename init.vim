@@ -52,6 +52,7 @@ function! VimrcLoadPlugins()
     Plug '907th/vim-auto-save'
     Plug 'ntpeters/vim-better-whitespace'
     Plug 'unblevable/quick-scope'
+    Plug 'mattn/emmet-vim'
 
     " For coworker's sanity
     Plug 'mg979/vim-visual-multi', {'branch': 'test'}
@@ -104,6 +105,13 @@ function! VimrcLoadPluginSettings()
     let g:neoterm_autoinsert = 1
     let g:neoterm_size = 12
 
+    " emmet-vim
+    let g:user_emmet_settings = { 'html': { 'empty_element_suffix': ' />' } }
+    let g:emmet_html5 = 1
+    let g:user_emmet_install_global = 0
+    autocmd FileType html,scss,css,javascript,javascript.jsx,typescript,typescript.tsx,php EmmetInstall
+    autocmd FileType html,scss,css,javascript,javascript.jsx,typescript,typescript.tsx,php imap <C-e> <plug>(emmet-expand-abbr)
+
     " machup
     let g:loaded_matchit = 1
     let g:matchup_transmute_enabled = 1
@@ -151,7 +159,7 @@ function! VimrcLoadPluginSettings()
         endif
     endfunction
 
-    call coc#add_extension('coc-css', 'coc-emmet', 'coc-eslint', 'coc-highlight',
+    call coc#add_extension('coc-css', 'coc-eslint', 'coc-highlight',
                 \ 'coc-html', 'coc-json', 'coc-omni', 'coc-prettier',
                 \ 'coc-tag', 'coc-tslint', 'coc-tsserver', 'coc-rls',
                 \ 'coc-yaml', 'coc-dictionary', 'coc-phpls')
@@ -181,33 +189,14 @@ function! VimrcLoadPluginSettings()
         au CursorHold * silent call CocActionAsync('highlight')
     augroup END
 
-
-
     let g:coc_filetype_map = {
                 \ 'ghost-*': 'html',
                 \ 'javascript.jsx': 'javascriptreact',
                 \ 'typescript.tsx' : 'typescriptreact'
                 \ }
 
-    " use <tab> for trigger completion and navigate next complete item
-    function! s:check_back_space() abort
-        let col = col('.') - 1
-        return !col || getline('.')[col - 1]  =~# '\s'
-    endfunction
-
-    inoremap <silent><expr> <TAB>
-                \ pumvisible() ? "\<C-n>" :
-                \ <SID>check_back_space() ? "\<TAB>" :
-                \ coc#refresh()
-
-    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-    " Use <c-space> for trigger completion.
-    inoremap <silent><expr> <c-space> coc#refresh()
-
-    " Use <cr> for confirm completion.
-    " Coc only does snippet and additional edit on confirm.
-    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+    inoremap <expr> <Tab> pumvisible() ? coc#_select_confirm() : "\<Tab>"
+    inoremap <expr> <S-Tab> "\<C-h>"
 
     " vim-pandoc
     let g:pandoc#modules#disabled = ["folding", "formatting", "keyboard", "toc", "chdir"]
@@ -459,7 +448,7 @@ function! VimrcLoadFiletypeSettings()
         au BufNewFile,BufRead *.stack setl ft=yaml
         au BufNewFile,BufRead *docker-compose.* setl ft=json
         au BufNewFile,BufRead *.css setl ft=scss
-        au FileType scss,html setl iskeyword+=-
+        au FileType scss,html,css setl iskeyword+=-
     augroup END
 
     let g:LargeFile = 1024 * 1024 * 1
