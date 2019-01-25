@@ -75,6 +75,8 @@ function! VimrcLoadPlugins()
     Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
 
     " Languages
+    Plug 'jonsmithers/vim-html-template-literals'
+    Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
     Plug 'sheerun/vim-polyglot', {'do': './build'}
     Plug 'neoclide/jsonc.vim'
     Plug 'neoclide/vim-jsx-improve'
@@ -128,6 +130,7 @@ function! VimrcLoadPluginSettings()
         au!
         au FileType jsonc,php setl commentstring=//\ %s
         au FileType resolv setl commentstring=#\ %s
+        au FileType scss setl commentstring=/*\ %s\ */
     augroup END
 
     " auto-pairs
