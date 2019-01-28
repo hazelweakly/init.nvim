@@ -4,6 +4,11 @@ let g:ruby_host_prog = '/usr/local/bin/neovim-ruby-host'
 let g:python3_host_prog = '/usr/bin/python3'
 let g:python_host_prog = '/usr/bin/python2'
 
+" TODO: Apply this and filtch some ideas.
+" https://vimways.org/2018/from-vimrc-to-vim/
+" https://github.com/rafi/vim-config
+" https://github.com/PegasusWang/vim-config
+
 function! VimrcLoadPlugins()
     " Install vim-plug if not available
     if &runtimepath !~# '/plug.vim'
@@ -38,7 +43,8 @@ function! VimrcLoadPlugins()
     Plug 'christoomey/vim-tmux-navigator'
     Plug 'dhruvasagar/vim-table-mode'
     Plug 'farmergreg/vim-lastplace'
-    Plug 'jiangmiao/auto-pairs'
+    " Plug 'jiangmiao/auto-pairs'
+    Plug 'tmsvg/pear-tree'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } | Plug 'junegunn/fzf.vim'
     Plug 'junegunn/vim-easy-align'
     Plug 'kana/vim-textobj-user'
@@ -141,14 +147,19 @@ function! VimrcLoadPluginSettings()
         au FileType scss setl commentstring=/*\ %s\ */
     augroup END
 
-    " auto-pairs
-    let g:AutoPairsShortcutFastWrap = ''
-    let g:AutoPairsShortcutToggle = ''
-    let g:AutoPairsShortcutFastWrap = ''
-    let g:AutoPairsShortcutJump = ''
-    let g:AutoPairsShortcutBackInsert = ''
-    let g:AutoPairsCenterLine = 0
-    let g:AutoPairsMultilineClose = 0
+    " " auto-pairs
+    " let g:AutoPairsShortcutFastWrap = ''
+    " let g:AutoPairsShortcutToggle = ''
+    " let g:AutoPairsShortcutFastWrap = ''
+    " let g:AutoPairsShortcutJump = ''
+    " let g:AutoPairsShortcutBackInsert = ''
+    " let g:AutoPairsCenterLine = 0
+    " let g:AutoPairsMultilineClose = 0
+
+    " pear-tree
+    let g:pear_tree_smart_openers = 1
+    let g:pear_tree_smart_closers = 1
+    let g:pear_tree_smart_backspace = 1
 
     " jsx_improve
     let g:jsx_improve_motion_disable = 1
