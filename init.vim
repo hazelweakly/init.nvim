@@ -452,6 +452,8 @@ function! VimrcLoadFiletypeSettings()
         au BufNewFile,BufRead *docker-compose.* setl ft=json
         au BufNewFile,BufRead *.css setl ft=scss
         au FileType scss,html,css setl iskeyword+=-
+
+        au FileType php setl iskeyword+=$
     augroup END
 
     let g:LargeFile = 1024 * 1024 * 1
