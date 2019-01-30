@@ -54,7 +54,6 @@ function! VimrcLoadPlugins()
     Plug 'tommcdo/vim-exchange'
     Plug 'tpope/vim-commentary'
     Plug 'sickill/vim-pasta'
-    Plug 'tpope/vim-ragtag'
     Plug '907th/vim-auto-save'
     Plug 'ntpeters/vim-better-whitespace'
     Plug 'unblevable/quick-scope'
@@ -69,7 +68,8 @@ function! VimrcLoadPlugins()
 
     " Look into caw (comment), vim-sandwich, sideways.vim
     Plug 'tpope/vim-repeat'
-    Plug 'tpope/vim-surround'
+    " Plug 'tpope/vim-surround'
+    Plug 'machakann/vim-sandwich'
     Plug 'wellle/targets.vim'
     Plug 'chaoren/vim-wordmotion'
     Plug 'romainl/vim-cool'
@@ -93,6 +93,7 @@ function! VimrcLoadPlugins()
     Plug 'vim-pandoc/vim-pandoc'
     Plug 'vim-pandoc/vim-pandoc-syntax'
     call plug#end()
+    runtime macros/sandwich/keymap/surround.vim
 
     autocmd VimEnter *
                 \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
@@ -119,6 +120,8 @@ function! VimrcLoadPluginSettings()
     let g:user_emmet_install_global = 0
     autocmd FileType html,scss,css,javascript,javascript.jsx,typescript,typescript.tsx,php EmmetInstall
     autocmd FileType html,scss,css,javascript,javascript.jsx,typescript,typescript.tsx,php imap <C-e> <plug>(emmet-expand-abbr)
+    autocmd FileType html,scss,css,javascript,javascript.jsx,typescript,typescript.tsx,php imap <M-n> <plug>(emmet-move-next)
+    autocmd FileType html,scss,css,javascript,javascript.jsx,typescript,typescript.tsx,php imap <M-p> <plug>(emmet-move-prev)
 
     " machup
     let g:loaded_matchit = 1
@@ -290,6 +293,30 @@ function! VimrcLoadPluginSettings()
     let g:VM_maps["Find Prev"]          = '<M-J>'
     let g:VM_maps["Skip Region"]        = '<M-F3>'
     let g:VM_maps["Visual Subtract"]    = '<M-F3>'
+
+
+    " sandwich.vim
+    let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
+    let g:sandwich#recipes += [
+                \   {'buns': ['{ ', ' }'], 'nesting': 1, 'match_syntax': 1, 'kind': ['add', 'replace'], 'action': ['add'], 'input': ['{']},
+                \   {'buns': ['[ ', ' ]'], 'nesting': 1, 'match_syntax': 1, 'kind': ['add', 'replace'], 'action': ['add'], 'input': ['[']},
+                \   {'buns': ['( ', ' )'], 'nesting': 1, 'match_syntax': 1, 'kind': ['add', 'replace'], 'action': ['add'], 'input': ['(']},
+                \   {'buns': ['<?= ', ' ?>'], 'nesting': 1, 'match_syntax': 1, 'kind': ['add', 'replace'], 'action': ['add'], 'input': ['-']},
+                \   {'buns': ['{\s*', '\s*}'],   'nesting': 1, 'regex': 1, 'match_syntax': 1, 'kind': ['delete', 'replace', 'textobj'], 'action': ['delete'], 'input': ['{']},
+                \   {'buns': ['\[\s*', '\s*\]'], 'nesting': 1, 'regex': 1, 'match_syntax': 1, 'kind': ['delete', 'replace', 'textobj'], 'action': ['delete'], 'input': ['[']},
+                \   {'buns': ['(\s*', '\s*)'],   'nesting': 1, 'regex': 1, 'match_syntax': 1, 'kind': ['delete', 'replace', 'textobj'], 'action': ['delete'], 'input': ['(']},
+                \   {'buns': ['<\?=\s*', '\s*\?>)'],   'nesting': 1, 'regex': 1, 'match_syntax': 1, 'kind': ['delete', 'replace', 'textobj'], 'action': ['delete'], 'input': ['-']},
+                \ ]
+
+    " surround.vim
+    " augroup surround
+    "     au!
+    "     au FileType php let b:surround_45 = "<?php \r ?>"
+    "     au FileType php let b:surround_61 = "<?= \r ?>"
+    "     au FileType html,scss,css,javascript,javascript.jsx,typescript,typescript.tsx,php let b:surround_{char2nr("p")} = "<p>\n\t\r\n</p>"
+    "     au FileType html,scss,css,javascript,javascript.jsx,typescript,typescript.tsx,php let b:surround_{char2nr("d")} = "<div\1div: \r^[^ ]\r &\1>\n\t\r\n</div>"
+    "     au FileType html,scss,css,javascript,javascript.jsx,typescript,typescript.tsx,php let b:surround_{char2nr("u")} = "x \r x"
+    " augroup END
 endfunction
 
 function! VimrcLoadMappings()
