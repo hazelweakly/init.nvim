@@ -1,46 +1,47 @@
 {
-    // The rest are done with coc extensions
-    // "coc.preferences.preferCompleteThanJumpPlaceholder": true,
-    "coc.preferences.timeout": 5000,
-    "coc.preferences.diagnostic.errorSign": "🕱",
-    "coc.preferences.diagnostic.warningSign": "☢",
-    "coc.preferences.diagnostic.infoSign": "",
-    "coc.preferences.diagnostic.hintSign": "ﯦ",
-    "coc.preferences.messageLevel": "warning",
-    "coc.preferences.codeLens.enable": true,
-    "coc.preferences.maxCompleteItemCount": 40,
-    "coc.source.omni.filetypes": ["sh", "css", "scss"],
-    "coc.preferences.hoverTarget": "preview",
-    "prettier.requireConfig": true,
-    "prettier.eslintIntegration": true,
-    "eslint.packageManager": "yarn",
-    "eslint.nodePath": "~/.config/yarn/global/node_modules",
-    "scss.lint.unknownProperties": "ignore",
-    "css.lint.unknownProperties": "ignore",
-    "languageserver": {
-        "Dockerfile": {
-            "command": "docker-langserver",
-            "args": ["--stdio"],
-            "filetypes": ["Dockerfile"]
-        },
-        "bash": {
-            "command": "bash-language-server",
-            "args": ["start"],
-            "filetypes": ["sh"],
-            "ignoredRootPaths": ["~"]
-        },
-        "haskell": {
-            "command": "hie-wrapper",
-            "filetypes": ["haskell"],
-            "rootPatterns": [
-                "stack.yaml",
-                "stack.yml",
-                "cabal.project",
-                "shell.nix",
-                ".vim/",
-                ".git/",
-                ".hg/"
-            ]
-        }
+  // The rest are done with coc extensions
+  // "coc.preferences.preferCompleteThanJumpPlaceholder": true,
+  "coc.preferences.timeout": 5000,
+  "coc.preferences.diagnostic.errorSign": "🕱",
+  "coc.preferences.diagnostic.warningSign": "☢",
+  "coc.preferences.diagnostic.infoSign": "",
+  "coc.preferences.diagnostic.hintSign": "ﯦ",
+  "coc.preferences.messageLevel": "warning",
+  "javascript.suggestionActions.enabled": false,
+  "coc.preferences.codeLens.enable": true,
+  "coc.preferences.maxCompleteItemCount": 40,
+  "coc.source.omni.filetypes": ["sh", "css", "scss"],
+  "coc.preferences.hoverTarget": "preview",
+  "prettier.requireConfig": true,
+  "prettier.eslintIntegration": true,
+  "eslint.packageManager": "yarn",
+  "eslint.nodePath": "~/.config/yarn/global/node_modules",
+  "scss.lint.unknownProperties": "ignore",
+  "css.lint.unknownProperties": "ignore",
+  "languageserver": {
+    "Dockerfile": {
+      "command": "docker-langserver",
+      "args": ["--stdio"],
+      "filetypes": ["Dockerfile"]
+    },
+    "bash": {
+      "command": "bash-language-server",
+      "args": ["start"],
+      "filetypes": ["sh"],
+      "ignoredRootPaths": ["~"]
+    },
+    "haskell": {
+      "command": "hie-wrapper",
+      "filetypes": ["haskell"],
+      "rootPatterns": [
+        "stack.yaml",
+        "stack.yml",
+        "cabal.project",
+        "shell.nix",
+        ".vim/",
+        ".git/",
+        ".hg/"
+      ]
     }
+  }
 }

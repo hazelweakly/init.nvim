@@ -58,7 +58,6 @@ function! VimrcLoadPlugins()
     Plug 'ntpeters/vim-better-whitespace'
     Plug 'unblevable/quick-scope'
     Plug 'mattn/emmet-vim'
-
     " For coworker's sanity
     Plug 'mg979/vim-visual-multi', {'branch': 'test'}
     Plug 'tpope/vim-rsi'
@@ -440,8 +439,8 @@ function! VimrcLoadSettings()
     set shortmess+=caI
 
     set expandtab
-    set softtabstop=4
-    set shiftwidth=4
+    set softtabstop=2
+    set shiftwidth=2
     set ignorecase
     set smartcase
     set hlsearch
@@ -492,6 +491,8 @@ function! VimrcLoadFiletypeSettings()
         au FileType scss,html,css setl iskeyword+=-
 
         au FileType php setl iskeyword+=$
+
+        au FileType sql nmap <silent> <leader>f :%! sqlformat -i=lower -k=upper -r -<CR>
     augroup END
 
     let g:LargeFile = 1024 * 1024 * 1
