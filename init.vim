@@ -173,7 +173,7 @@ function! VimrcLoadPluginSettings()
         if &filetype == 'vim' || &filetype == 'help'
             execute 'h '.expand('<cword>')
         else
-            call CocAction('doHover')
+            call CocActionAsync('doHover')
         endif
     endfunction
 
@@ -199,13 +199,20 @@ function! VimrcLoadPluginSettings()
     let g:coc_snippet_next = '<M-n>'
     let g:coc_snippet_prev = '<M-p>'
 
+    for e in ['docker','bash','haskell']
+      if executable(e)
+        call coc#config('langserver.' . e . 'enable', v:true)
+      endif
+    endfor
+
     augroup coc
         au!
         au CompleteDone * if pumvisible() == 0 | pclose | endif
         au BufNewFile,BufRead coc-settings.json,*eslintrc*.json setl ft=jsonc
         au User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-        au CursorHoldI,CursorMovedI call CocActionAsync('showSignatureHelp')
+        au CursorHoldI,CursorMovedI * silent! call CocActionAsync('showSignatureHelp')
         au CursorHold * silent call CocActionAsync('highlight')
+        au FileType typescript,json setl formatexpr=CocAction('formatSelected'))
     augroup END
 
     let g:coc_filetype_map = {

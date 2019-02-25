@@ -18,18 +18,21 @@
   "scss.lint.unknownProperties": "ignore",
   "css.lint.unknownProperties": "ignore",
   "languageserver": {
-    "Dockerfile": {
+    "docker": {
+      "enable": false,
       "command": "docker-langserver",
       "args": ["--stdio"],
       "filetypes": ["Dockerfile"]
     },
     "bash": {
+      "enable": false,
       "command": "bash-language-server",
       "args": ["start"],
       "filetypes": ["sh"],
       "ignoredRootPaths": ["~"]
     },
     "haskell": {
+      "enable": false,
       "command": "hie-wrapper",
       "filetypes": ["haskell"],
       "rootPatterns": [
