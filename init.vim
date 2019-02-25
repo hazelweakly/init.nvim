@@ -151,15 +151,6 @@ function! VimrcLoadPluginSettings()
         au FileType scss setl commentstring=/*\ %s\ */
     augroup END
 
-    " " auto-pairs
-    " let g:AutoPairsShortcutFastWrap = ''
-    " let g:AutoPairsShortcutToggle = ''
-    " let g:AutoPairsShortcutFastWrap = ''
-    " let g:AutoPairsShortcutJump = ''
-    " let g:AutoPairsShortcutBackInsert = ''
-    " let g:AutoPairsCenterLine = 0
-    " let g:AutoPairsMultilineClose = 0
-
     " pear-tree
     let g:pear_tree_smart_openers = 1
     let g:pear_tree_smart_closers = 1
@@ -320,15 +311,6 @@ function! VimrcLoadPluginSettings()
                 \   {'buns': ['<\?=\s*', '\s*\?>)'],   'nesting': 1, 'regex': 1, 'match_syntax': 1, 'kind': ['delete', 'replace', 'textobj'], 'action': ['delete'], 'input': ['-']},
                 \ ]
 
-    " surround.vim
-    " augroup surround
-    "     au!
-    "     au FileType php let b:surround_45 = "<?php \r ?>"
-    "     au FileType php let b:surround_61 = "<?= \r ?>"
-    "     au FileType html,scss,css,javascript,javascript.jsx,typescript,typescript.tsx,php let b:surround_{char2nr("p")} = "<p>\n\t\r\n</p>"
-    "     au FileType html,scss,css,javascript,javascript.jsx,typescript,typescript.tsx,php let b:surround_{char2nr("d")} = "<div\1div: \r^[^ ]\r &\1>\n\t\r\n</div>"
-    "     au FileType html,scss,css,javascript,javascript.jsx,typescript,typescript.tsx,php let b:surround_{char2nr("u")} = "x \r x"
-    " augroup END
 endfunction
 
 function! VimrcLoadMappings()
