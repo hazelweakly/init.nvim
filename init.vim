@@ -85,7 +85,9 @@ function! VimrcLoadPlugins()
     Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
     Plug 'sheerun/vim-polyglot', {'do': './build'}
     Plug 'neoclide/jsonc.vim'
-    Plug 'neoclide/vim-jsx-improve'
+    " Plug 'neoclide/vim-jsx-improve'
+    " Plug 'othree/yajs.vim'
+    Plug 'maxmellon/vim-jsx-pretty'
     Plug 'HerringtonDarkholme/yats.vim'
     Plug 'hail2u/vim-css3-syntax'
     Plug 'cakebaker/scss-syntax.vim'
@@ -220,12 +222,15 @@ function! VimrcLoadPluginSettings()
     let g:pandoc#formatting#equalprg=''
 
     " vim-polygot
-    let g:polygot_disabled = ['markdown', 'javascript.jsx', 'javascript', 'jsx']
+    let g:polygot_disabled = ['markdown']
     let g:haskell_enable_quantification = 1
     let g:haskell_enable_pattern_synonyms = 1
     let g:haskell_indent_disable = 1
     let g:haskell_enable_typeroles = 1
     let g:php_html_load = 1
+
+    " vim-jsx-pretty
+    let g:vim_jsx_pretty_colorful_config = 1
 
     " vim-table-mode
     let g:table_mode_motion_up_map = ''

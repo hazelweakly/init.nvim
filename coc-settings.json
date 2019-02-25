@@ -13,7 +13,6 @@
   "coc.source.omni.filetypes": ["sh", "css", "scss"],
   "coc.preferences.hoverTarget": "preview",
   "prettier.requireConfig": true,
-  "prettier.eslintIntegration": true,
   "eslint.packageManager": "yarn",
   "eslint.nodePath": "~/.config/yarn/global/node_modules",
   "scss.lint.unknownProperties": "ignore",
