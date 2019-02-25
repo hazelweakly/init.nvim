@@ -177,10 +177,10 @@ function! VimrcLoadPluginSettings()
         endif
     endfunction
 
-    call coc#add_extension('coc-css', 'coc-eslint', 'coc-highlight',
+    call coc#add_extension('coc-css', 'coc-highlight',
                 \ 'coc-html', 'coc-json', 'coc-omni', 'coc-prettier',
                 \ 'coc-tag', 'coc-tslint', 'coc-tsserver', 'coc-rls',
-                \ 'coc-yaml', 'coc-dictionary', 'coc-phpls')
+                \ 'coc-yaml', 'coc-dictionary', 'coc-phpls', 'coc-vimtex')
 
     " yarn global add eslint eslint-plugin-react eslint-plugin-import eslint-plugin-node prettier prettier-eslint eslint-plugin-babel eslint-plugin-jquery stylelint stylelint dockerfile-language-server-nodejs bash-language-server
     nmap <silent> gd <Plug>(coc-definition)
@@ -192,6 +192,7 @@ function! VimrcLoadPluginSettings()
     nmap <silent> gR <Plug>(coc-references)
     nmap <silent> gh :call <SID>show_documentation()<CR>
     nmap <silent> ga <Plug>(coc-codeaction)
+    nmap <silent> gA <Plug>(coc-fix-current)
     nmap <silent> <C-n> <Plug>(coc-diagnostic-next)
     nmap <silent> <C-p> <Plug>(coc-diagnostic-prev)
 
@@ -492,7 +493,8 @@ function! VimrcLoadFiletypeSettings()
         " Dev Ops
         au BufNewFile,BufRead *.stack setl ft=yaml
         au BufNewFile,BufRead *docker-compose.* setl ft=json
-        au BufNewFile,BufRead *.css setl ft=scss
+        au BufNewFile,BufRead *.css setl syntax=scss
+        au BufNewFile,BufRead *.tex setl ft=tex
         au FileType scss,html,css setl iskeyword+=-
 
         au FileType php setl iskeyword+=$
