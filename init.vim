@@ -39,11 +39,10 @@ function! VimrcLoadPlugins()
 
     " Enhancements: TODO, split into improvements, vimlike, and additions
     Plug 'lambdalisue/suda.vim'
-    Plug 'airblade/vim-gitgutter'
+    " Plug 'airblade/vim-gitgutter'
     Plug 'christoomey/vim-tmux-navigator'
     Plug 'dhruvasagar/vim-table-mode'
     Plug 'farmergreg/vim-lastplace'
-    " Plug 'jiangmiao/auto-pairs'
     Plug 'tmsvg/pear-tree'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } | Plug 'junegunn/fzf.vim'
     Plug 'junegunn/vim-easy-align'
@@ -59,6 +58,7 @@ function! VimrcLoadPlugins()
     Plug 'unblevable/quick-scope'
     Plug 'mattn/emmet-vim'
     " For coworker's sanity
+    " TODO: Incorporate liuchengxu/vim-which-key
     Plug 'mg979/vim-visual-multi', {'branch': 'test'}
     Plug 'tpope/vim-rsi'
 
@@ -67,7 +67,6 @@ function! VimrcLoadPlugins()
 
     " Look into caw (comment), vim-sandwich, sideways.vim
     Plug 'tpope/vim-repeat'
-    " Plug 'tpope/vim-surround'
     Plug 'machakann/vim-sandwich'
     Plug 'wellle/targets.vim'
     Plug 'chaoren/vim-wordmotion'
@@ -77,6 +76,7 @@ function! VimrcLoadPlugins()
     Plug 'machakann/vim-highlightedyank'
 
     Plug 'dkasak/gruvbox' " Gruvbox with better haskell highlighting
+    Plug 'laggardkernel/vim-one'
 
     Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
 
@@ -125,8 +125,8 @@ function! VimrcLoadPluginSettings()
     autocmd FileType html,scss,css,javascript,javascript.jsx,typescript,typescript.tsx,php imap <M-p> <plug>(emmet-move-prev)
 
     " machup
-    let g:loaded_matchit = 1
-    let g:matchup_transmute_enabled = 1
+    let g:matchup_transmute_enabled = 0
+    let g:matchup_text_obj_enabled = 0
     let g:matchup_surround_enabled = 1
     let g:matchup_matchparen_deferred = 1
     let g:matchup_matchparen_status_offscreen = 0
@@ -221,7 +221,7 @@ function! VimrcLoadPluginSettings()
     let g:pandoc#formatting#equalprg=''
 
     " vim-polygot
-    let g:polygot_disabled = ['markdown']
+    let g:polygot_disabled = ['markdown', 'less']
     let g:haskell_enable_quantification = 1
     let g:haskell_enable_pattern_synonyms = 1
     let g:haskell_indent_disable = 1
@@ -262,7 +262,9 @@ function! VimrcLoadPluginSettings()
     let g:auto_save_events = ["FocusLost"]
 
     " vim-gutter
-    let g:gitgutter_map_keys = 0
+    " let g:gitgutter_map_keys = 0
+    " let g:gitgutter_diff_args = '-w'
+    " let g:gitgutter_grep = 'rg'
 
     " vim-ghost
     augroup ghost
@@ -405,6 +407,7 @@ endfunction
 
 function! VimrcLoadSettings()
     set inccommand=nosplit
+    set pumblend=15
     set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
     set hidden " Required for coc.nvim
     set complete+=k
@@ -507,12 +510,14 @@ endfunction
 
 function! VimrcLoadColors()
     set background=dark
-    let g:gruvbox_bold             = 1
-    let g:gruvbox_italic           = 1
-    let g:gruvbox_invert_selection = 0
+    " let g:gruvbox_bold             = 1
+    " let g:gruvbox_italic           = 1
+    " let g:gruvbox_invert_selection = 0
     " This will only work if the terminal supports italic escape sequences
+    let g:one_allow_italics = 1
     highlight! Comment gui=italic
-    colorscheme gruvbox
+    " colorscheme gruvbox
+    colorscheme one
 endfunction
 
 call VimrcLoadPlugins()
