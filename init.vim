@@ -190,9 +190,11 @@ function! VimrcLoadPluginSettings()
     let g:coc_snippet_next = '<M-n>'
     let g:coc_snippet_prev = '<M-p>'
 
-    for e in ['docker','bash','haskell']
-      if executable(e)
-        call coc#config('langserver.' . e . 'enable', v:true)
+    for e in [ ['docker-langserver', 'docker'],
+             \ ['bash-language-server', 'bash'],
+             \ ['hie-wrapper', 'haskell'] ]
+      if executable(e[0])
+        call coc#config('languageserver.' . e[1] . '.enable', v:true)
       endif
     endfor
 
