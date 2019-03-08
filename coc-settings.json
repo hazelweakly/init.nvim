@@ -1,6 +1,5 @@
 {
   // The rest are done with coc extensions
-  // "coc.preferences.preferCompleteThanJumpPlaceholder": true,
   "suggest.timeout": 5000,
   "diagnostic.errorSign": "🕱",
   "diagnostic.warningSign": "☢",
@@ -11,6 +10,7 @@
   "codeLens.enable": true,
   "suggest.maxCompleteItemCount": 30,
   "coc.source.omni.filetypes": ["sh", "css", "scss"],
+  "rust-client.channel": "stable",
   "coc.preferences.hoverTarget": "preview",
   "prettier.requireConfig": true,
   "eslint.packageManager": "yarn",

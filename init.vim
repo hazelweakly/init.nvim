@@ -84,7 +84,6 @@ function! VimrcLoadPlugins()
     Plug 'jonsmithers/vim-html-template-literals'
     Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
     Plug 'sheerun/vim-polyglot', {'do': './build'}
-    Plug 'neoclide/jsonc.vim'
     " Plug 'neoclide/vim-jsx-improve'
     " Plug 'othree/yajs.vim'
     Plug 'maxmellon/vim-jsx-pretty'
@@ -146,7 +145,7 @@ function! VimrcLoadPluginSettings()
     " commentary.vim
     augroup commentary
         au!
-        au FileType jsonc,php setl commentstring=//\ %s
+        au FileType php setl commentstring=//\ %s
         au FileType resolv setl commentstring=#\ %s
         au FileType scss setl commentstring=/*\ %s\ */
     augroup END
@@ -201,7 +200,6 @@ function! VimrcLoadPluginSettings()
     augroup coc
         au!
         au CompleteDone * if pumvisible() == 0 | pclose | endif
-        au BufNewFile,BufRead coc-settings.json,*eslintrc*.json setl ft=jsonc
         au User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
         au CursorHoldI,CursorMovedI * silent! call CocActionAsync('showSignatureHelp')
         au CursorHold * silent call CocActionAsync('highlight')
@@ -474,6 +472,8 @@ function! VimrcLoadFiletypeSettings()
         au FileType vim setl foldmethod=marker
         au BufNewFile,BufRead $MYVIMRC setl filetype=vim
         au VimResized * :wincmd =
+
+        au FileType json syntax match Comment +\/\/.\+$+
 
         au BufNewFile,BufRead $ZDOTDIR/functions/**/* setl filetype=zsh
         au BufNewFile,BufRead $ZDOTDIR/completion-functions/* setl filetype=zsh
