@@ -34,7 +34,7 @@
     "haskell": {
       "enable": false,
       "command": "hie-wrapper",
-      "filetypes": ["haskell"],
+      "filetypes": ["hs", "lhs", "haskell"],
       "rootPatterns": [
         "stack.yaml",
         "stack.yml",
