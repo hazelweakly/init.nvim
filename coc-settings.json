@@ -1,6 +1,8 @@
 {
   // The rest are done with coc extensions
   "suggest.timeout": 5000,
+  "suggest.enablePreview": true,
+  "suggest.detailField": "preview",
   "diagnostic.errorSign": "🕱",
   "diagnostic.warningSign": "☢",
   "diagnostic.infoSign": "",
@@ -11,10 +13,8 @@
   "suggest.maxCompleteItemCount": 30,
   "coc.source.omni.filetypes": ["sh", "css", "scss"],
   "rust-client.channel": "stable",
-  "coc.preferences.hoverTarget": "preview",
+  "coc.preferences.hoverTarget": "float",
   "prettier.requireConfig": true,
-  "eslint.packageManager": "yarn",
-  "eslint.nodePath": "~/.config/yarn/global/node_modules",
   "scss.lint.unknownProperties": "ignore",
   "css.lint.unknownProperties": "ignore",
   "languageserver": {

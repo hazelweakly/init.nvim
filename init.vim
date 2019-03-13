@@ -81,9 +81,11 @@ function! VimrcLoadPlugins()
     Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
 
     " Languages
+    Plug 'chr4/nginx.vim'
+    Plug 'chr4/sslsecure.vim'
     Plug 'jonsmithers/vim-html-template-literals'
     Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-    Plug 'sheerun/vim-polyglot', {'do': './build'}
+    Plug 'sheerun/vim-polyglot'
     " Plug 'neoclide/vim-jsx-improve'
     " Plug 'othree/yajs.vim'
     Plug 'maxmellon/vim-jsx-pretty'
