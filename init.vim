@@ -83,17 +83,12 @@ function! VimrcLoadPlugins()
     " Languages
     Plug 'chr4/nginx.vim'
     Plug 'chr4/sslsecure.vim'
-    Plug 'jonsmithers/vim-html-template-literals'
-    Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
     Plug 'sheerun/vim-polyglot'
-    " Plug 'neoclide/vim-jsx-improve'
-    " Plug 'othree/yajs.vim'
-    Plug 'maxmellon/vim-jsx-pretty'
-    Plug 'HerringtonDarkholme/yats.vim'
     Plug 'hail2u/vim-css3-syntax'
     Plug 'cakebaker/scss-syntax.vim'
     Plug 'vim-pandoc/vim-pandoc'
     Plug 'vim-pandoc/vim-pandoc-syntax'
+    Plug 'HerringtonDarkholme/yats.vim'
     call plug#end()
     runtime macros/sandwich/keymap/surround.vim
 
@@ -157,9 +152,6 @@ function! VimrcLoadPluginSettings()
     let g:pear_tree_smart_closers = 1
     let g:pear_tree_smart_backspace = 1
 
-    " jsx_improve
-    let g:jsx_improve_motion_disable = 1
-
     " coc.nvim
     function! s:show_documentation()
         if &filetype == 'vim' || &filetype == 'help'
@@ -205,14 +197,10 @@ function! VimrcLoadPluginSettings()
         au User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
         au CursorHoldI,CursorMovedI * silent! call CocActionAsync('showSignatureHelp')
         au CursorHold * silent call CocActionAsync('highlight')
-        au FileType typescript,json setl formatexpr=CocAction('formatSelected'))
+        au FileType javascript,typescript,json setl formatexpr=CocAction('formatSelected'))
     augroup END
 
-    let g:coc_filetype_map = {
-                \ 'ghost-*': 'html',
-                \ 'javascript.jsx': 'javascriptreact',
-                \ 'typescript.tsx' : 'typescriptreact'
-                \ }
+    let g:coc_filetype_map = { 'ghost-*': 'html' }
 
     inoremap <expr> <Tab> pumvisible() ? coc#_select_confirm() : "\<Tab>"
     inoremap <expr> <S-Tab> "\<C-h>"
@@ -222,16 +210,13 @@ function! VimrcLoadPluginSettings()
     let g:pandoc#completion#bib#mode = "citeproc"
     let g:pandoc#formatting#equalprg=''
 
-    " vim-polygot
-    let g:polygot_disabled = ['markdown', 'less']
+    " vim-polyglot
+    let g:polyglot_disabled = ['markdown', 'less', 'typescript', 'typescript.tsx']
     let g:haskell_enable_quantification = 1
     let g:haskell_enable_pattern_synonyms = 1
     let g:haskell_indent_disable = 1
     let g:haskell_enable_typeroles = 1
     let g:php_html_load = 1
-
-    " vim-jsx-pretty
-    let g:vim_jsx_pretty_colorful_config = 1
 
     " vim-table-mode
     let g:table_mode_motion_up_map = ''
@@ -408,6 +393,7 @@ function! VimrcLoadMappings()
 endfunction
 
 function! VimrcLoadSettings()
+    set nojoinspaces
     set inccommand=nosplit
     set pumblend=15
     set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
@@ -488,7 +474,7 @@ function! VimrcLoadFiletypeSettings()
 
         " Dev Ops
         au BufNewFile,BufRead *.stack setl ft=yaml
-        au BufNewFile,BufRead *docker-compose.* setl ft=json
+        " au BufNewFile,BufRead *docker-compose.* setl ft=json
         au BufNewFile,BufRead *.css setl syntax=scss
         au BufNewFile,BufRead *.tex setl ft=tex
         au FileType scss,html,css setl iskeyword+=-
