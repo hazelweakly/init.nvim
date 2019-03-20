@@ -61,6 +61,7 @@ function! VimrcLoadPlugins()
     " TODO: Incorporate liuchengxu/vim-which-key
     Plug 'mg979/vim-visual-multi', {'branch': 'test'}
     Plug 'tpope/vim-rsi'
+    Plug 'dhruvasagar/vim-zoom'
 
     " Because I don't have a tiling WM at work
     Plug 'kassio/neoterm'
@@ -166,7 +167,7 @@ function! VimrcLoadPluginSettings()
                 \ 'coc-tag', 'coc-tslint', 'coc-tsserver', 'coc-rls',
                 \ 'coc-yaml', 'coc-dictionary', 'coc-phpls', 'coc-vimtex')
 
-    " yarn global add eslint eslint-plugin-react eslint-plugin-import eslint-plugin-node prettier prettier-eslint eslint-plugin-babel eslint-plugin-jquery stylelint stylelint dockerfile-language-server-nodejs bash-language-server
+    " yarn global add dockerfile-language-server-nodejs bash-language-server
     nmap <silent> gd <Plug>(coc-definition)
     nmap <silent> gy <Plug>(coc-type-definition)
     nmap <silent> gr <Plug>(coc-rename)
@@ -175,6 +176,7 @@ function! VimrcLoadPluginSettings()
     vmap <silent> <leader>f <Plug>(coc-format-selected)
     nmap <silent> gR <Plug>(coc-references)
     nmap <silent> gh :call <SID>show_documentation()<CR>
+    nmap <silent> gl <Plug>(coc-codelens-action)
     nmap <silent> ga <Plug>(coc-codeaction)
     nmap <silent> gA <Plug>(coc-fix-current)
     nmap <silent> <C-n> <Plug>(coc-diagnostic-next)
@@ -195,7 +197,6 @@ function! VimrcLoadPluginSettings()
         au!
         au CompleteDone * if pumvisible() == 0 | pclose | endif
         au User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-        au CursorHoldI,CursorMovedI * silent! call CocActionAsync('showSignatureHelp')
         au CursorHold * silent call CocActionAsync('highlight')
         au FileType javascript,typescript,json setl formatexpr=CocAction('formatSelected'))
     augroup END
@@ -425,8 +426,8 @@ function! VimrcLoadSettings()
     set shortmess+=caI
 
     set expandtab
-    set softtabstop=2
-    set shiftwidth=2
+    set softtabstop=4
+    set shiftwidth=4
     set ignorecase
     set smartcase
     set hlsearch
@@ -467,6 +468,7 @@ function! VimrcLoadFiletypeSettings()
         au BufNewFile,BufRead $ZDOTDIR/completion-functions/* setl filetype=zsh
         au BufNewFile,BufRead $ZDOTDIR/plugins/**/functions/* setl filetype=zsh
         au BufNewFile,BufRead httpd setl filetype=apache
+        au BufNewFile,BufRead *.js setl filetype=javascript
 
         " Improve syntax hl accuracy. Larger = more accuracy = slower
         au BufEnter * :syntax sync minlines=500
@@ -474,7 +476,6 @@ function! VimrcLoadFiletypeSettings()
 
         " Dev Ops
         au BufNewFile,BufRead *.stack setl ft=yaml
-        " au BufNewFile,BufRead *docker-compose.* setl ft=json
         au BufNewFile,BufRead *.css setl syntax=scss
         au BufNewFile,BufRead *.tex setl ft=tex
         au FileType scss,html,css setl iskeyword+=-

@@ -1,5 +1,7 @@
 {
   // The rest are done with coc extensions
+  "tslint.enable": true,
+  "tslint.alwaysShowRuleFailuresAsWarnings": true,
   "suggest.timeout": 5000,
   "suggest.enablePreview": true,
   "suggest.detailField": "preview",
@@ -8,13 +10,11 @@
   "diagnostic.infoSign": "",
   "diagnostic.hintSign": "ﯦ",
   "coc.preferences.messageLevel": "warning",
-  "javascript.suggestionActions.enabled": false,
   "codeLens.enable": true,
   "suggest.maxCompleteItemCount": 30,
   "coc.source.omni.filetypes": ["sh", "css", "scss"],
   "rust-client.channel": "stable",
-  "coc.preferences.hoverTarget": "float",
-  "prettier.requireConfig": true,
+  "coc.preferences.formatOnSaveFiletypes": ["css", "typescript", "javascript"],
   "scss.lint.unknownProperties": "ignore",
   "css.lint.unknownProperties": "ignore",
   "languageserver": {
