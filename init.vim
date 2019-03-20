@@ -164,7 +164,7 @@ function! VimrcLoadPluginSettings()
 
     call coc#add_extension('coc-css', 'coc-highlight',
                 \ 'coc-html', 'coc-json', 'coc-omni', 'coc-prettier',
-                \ 'coc-tag', 'coc-tslint', 'coc-tsserver', 'coc-rls',
+                \ 'coc-tag', 'coc-tslint-plugin', 'coc-tsserver', 'coc-rls',
                 \ 'coc-yaml', 'coc-dictionary', 'coc-phpls', 'coc-vimtex')
 
     " yarn global add dockerfile-language-server-nodejs bash-language-server
@@ -479,13 +479,12 @@ function! VimrcLoadFiletypeSettings()
         au BufNewFile,BufRead *.css setl syntax=scss
         au BufNewFile,BufRead *.tex setl ft=tex
         au FileType scss,html,css setl iskeyword+=-
-
-        au FileType php setl iskeyword+=$
+        au FileType php,Dockerfile setl iskeyword+=$
 
         au FileType sql nmap <silent> <leader>f :%! sqlformat -i=lower -k=upper -r -<CR>
     augroup END
 
-    let g:LargeFile = 1024 * 1024 * 1
+    let g:LargeFile = 1024 * 768 * 1
     augroup LargeFile
         au!
         au BufReadPre * let f=getfsize(expand("<afile>")) | if f > g:LargeFile || f == -2 | call LargeFile() | endif
