@@ -55,7 +55,7 @@ function! VimrcLoadPlugins()
     Plug 'sickill/vim-pasta'
     Plug '907th/vim-auto-save'
     Plug 'ntpeters/vim-better-whitespace'
-    Plug 'unblevable/quick-scope'
+    " Plug 'unblevable/quick-scope'
     Plug 'mattn/emmet-vim'
     " For coworker's sanity
     " TODO: Incorporate liuchengxu/vim-which-key
