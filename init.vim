@@ -31,7 +31,7 @@ function! VimrcLoadPlugins()
     Plug 'Shougo/neco-syntax'
     Plug 'Shougo/neco-vim'
     Plug 'neoclide/coc-neco'
-    Plug 'neoclide/coc.nvim', {'do': 'yarn install'}
+    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
     Plug 'neoclide/coc-sources'
     Plug 'w0rp/ale'
     Plug 'ludovicchabant/vim-gutentags'
@@ -55,6 +55,8 @@ function! VimrcLoadPlugins()
     Plug 'sickill/vim-pasta'
     Plug '907th/vim-auto-save'
     Plug 'ntpeters/vim-better-whitespace'
+    " Plug 'liuchengxu/vista.vim'
+    " Plug 'RRethy/vim-hexokinase'
     " Plug 'unblevable/quick-scope'
     Plug 'mattn/emmet-vim'
     " For coworker's sanity
@@ -165,7 +167,8 @@ function! VimrcLoadPluginSettings()
     call coc#add_extension('coc-css', 'coc-highlight',
                 \ 'coc-html', 'coc-json', 'coc-omni', 'coc-prettier',
                 \ 'coc-tag', 'coc-tslint-plugin', 'coc-tsserver', 'coc-rls',
-                \ 'coc-yaml', 'coc-dictionary', 'coc-phpls', 'coc-vimtex')
+                \ 'coc-yaml', 'coc-dictionary', 'coc-phpls', 'coc-vimtex', 'coc-syntax',
+                \ 'coc-svg')
 
     " yarn global add dockerfile-language-server-nodejs bash-language-server
     nmap <silent> gd <Plug>(coc-definition)
@@ -198,13 +201,16 @@ function! VimrcLoadPluginSettings()
         au CompleteDone * if pumvisible() == 0 | pclose | endif
         au User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
         au CursorHold * silent call CocActionAsync('highlight')
-        au FileType javascript,typescript,json setl formatexpr=CocAction('formatSelected'))
+        au User CocQuickfixChange :CocList --normal quickfix
     augroup END
 
     let g:coc_filetype_map = { 'ghost-*': 'html' }
 
     inoremap <expr> <Tab> pumvisible() ? coc#_select_confirm() : "\<Tab>"
     inoremap <expr> <S-Tab> "\<C-h>"
+
+    " plug.nvim
+    let g:plug_rebase = 1
 
     " vim-pandoc
     let g:pandoc#modules#disabled = ["folding", "formatting", "keyboard", "toc", "chdir"]
@@ -499,15 +505,15 @@ function! VimrcLoadFiletypeSettings()
 endfunction
 
 function! VimrcLoadColors()
+    colorscheme one
+    let g:one_allow_italics = 1
+    highlight! Comment gui=italic
     set background=dark
     " let g:gruvbox_bold             = 1
     " let g:gruvbox_italic           = 1
     " let g:gruvbox_invert_selection = 0
     " This will only work if the terminal supports italic escape sequences
-    let g:one_allow_italics = 1
-    highlight! Comment gui=italic
     " colorscheme gruvbox
-    colorscheme one
 endfunction
 
 call VimrcLoadPlugins()

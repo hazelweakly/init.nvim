@@ -1,5 +1,6 @@
 {
   // The rest are done with coc extensions
+  "coc.preferences.colorSupport": false,
   "tslint.enable": true,
   "tslint.alwaysShowRuleFailuresAsWarnings": true,
   "suggest.timeout": 5000,
@@ -14,7 +15,7 @@
   "suggest.maxCompleteItemCount": 30,
   "coc.source.omni.filetypes": ["sh", "css", "scss"],
   "rust-client.channel": "stable",
-  "coc.preferences.formatOnSaveFiletypes": ["css", "typescript", "javascript"],
+  "coc.preferences.formatOnSaveFiletypes": ["css", "typescript", "javascript","typescriptreact","javascriptreact"],
   "scss.lint.unknownProperties": "ignore",
   "css.lint.unknownProperties": "ignore",
   "languageserver": {
