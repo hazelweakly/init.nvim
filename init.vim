@@ -32,7 +32,22 @@ function! VimrcLoadPlugins()
     Plug 'Shougo/neco-vim'
     Plug 'neoclide/coc-neco'
     Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+
+    Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc-highlight', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc-prettier', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc-tslint-plugin', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc-rls', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc-yaml', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'marlonfan/coc-phpls', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc-vimtex', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'iamcco/coc-svg', {'do': 'yarn install --frozen-lockfile'}
+
     Plug 'neoclide/coc-sources'
+
     Plug 'w0rp/ale'
     Plug 'ludovicchabant/vim-gutentags'
     Plug 'skywind3000/gutentags_plus'
@@ -164,11 +179,7 @@ function! VimrcLoadPluginSettings()
         endif
     endfunction
 
-    call coc#add_extension('coc-css', 'coc-highlight',
-                \ 'coc-html', 'coc-json', 'coc-omni', 'coc-prettier',
-                \ 'coc-tag', 'coc-tslint-plugin', 'coc-tsserver', 'coc-rls',
-                \ 'coc-yaml', 'coc-dictionary', 'coc-phpls', 'coc-vimtex', 'coc-syntax',
-                \ 'coc-svg')
+    call coc#add_extension('coc-tag','coc-syntax','coc-omni')
 
     " yarn global add dockerfile-language-server-nodejs bash-language-server
     nmap <silent> gd <Plug>(coc-definition)
