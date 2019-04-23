@@ -8,6 +8,7 @@ let g:python_host_prog = '/usr/bin/python2'
 " https://vimways.org/2018/from-vimrc-to-vim/
 " https://github.com/rafi/vim-config
 " https://github.com/PegasusWang/vim-config
+" https://github.com/zSucrilhos/dotfiles
 
 function! VimrcLoadPlugins()
     " Install vim-plug if not available
@@ -31,20 +32,20 @@ function! VimrcLoadPlugins()
     Plug 'Shougo/neco-syntax'
     Plug 'Shougo/neco-vim'
     Plug 'neoclide/coc-neco'
-    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc.nvim', {'do': 'yarn install'}
 
-    Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
-    Plug 'neoclide/coc-highlight', {'do': 'yarn install --frozen-lockfile'}
-    Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'}
-    Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
-    Plug 'neoclide/coc-prettier', {'do': 'yarn install --frozen-lockfile'}
-    Plug 'neoclide/coc-tslint-plugin', {'do': 'yarn install --frozen-lockfile'}
-    Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
-    Plug 'neoclide/coc-rls', {'do': 'yarn install --frozen-lockfile'}
-    Plug 'neoclide/coc-yaml', {'do': 'yarn install --frozen-lockfile'}
-    Plug 'marlonfan/coc-phpls', {'do': 'yarn install --frozen-lockfile'}
-    Plug 'neoclide/coc-vimtex', {'do': 'yarn install --frozen-lockfile'}
-    Plug 'iamcco/coc-svg', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc-css', {'do': 'yarn install'}
+    Plug 'neoclide/coc-highlight', {'do': 'yarn install'}
+    Plug 'neoclide/coc-html', {'do': 'yarn install'}
+    Plug 'neoclide/coc-json', {'do': 'yarn install'}
+    Plug 'neoclide/coc-prettier', {'do': 'yarn install'}
+    Plug 'neoclide/coc-tslint-plugin', {'do': 'yarn install'}
+    Plug 'neoclide/coc-tsserver', {'do': 'yarn install'}
+    Plug 'neoclide/coc-rls', {'do': 'yarn install'}
+    Plug 'neoclide/coc-yaml', {'do': 'yarn install'}
+    Plug 'marlonfan/coc-phpls', {'do': 'yarn install'}
+    Plug 'neoclide/coc-vimtex', {'do': 'yarn install'}
+    Plug 'iamcco/coc-svg', {'do': 'yarn install'}
 
     Plug 'neoclide/coc-sources'
 
@@ -54,7 +55,7 @@ function! VimrcLoadPlugins()
 
     " Enhancements: TODO, split into improvements, vimlike, and additions
     Plug 'lambdalisue/suda.vim'
-    " Plug 'airblade/vim-gitgutter'
+    Plug 'airblade/vim-gitgutter'
     Plug 'christoomey/vim-tmux-navigator'
     Plug 'dhruvasagar/vim-table-mode'
     Plug 'farmergreg/vim-lastplace'
@@ -267,9 +268,9 @@ function! VimrcLoadPluginSettings()
     let g:auto_save_events = ["FocusLost"]
 
     " vim-gutter
-    " let g:gitgutter_map_keys = 0
-    " let g:gitgutter_diff_args = '-w'
-    " let g:gitgutter_grep = 'rg'
+    let g:gitgutter_map_keys = 0
+    let g:gitgutter_diff_args = '-w'
+    let g:gitgutter_grep = 'rg'
 
     " vim-ghost
     augroup ghost
