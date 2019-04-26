@@ -15,7 +15,15 @@
   "suggest.maxCompleteItemCount": 30,
   "coc.source.omni.filetypes": ["sh", "css", "scss"],
   "rust-client.channel": "stable",
-  "coc.preferences.formatOnSaveFiletypes": ["css", "typescript", "javascript","typescriptreact","javascriptreact"],
+  "coc.preferences.formatOnSaveFiletypes": [
+    "jsonc",
+    "json",
+    "css",
+    "typescript",
+    "javascript",
+    "typescriptreact",
+    "javascriptreact"
+  ],
   "scss.lint.unknownProperties": "ignore",
   "css.lint.unknownProperties": "ignore",
   "languageserver": {
