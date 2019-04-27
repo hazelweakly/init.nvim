@@ -149,7 +149,7 @@ function! VimrcLoadPluginSettings()
     nmap <silent> <leader>f <Plug>(coc-format)
     vmap <silent> <leader>f <Plug>(coc-format-selected)
     nmap <silent> gR <Plug>(coc-references)
-    nmap <silent> gh :call <SID>show_documentation()<CR>
+    nmap <silent> gh :call Show_documentation()<CR>
     nmap <silent> gl <Plug>(coc-codelens-action)
     nmap <silent> ga <Plug>(coc-codeaction)
     nmap <silent> gA <Plug>(coc-fix-current)
