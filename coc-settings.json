@@ -1,58 +1,51 @@
 {
-  // The rest are done with coc extensions
-  "coc.preferences.colorSupport": false,
-  "tslint.enable": true,
-  "tslint.alwaysShowRuleFailuresAsWarnings": true,
-  "suggest.timeout": 5000,
-  "suggest.enablePreview": true,
-  "suggest.detailField": "preview",
-  "diagnostic.errorSign": "🕱",
-  "diagnostic.warningSign": "☢",
-  "diagnostic.infoSign": "",
-  "diagnostic.hintSign": "ﯦ",
-  "coc.preferences.messageLevel": "warning",
-  "codeLens.enable": true,
-  "suggest.maxCompleteItemCount": 30,
-  "coc.source.omni.filetypes": ["sh", "css", "scss"],
-  "rust-client.channel": "stable",
-  "coc.preferences.formatOnSaveFiletypes": [
-    "jsonc",
-    "json",
-    "css",
-    "typescript",
-    "javascript",
-    "typescriptreact",
-    "javascriptreact"
-  ],
-  "scss.lint.unknownProperties": "ignore",
-  "css.lint.unknownProperties": "ignore",
-  "languageserver": {
-    "docker": {
-      "enable": false,
-      "command": "docker-langserver",
-      "args": ["--stdio"],
-      "filetypes": ["Dockerfile"]
-    },
-    "bash": {
-      "enable": false,
-      "command": "bash-language-server",
-      "args": ["start"],
-      "filetypes": ["sh"],
-      "ignoredRootPaths": ["~"]
-    },
-    "haskell": {
-      "enable": false,
-      "command": "hie-wrapper",
-      "filetypes": ["hs", "lhs", "haskell"],
-      "rootPatterns": [
-        "stack.yaml",
-        "stack.yml",
-        "cabal.project",
-        "shell.nix",
-        ".vim/",
-        ".git/",
-        ".hg/"
-      ]
+    "tslint.enable": true,
+    "tslint.alwaysShowRuleFailuresAsWarnings": true,
+    "suggest.timeout": 5000,
+    "suggest.detailField": "preview",
+    "diagnostic.errorSign": "🕱",
+    "diagnostic.warningSign": "☢",
+    "diagnostic.infoSign": "",
+    "diagnostic.hintSign": "ﯦ",
+    "coc.preferences.messageLevel": "warning",
+    "codeLens.enable": true,
+    "suggest.maxCompleteItemCount": 30,
+    // "rust-client.channel": "stable",
+    "coc.preferences.formatOnSaveFiletypes": [
+        "jsonc",
+        "json",
+        "css",
+        "typescript",
+        "javascript",
+        "typescriptreact",
+        "javascriptreact"
+    ],
+    "scss.lint.unknownProperties": "ignore",
+    "css.lint.unknownProperties": "ignore",
+    "languageserver": {
+        "docker": {
+            "enable": false,
+            "command": "docker-langserver",
+            "args": ["--stdio"],
+            "filetypes": ["Dockerfile"]
+        },
+        "bash": {
+            "enable": false,
+            "command": "bash-language-server",
+            "args": ["start"],
+            "filetypes": ["sh"],
+            "ignoredRootPaths": ["~"]
+        },
+        "haskell": {
+            "enable": false,
+            "command": "hie-wrapper",
+            "filetypes": ["hs", "lhs", "haskell"],
+            "rootPatterns": [
+                "stack.yaml",
+                "cabal.config",
+                "cabal.project",
+                "shell.nix"
+            ]
+        }
     }
-  }
 }

@@ -1,4 +1,4 @@
-" Speed improvements
+" speed improvements
 let g:node_host_prog = '/usr/local/bin/neovim-node-host'
 let g:ruby_host_prog = '/usr/local/bin/neovim-ruby-host'
 let g:python3_host_prog = '/usr/bin/python3'
@@ -6,8 +6,6 @@ let g:python_host_prog = '/usr/bin/python2'
 
 " TODO: Apply this and filtch some ideas.
 " https://vimways.org/2018/from-vimrc-to-vim/
-" https://github.com/rafi/vim-config
-" https://github.com/PegasusWang/vim-config
 " https://github.com/zSucrilhos/dotfiles
 
 function! VimrcLoadPlugins()
@@ -29,12 +27,10 @@ function! VimrcLoadPlugins()
     call plug#begin('~/.local/share/nvim/plugged')
 
     " Linting + LSP
-    Plug 'Shougo/neco-syntax'
-    Plug 'Shougo/neco-vim'
-    Plug 'neoclide/coc-neco'
     Plug 'neoclide/coc.nvim', {'do': 'yarn install'}
 
     Plug 'neoclide/coc-css', {'do': 'yarn install'}
+    Plug 'neoclide/coc-emmet', {'do': 'yarn install'}
     Plug 'neoclide/coc-highlight', {'do': 'yarn install'}
     Plug 'neoclide/coc-html', {'do': 'yarn install'}
     Plug 'neoclide/coc-json', {'do': 'yarn install'}
@@ -49,42 +45,38 @@ function! VimrcLoadPlugins()
 
     Plug 'neoclide/coc-sources'
 
-    Plug 'w0rp/ale'
-    Plug 'ludovicchabant/vim-gutentags'
-    Plug 'skywind3000/gutentags_plus'
-
     " Enhancements: TODO, split into improvements, vimlike, and additions
+    Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey','WhichKey!'] }
     Plug 'lambdalisue/suda.vim'
     Plug 'airblade/vim-gitgutter'
     Plug 'christoomey/vim-tmux-navigator'
+    Plug 'tmux-plugins/vim-tmux'
     Plug 'dhruvasagar/vim-table-mode'
     Plug 'farmergreg/vim-lastplace'
     Plug 'tmsvg/pear-tree'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } | Plug 'junegunn/fzf.vim'
     Plug 'junegunn/vim-easy-align'
+    Plug 'sickill/vim-pasta'
+    Plug '907th/vim-auto-save'
+
     Plug 'kana/vim-textobj-user'
     Plug 'kana/vim-operator-user'
     Plug 'idbrii/textobj-word-column.vim'
-    Plug 'tmux-plugins/vim-tmux'
     Plug 'tommcdo/vim-exchange'
+    Plug 'Shougo/context_filetype.vim'
     Plug 'tpope/vim-commentary'
-    Plug 'sickill/vim-pasta'
-    Plug '907th/vim-auto-save'
-    Plug 'ntpeters/vim-better-whitespace'
+    Plug 'sgur/vim-editorconfig'
+
     " Plug 'liuchengxu/vista.vim'
     " Plug 'RRethy/vim-hexokinase'
     " Plug 'unblevable/quick-scope'
-    Plug 'mattn/emmet-vim'
-    " For coworker's sanity
-    " TODO: Incorporate liuchengxu/vim-which-key
+
     Plug 'mg979/vim-visual-multi', {'branch': 'test'}
     Plug 'tpope/vim-rsi'
     Plug 'dhruvasagar/vim-zoom'
-
-    " Because I don't have a tiling WM at work
     Plug 'kassio/neoterm'
 
-    " Look into caw (comment), vim-sandwich, sideways.vim
+    Plug 'AndrewRadev/sideways.vim'
     Plug 'tpope/vim-repeat'
     Plug 'machakann/vim-sandwich'
     Plug 'wellle/targets.vim'
@@ -94,7 +86,6 @@ function! VimrcLoadPlugins()
     Plug 'andymass/vim-matchup'
     Plug 'machakann/vim-highlightedyank'
 
-    Plug 'dkasak/gruvbox' " Gruvbox with better haskell highlighting
     Plug 'laggardkernel/vim-one'
 
     Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
@@ -118,9 +109,6 @@ function! VimrcLoadPlugins()
 endfunction
 
 function! VimrcLoadPluginSettings()
-    " quick-scope
-    let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-
     " vim-cool
     let g:CoolTotalMatches = 1
 
@@ -130,33 +118,12 @@ function! VimrcLoadPluginSettings()
     let g:neoterm_autoinsert = 1
     let g:neoterm_size = 12
 
-    " emmet-vim
-    let g:user_emmet_settings = { 'html': { 'empty_element_suffix': ' />' } }
-    let g:emmet_html5 = 1
-    let g:user_emmet_install_global = 0
-    autocmd FileType html,scss,css,javascript,javascript.jsx,typescript,typescript.tsx,php EmmetInstall
-    autocmd FileType html,scss,css,javascript,javascript.jsx,typescript,typescript.tsx,php imap <C-e> <plug>(emmet-expand-abbr)
-    autocmd FileType html,scss,css,javascript,javascript.jsx,typescript,typescript.tsx,php imap <M-n> <plug>(emmet-move-next)
-    autocmd FileType html,scss,css,javascript,javascript.jsx,typescript,typescript.tsx,php imap <M-p> <plug>(emmet-move-prev)
-
     " machup
     let g:matchup_transmute_enabled = 0
     let g:matchup_text_obj_enabled = 0
     let g:matchup_surround_enabled = 1
     let g:matchup_matchparen_deferred = 1
     let g:matchup_matchparen_status_offscreen = 0
-
-    " ale
-    let g:ale_sh_shellcheck_options = '-x'
-    autocmd FileType html,scss,css,javascript,javascript.jsx,typescript,typescript.tsx ALEDisableBuffer
-    hi link ALEError Error
-    hi Warning term=underline cterm=underline ctermfg=Yellow gui=undercurl guisp=Gold
-    hi link ALEWarning Warning
-    hi link ALEInfo SpellCap
-    let g:ale_set_signs = 0
-    let g:ale_lint_delay = 0
-    let g:ale_lint_on_text_changed = 'normal'
-    let g:ale_lint_on_insert_leave = 1
 
     " commentary.vim
     augroup commentary
@@ -172,17 +139,9 @@ function! VimrcLoadPluginSettings()
     let g:pear_tree_smart_backspace = 1
 
     " coc.nvim
-    function! s:show_documentation()
-        if &filetype == 'vim' || &filetype == 'help'
-            execute 'h '.expand('<cword>')
-        else
-            call CocActionAsync('doHover')
-        endif
-    endfunction
+    call coc#add_extension('coc-tag','coc-syntax')
 
-    call coc#add_extension('coc-tag','coc-syntax','coc-omni')
-
-    " yarn global add dockerfile-language-server-nodejs bash-language-server
+    " dockerfile-language-server-nodejs bash-language-server
     nmap <silent> gd <Plug>(coc-definition)
     nmap <silent> gy <Plug>(coc-type-definition)
     nmap <silent> gr <Plug>(coc-rename)
@@ -216,8 +175,6 @@ function! VimrcLoadPluginSettings()
         au User CocQuickfixChange :CocList --normal quickfix
     augroup END
 
-    let g:coc_filetype_map = { 'ghost-*': 'html' }
-
     inoremap <expr> <Tab> pumvisible() ? coc#_select_confirm() : "\<Tab>"
     inoremap <expr> <S-Tab> "\<C-h>"
 
@@ -243,13 +200,6 @@ function! VimrcLoadPluginSettings()
     let g:table_mode_motion_left_map = ''
     let g:table_mode_motion_right_map = ''
 
-    " fzf
-    augroup fzf
-        au!
-        autocmd FileType fzf set laststatus=0 noshowmode noruler
-                    \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
-    augroup END
-
     " vim-easy-align
     xmap <CR> <Plug>(EasyAlign)
 
@@ -273,26 +223,10 @@ function! VimrcLoadPluginSettings()
     let g:gitgutter_grep = 'rg'
 
     " vim-ghost
-    augroup ghost
-        au!
-        autocmd BufNewFile,BufRead ghost-* setl ft=html
-    augroup END
     nnoremap <leader>g :GhostStart<CR>
 
     " highlightedyank
     let g:highlightedyank_highlight_duration = 125
-
-    " gutentags
-    let g:gutentags_file_list_command = 'rg -l'
-
-    " config project root markers.
-    let g:gutentags_project_root = ['.git', '.idea', 'Makefile']
-
-    " generate datebases in my cache directory, prevent gtags files polluting my project
-    let g:gutentags_cache_dir = expand('~/.cache/tags')
-
-    " vim-better-whitespace
-    let g:better_whitespace_enabled=1
 
     " vim-visual-multi (excessive maps by default are annoying)
     " as close as realistically possible to phpstorm mappings
@@ -304,7 +238,12 @@ function! VimrcLoadPluginSettings()
     let g:VM_maps["Find Prev"]          = '<M-J>'
     let g:VM_maps["Skip Region"]        = '<M-F3>'
     let g:VM_maps["Visual Subtract"]    = '<M-F3>'
+    let g:VM_maps["Undo"] = 'u'
+    let g:VM_maps["Redo"] = '<C-r>'
 
+    " sideways.vim
+    nnoremap <silent> <c-h> :SidewaysLeft<cr>
+    nnoremap <silent> <c-l> :SidewaysRight<cr>
 
     " sandwich.vim
     let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
@@ -319,46 +258,28 @@ function! VimrcLoadPluginSettings()
                 \   {'buns': ['<\?=\s*', '\s*\?>)'],   'nesting': 1, 'regex': 1, 'match_syntax': 1, 'kind': ['delete', 'replace', 'textobj'], 'action': ['delete'], 'input': ['-']},
                 \ ]
 
+
+    " vim-which-key
+    let g:mapleader = "\<Space>"
+    nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 endfunction
 
 function! VimrcLoadMappings()
-    " General thoughts: Operator + non-motion is an 'invalid operation' in vim
-    "                   oprator + second operator is also 'invalid'
-    "                   With those in mind, there are lots of empty binds in
-    "                   vim available
+    " General thoughts:
+    "   Operator + non-motion is an 'invalid operation' in vim
+    "   oprator + second operator is also 'invalid'
+    "   With those in mind, there are lots of empty binds in
+    "   vim available
 
     nnoremap <silent> <leader>s :noh<CR>
 
     " paste over a visual selection without nuking your paste
-    function! RestoreRegister()
-        if &clipboard != "unnamed" && &clipboard != "unnamedplus"
-            let @" = s:restore_reg
-        elseif &clipboard == "unnamed"
-            let @* = s:restore_reg
-        elseif &clipboard == "unnamedplus"
-            let @+ = s:restore_reg
-        endif
-        return ''
-    endfunction
+    xnoremap <silent> <expr> p :call CopyWithoutClobberRepl()
 
-    function! s:Repl()
-        if &clipboard != "unnamed" && &clipboard != "unnamedplus"
-            let s:restore_reg = @"
-        elseif &clipboard == "unnamed"
-            let s:restore_reg = @*
-        elseif &clipboard == "unnamedplus"
-            let s:restore_reg = @+
-        endif
-        return "p@=RestoreRegister()\<cr>"
-    endfunction
-
-    xnoremap <silent> <expr> p <sid>Repl()
-
-    " BC calc from current line
-    map <leader>c :.!bc<CR>
     "Insert new lines in normal mode
     nnoremap <silent> go :pu _<CR>:'[-1<CR>
     nnoremap <silent> gO :pu! _<CR>:']+1<CR>
+
     " J is 'join' so K is 'kut'
     nnoremap K i<CR><ESC>
     nnoremap Y y$
@@ -374,36 +295,18 @@ function! VimrcLoadMappings()
     nnoremap d# ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``dgN
 
     " Search for current selection when pressing * or # in visual mode
-    xnoremap <silent> * :call <SID>visualSearch('f')<CR>
-    xnoremap <silent> # :call <SID>visualSearch('b')<CR>
+    xnoremap <silent> * :call VisualSearchCurrentSelection('f')<CR>
+    xnoremap <silent> # :call VisualSearchCurrentSelection('b')<CR>
 
-    function!   s:visualSearch(direction)
-        let       l:saved_reg = @"
-        execute   'normal! vgvy'
-        let       l:pattern = escape(@", '\\/.*$^~[]')
-        let       l:pattern = substitute(l:pattern, "\n$", '', '')
-        if        a:direction ==# 'b'
-            execute 'normal! ?' . l:pattern . "\<cr>"
-        elseif    a:direction ==# 'f'
-            execute 'normal! /' . l:pattern . '^M'
-        endif
-        let       @/ = l:pattern
-        let       @" = l:saved_reg
-    endfunction
-
-    function! Op_adjust_window_height(motion_wiseness)
-        execute (line("']") - line("'[") + 1) 'wincmd' '_'
-        normal! `[zt
-    endfunction
     call operator#user#define('adjust', 'Op_adjust_window_height')
     map _  <Plug>(operator-adjust)
 
-    nnoremap <C-j> :m .+1<CR>==
-    nnoremap <C-k> :m .-2<CR>==
-    inoremap <C-j> <Esc>:m .+1<CR>==gi
-    inoremap <C-k> <Esc>:m .-2<CR>==gi
-    xnoremap <C-j> :m '>+1<CR>gv=gv
-    xnoremap <C-k> :m '<-2<CR>gv=gv
+    nnoremap <silent> <C-j> :m .+1<CR>==
+    nnoremap <silent> <C-k> :m .-2<CR>==
+    inoremap <silent> <C-j> <Esc>:m .+1<CR>==gi
+    inoremap <silent> <C-k> <Esc>:m .-2<CR>==gi
+    xnoremap <silent> <C-j> :m '>+1<CR>gv=gv
+    xnoremap <silent> <C-k> :m '<-2<CR>gv=gv
 
     nnoremap Q <Nop>
 
@@ -412,6 +315,7 @@ function! VimrcLoadMappings()
 endfunction
 
 function! VimrcLoadSettings()
+    set incsearch
     set nojoinspaces
     set inccommand=nosplit
     set pumblend=15
@@ -453,18 +357,18 @@ function! VimrcLoadSettings()
     set nowrap
     set nofoldenable
 
-    set synmaxcol=250
+    set synmaxcol=200
     set timeout
     set ttimeout
-    set timeoutlen=3000
+    set timeoutlen=350
     set ttimeoutlen=10
     set termguicolors
     set updatetime=100
     set splitright
     set splitbelow
     set nofixendofline
-
     set autoread
+
     augroup vimrc_settings
         au!
         au FocusGained * :checktime
@@ -475,30 +379,6 @@ endfunction
 function! VimrcLoadFiletypeSettings()
     augroup filetype_settings
         au!
-        au BufNewFile,BufRead * setl incsearch
-        au FileType vim setl foldmethod=marker
-        au BufNewFile,BufRead $MYVIMRC setl filetype=vim
-        au VimResized * :wincmd =
-
-        au FileType json syntax match Comment +\/\/.\+$+
-
-        au BufNewFile,BufRead $ZDOTDIR/functions/**/* setl filetype=zsh
-        au BufNewFile,BufRead $ZDOTDIR/completion-functions/* setl filetype=zsh
-        au BufNewFile,BufRead $ZDOTDIR/plugins/**/functions/* setl filetype=zsh
-        au BufNewFile,BufRead httpd setl filetype=apache
-        au BufNewFile,BufRead *.js setl filetype=javascript
-
-        " Improve syntax hl accuracy. Larger = more accuracy = slower
-        au BufEnter * :syntax sync minlines=500
-        au VimResized * :redraw!
-
-        " Dev Ops
-        au BufNewFile,BufRead *.stack setl ft=yaml
-        au BufNewFile,BufRead *.css setl syntax=scss
-        au BufNewFile,BufRead *.tex setl ft=tex
-        au FileType scss,html,css setl iskeyword+=-
-        au FileType php,Dockerfile setl iskeyword+=$
-
         au FileType sql nmap <silent> <leader>f :%! sqlformat -i=lower -k=upper -r -<CR>
     augroup END
 
@@ -507,13 +387,6 @@ function! VimrcLoadFiletypeSettings()
         au!
         au BufReadPre * let f=getfsize(expand("<afile>")) | if f > g:LargeFile || f == -2 | call LargeFile() | endif
     augroup END
-
-    function! LargeFile()
-        setlocal eventignore+=FileType
-        setlocal bufhidden=unload
-        setlocal undolevels=-1
-        autocmd VimEnter *  echo "The file is larger than " . (g:LargeFile / 1024 / 1024) . " MB, so some options are changed (see .vimrc for details)."
-    endfunction
 endfunction
 
 function! VimrcLoadColors()
@@ -521,11 +394,6 @@ function! VimrcLoadColors()
     let g:one_allow_italics = 1
     highlight! Comment gui=italic
     set background=dark
-    " let g:gruvbox_bold             = 1
-    " let g:gruvbox_italic           = 1
-    " let g:gruvbox_invert_selection = 0
-    " This will only work if the terminal supports italic escape sequences
-    " colorscheme gruvbox
 endfunction
 
 call VimrcLoadPlugins()
