@@ -373,6 +373,7 @@ function! VimrcLoadSettings()
     augroup vimrc_settings
         au!
         au FocusGained * :checktime
+        au VimResized * :wincmd =
         au BufWritePost $MYVIMRC nested source $MYVIMRC
     augroup END
 endfunction
