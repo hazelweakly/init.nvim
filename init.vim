@@ -243,8 +243,8 @@ function! VimrcLoadPluginSettings()
     let g:VM_maps["Redo"] = '<C-r>'
 
     " sideways.vim
-    nnoremap <silent> <c-h> :SidewaysLeft<cr>
-    nnoremap <silent> <c-l> :SidewaysRight<cr>
+    nnoremap <silent> <leader><c-h> :SidewaysLeft<cr>
+    nnoremap <silent> <leader><c-l> :SidewaysRight<cr>
 
     " sandwich.vim
     let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
@@ -261,7 +261,6 @@ function! VimrcLoadPluginSettings()
 
 
     " vim-which-key
-    let g:mapleader = "\<Space>"
     nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 endfunction
 
@@ -275,7 +274,7 @@ function! VimrcLoadMappings()
     nnoremap <silent> <leader>s :noh<CR>
 
     " paste over a visual selection without nuking your paste
-    xnoremap <silent> <expr> p :call CopyWithoutClobberRepl()
+    xnoremap <silent> <expr> p CopyWithoutClobberRepl()
 
     "Insert new lines in normal mode
     nnoremap <silent> go :pu _<CR>:'[-1<CR>
@@ -398,6 +397,7 @@ function! VimrcLoadColors()
     set background=dark
 endfunction
 
+let g:mapleader = "\<Space>"
 call VimrcLoadPlugins()
 call VimrcLoadPluginSettings()
 call VimrcLoadMappings()
