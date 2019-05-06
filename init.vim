@@ -59,6 +59,7 @@ function! VimrcLoadPlugins()
     Plug 'junegunn/vim-easy-align'
     Plug 'sickill/vim-pasta'
     Plug '907th/vim-auto-save'
+    Plug 'rhysd/git-messenger.vim'
 
     Plug 'kana/vim-textobj-user'
     Plug 'kana/vim-operator-user'
@@ -88,6 +89,7 @@ function! VimrcLoadPlugins()
     Plug 'machakann/vim-highlightedyank'
 
     Plug 'laggardkernel/vim-one'
+    Plug 'https://gitlab.com/protesilaos/tempus-themes-vim.git'
 
     Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
 
