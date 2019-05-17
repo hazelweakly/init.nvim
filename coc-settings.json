@@ -1,5 +1,4 @@
 {
-    "tslint.enable": true,
     "tslint.alwaysShowRuleFailuresAsWarnings": true,
     "suggest.timeout": 5000,
     "suggest.detailField": "preview",

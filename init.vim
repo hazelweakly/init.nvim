@@ -30,7 +30,6 @@ function! VimrcLoadPlugins()
     Plug 'neoclide/coc.nvim', {'do': 'yarn install'}
 
     Plug 'neoclide/coc-css', {'do': 'yarn install'}
-    Plug 'neoclide/coc-emmet', {'do': 'yarn install'}
     Plug 'neoclide/coc-highlight', {'do': 'yarn install'}
     Plug 'neoclide/coc-html', {'do': 'yarn install'}
     Plug 'neoclide/coc-json', {'do': 'yarn install'}
@@ -141,8 +140,6 @@ function! VimrcLoadPluginSettings()
     let g:pear_tree_smart_closers = 1
     let g:pear_tree_smart_backspace = 1
 
-    " coc.nvim
-    call coc#add_extension('coc-tag','coc-syntax')
 
     " dockerfile-language-server-nodejs bash-language-server
     nmap <silent> gd <Plug>(coc-definition)
@@ -180,6 +177,8 @@ function! VimrcLoadPluginSettings()
 
     inoremap <expr> <Tab> pumvisible() ? coc#_select_confirm() : "\<Tab>"
     inoremap <expr> <S-Tab> "\<C-h>"
+
+    nmap <silent> <leader>c :CocCommand<CR>
 
     " plug.nvim
     let g:plug_rebase = 1
@@ -396,7 +395,7 @@ function! VimrcLoadColors()
     colorscheme one
     let g:one_allow_italics = 1
     highlight! Comment gui=italic
-    set background=dark
+    set background=light
 endfunction
 
 let g:mapleader = "\<Space>"
