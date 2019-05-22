@@ -29,25 +29,11 @@ function! VimrcLoadPlugins()
     " Linting + LSP
     Plug 'neoclide/coc.nvim', {'do': 'yarn install'}
 
-    Plug 'neoclide/coc-css', {'do': 'yarn install'}
-    Plug 'neoclide/coc-highlight', {'do': 'yarn install'}
-    Plug 'neoclide/coc-html', {'do': 'yarn install'}
-    Plug 'neoclide/coc-json', {'do': 'yarn install'}
-    Plug 'neoclide/coc-prettier', {'do': 'yarn install'}
-    Plug 'neoclide/coc-tslint-plugin', {'do': 'yarn install'}
-    Plug 'neoclide/coc-tsserver', {'do': 'yarn install'}
-    Plug 'neoclide/coc-rls', {'do': 'yarn install'}
-    Plug 'neoclide/coc-yaml', {'do': 'yarn install'}
-    Plug 'marlonfan/coc-phpls', {'do': 'yarn install'}
-    Plug 'neoclide/coc-vimtex', {'do': 'yarn install'}
-    Plug 'iamcco/coc-svg', {'do': 'yarn install'}
-
     Plug 'neoclide/coc-sources'
 
     " Enhancements: TODO, split into improvements, vimlike, and additions
     Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey','WhichKey!'] }
     Plug 'lambdalisue/suda.vim'
-    Plug 'airblade/vim-gitgutter'
     Plug 'christoomey/vim-tmux-navigator'
     Plug 'tmux-plugins/vim-tmux'
     Plug 'dhruvasagar/vim-table-mode'
@@ -140,8 +126,6 @@ function! VimrcLoadPluginSettings()
     let g:pear_tree_smart_closers = 1
     let g:pear_tree_smart_backspace = 1
 
-
-    " dockerfile-language-server-nodejs bash-language-server
     nmap <silent> gd <Plug>(coc-definition)
     nmap <silent> gy <Plug>(coc-type-definition)
     nmap <silent> gr <Plug>(coc-rename)
@@ -149,7 +133,8 @@ function! VimrcLoadPluginSettings()
     nmap <silent> <leader>f <Plug>(coc-format)
     vmap <silent> <leader>f <Plug>(coc-format-selected)
     nmap <silent> gR <Plug>(coc-references)
-    nmap <silent> gh :call Show_documentation()<CR>
+    nmap <silent> gh :call CocActionAsync('doHover')<CR>
+
     nmap <silent> gl <Plug>(coc-codelens-action)
     nmap <silent> ga <Plug>(coc-codeaction)
     nmap <silent> gA <Plug>(coc-fix-current)
@@ -159,13 +144,29 @@ function! VimrcLoadPluginSettings()
     let g:coc_snippet_next = '<M-n>'
     let g:coc_snippet_prev = '<M-p>'
 
-    for e in [ ['docker-langserver', 'docker'],
-             \ ['bash-language-server', 'bash'],
-             \ ['hie-wrapper', 'haskell'] ]
-      if executable(e[0])
-        call coc#config('languageserver.' . e[1] . '.enable', v:true)
-      endif
-    endfor
+    let g:coc_global_extensions = [
+                \ 'coc-css',
+                \ 'coc-docker',
+                \ 'coc-diagnostic',
+                \ 'coc-git',
+                \ 'coc-highlight',
+                \ 'coc-html',
+                \ 'coc-json',
+                \ 'coc-phpls',
+                \ 'coc-prettier',
+                \ 'coc-rls',
+                \ 'coc-sh',
+                \ 'coc-svg',
+                \ 'coc-tslint-plugin',
+                \ 'coc-tsserver',
+                \ 'coc-vimlsp',
+                \ 'coc-vimtex',
+                \ 'coc-yaml',
+                \ ]
+
+    if executable('hie-wrapper')
+        call coc#config('languageserver.haskell.enable', v:true)
+    endif
 
     augroup coc
         au!
@@ -179,6 +180,8 @@ function! VimrcLoadPluginSettings()
     inoremap <expr> <S-Tab> "\<C-h>"
 
     nmap <silent> <leader>c :CocCommand<CR>
+    nmap <silent> <leader>lo <Plug>(coc-list-outline)
+    nmap <silent> <leader>ls <Plug>(coc-list-symbols)
 
     " plug.nvim
     let g:plug_rebase = 1
@@ -218,11 +221,6 @@ function! VimrcLoadPluginSettings()
     " vim-auto-save
     let g:auto_save = 1
     let g:auto_save_events = ["FocusLost"]
-
-    " vim-gutter
-    let g:gitgutter_map_keys = 0
-    let g:gitgutter_diff_args = '-w'
-    let g:gitgutter_grep = 'rg'
 
     " vim-ghost
     nnoremap <leader>g :GhostStart<CR>
@@ -346,7 +344,7 @@ function! VimrcLoadSettings()
     set scrolloff=2
     set sidescrolloff=2
     set number
-    set shortmess+=caI
+    set shortmess+=caIA
 
     set expandtab
     set softtabstop=4

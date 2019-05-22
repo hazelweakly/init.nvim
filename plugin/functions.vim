@@ -5,14 +5,6 @@ function LargeFile()
     autocmd VimEnter *  echo "The file is larger than " . (g:LargeFile / 1024 / 1024) . " MB, so some options are changed (see .vimrc for details)."
 endfunction
 
-function Show_documentation()
-    if &filetype == 'vim' || &filetype == 'help'
-        execute 'h '.expand('<cword>')
-    else
-        call CocActionAsync('doHover')
-    endif
-endfunction
-
 function RestoreRegister()
     if &clipboard != "unnamed" && &clipboard != "unnamedplus"
         let @" = s:restore_reg

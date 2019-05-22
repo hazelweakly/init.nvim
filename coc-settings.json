@@ -1,7 +1,9 @@
 {
     "tslint.alwaysShowRuleFailuresAsWarnings": true,
-    "suggest.timeout": 5000,
-    "suggest.detailField": "preview",
+    "suggest.preferCompleteThanJumpPlaceholder": true,
+    "suggest.detailField": "menu",
+    "signature.preferShownAbove": true,
+    "suggest.enablePreview": true,
     "diagnostic.errorSign": "🕱",
     "diagnostic.warningSign": "☢",
     "diagnostic.infoSign": "",
@@ -22,19 +24,6 @@
     "scss.lint.unknownProperties": "ignore",
     "css.lint.unknownProperties": "ignore",
     "languageserver": {
-        "docker": {
-            "enable": false,
-            "command": "docker-langserver",
-            "args": ["--stdio"],
-            "filetypes": ["Dockerfile"]
-        },
-        "bash": {
-            "enable": false,
-            "command": "bash-language-server",
-            "args": ["start"],
-            "filetypes": ["sh"],
-            "ignoredRootPaths": ["~"]
-        },
         "haskell": {
             "enable": false,
             "command": "hie-wrapper",
