@@ -27,9 +27,7 @@ function! VimrcLoadPlugins()
     call plug#begin('~/.local/share/nvim/plugged')
 
     " Linting + LSP
-    Plug 'neoclide/coc.nvim', {'do': 'yarn install'}
-
-    Plug 'neoclide/coc-sources'
+    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 
     " Enhancements: TODO, split into improvements, vimlike, and additions
     Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey','WhichKey!'] }
@@ -44,49 +42,48 @@ function! VimrcLoadPlugins()
     Plug 'junegunn/vim-easy-align'
     Plug 'sickill/vim-pasta'
     Plug '907th/vim-auto-save'
-    Plug 'rhysd/git-messenger.vim'
+    " Plug 'rhysd/git-messenger.vim'
 
     Plug 'kana/vim-textobj-user'
     Plug 'kana/vim-operator-user'
     Plug 'idbrii/textobj-word-column.vim'
     Plug 'tommcdo/vim-exchange'
-    Plug 'Shougo/context_filetype.vim'
     Plug 'tpope/vim-commentary'
-    Plug 'sgur/vim-editorconfig'
 
     " Plug 'liuchengxu/vista.vim'
-    " Plug 'RRethy/vim-hexokinase'
-    " Plug 'unblevable/quick-scope'
-
     Plug 'mg979/vim-visual-multi', {'branch': 'test'}
-    Plug 'tpope/vim-rsi'
+    " Plug 'tpope/vim-rsi'
     Plug 'dhruvasagar/vim-zoom'
-    Plug 'kassio/neoterm'
+    " Plug 'kassio/neoterm'
 
-    Plug 'AndrewRadev/sideways.vim'
+    " Plug 'AndrewRadev/sideways.vim'
     Plug 'tpope/vim-repeat'
     Plug 'machakann/vim-sandwich'
     Plug 'wellle/targets.vim'
-    Plug 'chaoren/vim-wordmotion'
+    " Plug 'chaoren/vim-wordmotion'
     Plug 'romainl/vim-cool'
 
     Plug 'andymass/vim-matchup'
-    Plug 'machakann/vim-highlightedyank'
+    " Plug 'machakann/vim-highlightedyank'
 
     Plug 'laggardkernel/vim-one'
-    Plug 'https://gitlab.com/protesilaos/tempus-themes-vim.git'
+    " Plug 'https://gitlab.com/protesilaos/tempus-themes-vim.git'
 
     Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
 
     " Languages
-    Plug 'chr4/nginx.vim'
-    Plug 'chr4/sslsecure.vim'
+    " Plug 'chr4/nginx.vim'
+    " Plug 'chr4/sslsecure.vim'
     Plug 'sheerun/vim-polyglot'
     Plug 'hail2u/vim-css3-syntax'
     Plug 'cakebaker/scss-syntax.vim'
+
     Plug 'vim-pandoc/vim-pandoc'
     Plug 'vim-pandoc/vim-pandoc-syntax'
+
+    Plug 'alvan/vim-closetag'
     Plug 'HerringtonDarkholme/yats.vim'
+    Plug 'maxmellon/vim-jsx-pretty', {'on': []}
     call plug#end()
     runtime macros/sandwich/keymap/surround.vim
 
@@ -119,6 +116,7 @@ function! VimrcLoadPluginSettings()
         au FileType php setl commentstring=//\ %s
         au FileType resolv setl commentstring=#\ %s
         au FileType scss setl commentstring=/*\ %s\ */
+        au FileType json setl commentstring=//\ %s
     augroup END
 
     " pear-tree
@@ -126,14 +124,19 @@ function! VimrcLoadPluginSettings()
     let g:pear_tree_smart_closers = 1
     let g:pear_tree_smart_backspace = 1
 
+    " fzf.vim
+    nmap <leader>f :Files<CR>
+    nmap <leader>b :Buffers<CR>
+
+    " coc.nvim
     nmap <silent> gd <Plug>(coc-definition)
     nmap <silent> gy <Plug>(coc-type-definition)
     nmap <silent> gr <Plug>(coc-rename)
     nmap <silent> gi <Plug>(coc-implementation)
-    nmap <silent> <leader>f <Plug>(coc-format)
-    vmap <silent> <leader>f <Plug>(coc-format-selected)
     nmap <silent> gR <Plug>(coc-references)
-    nmap <silent> gh :call CocActionAsync('doHover')<CR>
+    nmap <silent> gh :call CocAction('doHover')<CR>
+    nmap gp <Plug>(coc-git-prevchunk)
+    nmap gn <Plug>(coc-git-nextchunk)
 
     nmap <silent> gl <Plug>(coc-codelens-action)
     nmap <silent> ga <Plug>(coc-codeaction)
@@ -144,9 +147,9 @@ function! VimrcLoadPluginSettings()
     let g:coc_snippet_next = '<M-n>'
     let g:coc_snippet_prev = '<M-p>'
 
+    " \ 'coc-docker',
     let g:coc_global_extensions = [
                 \ 'coc-css',
-                \ 'coc-docker',
                 \ 'coc-diagnostic',
                 \ 'coc-git',
                 \ 'coc-highlight',
@@ -180,8 +183,9 @@ function! VimrcLoadPluginSettings()
     inoremap <expr> <S-Tab> "\<C-h>"
 
     nmap <silent> <leader>c :CocCommand<CR>
-    nmap <silent> <leader>lo <Plug>(coc-list-outline)
-    nmap <silent> <leader>ls <Plug>(coc-list-symbols)
+    nmap <silent> <leader>lo :<C-u>CocList outline<CR>
+    nmap <silent> <leader>ls :<C-u>CocList symbols<CR>
+    nmap <silent> <leader>ld :<C-u>CocList diagnostics<CR>
 
     " plug.nvim
     let g:plug_rebase = 1
@@ -198,6 +202,24 @@ function! VimrcLoadPluginSettings()
     let g:haskell_indent_disable = 1
     let g:haskell_enable_typeroles = 1
     let g:php_html_load = 1
+
+    " vim-jsx
+    augroup vim_jsx_pretty
+        au!
+        au FileType *.tsx,*.jsx call plug#load('vim-jsx-pretty') | au! vim_jsx_pretty
+    augroup END
+
+    let g:vim_jsx_pretty_colorful_config = 1
+    let g:vim_jsx_pretty_template_tags = []
+
+    " vim-closetag
+    let g:closetag_filenames = '*.html,*.jsx,*.tsx'
+    let g:closetag_xhtml_filenames = '*.xhtml,*.jsx,*.tsx'
+    let g:closetag_xhtml_filetypes = 'xhtml,jsx,tsx'
+    let g:closetag_regions =  {
+                \ 'typescript.tsx': 'jsxRegion,tsxRegion',
+                \ 'javascript.jsx': 'jsxRegion',
+                \ }
 
     " vim-table-mode
     let g:table_mode_motion_up_map = ''
@@ -221,9 +243,6 @@ function! VimrcLoadPluginSettings()
     " vim-auto-save
     let g:auto_save = 1
     let g:auto_save_events = ["FocusLost"]
-
-    " vim-ghost
-    nnoremap <leader>g :GhostStart<CR>
 
     " highlightedyank
     let g:highlightedyank_highlight_duration = 125
@@ -260,7 +279,7 @@ function! VimrcLoadPluginSettings()
 
 
     " vim-which-key
-    nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
+    nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<CR>
 endfunction
 
 function! VimrcLoadMappings()
@@ -356,6 +375,7 @@ function! VimrcLoadSettings()
     set nowrap
     set nofoldenable
 
+    set redrawtime=10000
     set synmaxcol=200
     set timeout
     set ttimeout
@@ -373,6 +393,7 @@ function! VimrcLoadSettings()
         au FocusGained * :checktime
         au VimResized * :wincmd =
         au BufWritePost $MYVIMRC nested source $MYVIMRC
+        au BufEnter * :syntax sync fromstart
     augroup END
 endfunction
 

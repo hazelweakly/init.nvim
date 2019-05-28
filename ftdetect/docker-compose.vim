@@ -1,1 +1,1 @@
-au BufRead,BufNewFile docker-compose*.{yaml,yml}* set ft=yaml
+au BufRead,BufNewFile docker-compose*.{yaml,yml}* setfiletype yaml

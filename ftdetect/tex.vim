@@ -1,1 +1,1 @@
-au BufNewFile,BufRead *.tex setfiletype=tex
+au BufNewFile,BufRead *.tex setfiletype tex

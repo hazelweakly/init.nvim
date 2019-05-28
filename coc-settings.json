@@ -24,6 +24,12 @@
     "scss.lint.unknownProperties": "ignore",
     "css.lint.unknownProperties": "ignore",
     "languageserver": {
+        "docker": {
+            "enable": false,
+            "command": "docker-langserver",
+            "args": ["--stdio"],
+            "filetypes": ["Dockerfile"]
+        },
         "haskell": {
             "enable": false,
             "command": "hie-wrapper",

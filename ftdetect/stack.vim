@@ -1,1 +1,1 @@
-au BufNewFile,BufRead *.stack setfiletype=yaml
+au BufNewFile,BufRead *.stack setfiletype yaml
