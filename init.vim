@@ -27,7 +27,7 @@ function! VimrcLoadPlugins()
     call plug#begin('~/.local/share/nvim/plugged')
 
     " Linting + LSP
-    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
 
     " Enhancements: TODO, split into improvements, vimlike, and additions
     Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey','WhichKey!'] }
@@ -42,13 +42,13 @@ function! VimrcLoadPlugins()
     Plug 'junegunn/vim-easy-align'
     Plug 'sickill/vim-pasta'
     Plug '907th/vim-auto-save'
-    " Plug 'rhysd/git-messenger.vim'
 
+    Plug 'tomtom/tcomment_vim'
     Plug 'kana/vim-textobj-user'
     Plug 'kana/vim-operator-user'
     Plug 'idbrii/textobj-word-column.vim'
     Plug 'tommcdo/vim-exchange'
-    Plug 'tpope/vim-commentary'
+    Plug 'machakann/vim-swap'
 
     " Plug 'liuchengxu/vista.vim'
     Plug 'mg979/vim-visual-multi', {'branch': 'test'}
@@ -56,25 +56,18 @@ function! VimrcLoadPlugins()
     Plug 'dhruvasagar/vim-zoom'
     " Plug 'kassio/neoterm'
 
-    " Plug 'AndrewRadev/sideways.vim'
     Plug 'tpope/vim-repeat'
     Plug 'machakann/vim-sandwich'
     Plug 'wellle/targets.vim'
-    " Plug 'chaoren/vim-wordmotion'
     Plug 'romainl/vim-cool'
 
     Plug 'andymass/vim-matchup'
-    " Plug 'machakann/vim-highlightedyank'
 
     Plug 'laggardkernel/vim-one'
-    " Plug 'https://gitlab.com/protesilaos/tempus-themes-vim.git'
 
     Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
 
     " Languages
-    " Plug 'chr4/nginx.vim'
-    " Plug 'chr4/sslsecure.vim'
-    Plug 'sheerun/vim-polyglot'
     Plug 'hail2u/vim-css3-syntax'
     Plug 'cakebaker/scss-syntax.vim'
 
@@ -82,8 +75,9 @@ function! VimrcLoadPlugins()
     Plug 'vim-pandoc/vim-pandoc-syntax'
 
     Plug 'alvan/vim-closetag'
+
     Plug 'HerringtonDarkholme/yats.vim'
-    Plug 'maxmellon/vim-jsx-pretty', {'on': []}
+    Plug 'sheerun/vim-polyglot'
     call plug#end()
     runtime macros/sandwich/keymap/surround.vim
 
@@ -110,23 +104,16 @@ function! VimrcLoadPluginSettings()
     let g:matchup_matchparen_deferred = 1
     let g:matchup_matchparen_status_offscreen = 0
 
-    " commentary.vim
-    augroup commentary
-        au!
-        au FileType php setl commentstring=//\ %s
-        au FileType resolv setl commentstring=#\ %s
-        au FileType scss setl commentstring=/*\ %s\ */
-        au FileType json setl commentstring=//\ %s
-    augroup END
-
     " pear-tree
     let g:pear_tree_smart_openers = 1
     let g:pear_tree_smart_closers = 1
     let g:pear_tree_smart_backspace = 1
 
     " fzf.vim
-    nmap <leader>f :Files<CR>
-    nmap <leader>b :Buffers<CR>
+    nnoremap <silent> <leader>f :Files<CR>
+    nnoremap <silent> <leader>b :Buffers<CR>
+    nnoremap <silent> <leader><space> :Rg<CR>
+    xnoremap <silent> <leader><space> y:Rg <C-R>"<CR>
 
     " coc.nvim
     nmap <silent> gd <Plug>(coc-definition)
@@ -134,9 +121,7 @@ function! VimrcLoadPluginSettings()
     nmap <silent> gr <Plug>(coc-rename)
     nmap <silent> gi <Plug>(coc-implementation)
     nmap <silent> gR <Plug>(coc-references)
-    nmap <silent> gh :call CocAction('doHover')<CR>
-    nmap gp <Plug>(coc-git-prevchunk)
-    nmap gn <Plug>(coc-git-nextchunk)
+    nmap <silent> gh :call CocActionAsync('doHover')<CR>
 
     nmap <silent> gl <Plug>(coc-codelens-action)
     nmap <silent> ga <Plug>(coc-codeaction)
@@ -144,10 +129,13 @@ function! VimrcLoadPluginSettings()
     nmap <silent> <C-n> <Plug>(coc-diagnostic-next)
     nmap <silent> <C-p> <Plug>(coc-diagnostic-prev)
 
+    let g:coc_filetype_map = {
+                \ 'yaml.docker-compose': 'yaml',
+                \ }
+
     let g:coc_snippet_next = '<M-n>'
     let g:coc_snippet_prev = '<M-p>'
 
-    " \ 'coc-docker',
     let g:coc_global_extensions = [
                 \ 'coc-css',
                 \ 'coc-diagnostic',
@@ -167,6 +155,10 @@ function! VimrcLoadPluginSettings()
                 \ 'coc-yaml',
                 \ ]
 
+    if executable('docker-langserver')
+        call coc#config('languageserver.docker.enable', v:true)
+    endif
+
     if executable('hie-wrapper')
         call coc#config('languageserver.haskell.enable', v:true)
     endif
@@ -175,7 +167,7 @@ function! VimrcLoadPluginSettings()
         au!
         au CompleteDone * if pumvisible() == 0 | pclose | endif
         au User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-        au CursorHold * silent call CocActionAsync('highlight')
+        au CursorHold * silent! call CocActionAsync('highlight')
         au User CocQuickfixChange :CocList --normal quickfix
     augroup END
 
@@ -187,8 +179,23 @@ function! VimrcLoadPluginSettings()
     nmap <silent> <leader>ls :<C-u>CocList symbols<CR>
     nmap <silent> <leader>ld :<C-u>CocList diagnostics<CR>
 
+    nmap gp <Plug>(coc-git-prevchunk)
+    nmap gn <Plug>(coc-git-nextchunk)
+
+    " targets.vim
+    autocmd User targets#mappings#user call targets#mappings#extend({
+                \ 'a': {'argument': [{'o': '[({[]', 'c': '[]})]', 's': ','}]}
+                \ })
+
     " plug.nvim
     let g:plug_rebase = 1
+
+    " " vim-gitgutter
+    " let g:gitgutter_map_keys = 0
+    " let g:gitgutter_diff_args = '-w'
+    " let g:gitgutter_grep = 'rg'
+    " nmap <silent>gn <Plug>GitGutterNextHunk
+    " nmap <silent>gp <Plug>GitGutterPrevHunk
 
     " vim-pandoc
     let g:pandoc#modules#disabled = ["folding", "formatting", "keyboard", "toc", "chdir"]
@@ -196,21 +203,20 @@ function! VimrcLoadPluginSettings()
     let g:pandoc#formatting#equalprg=''
 
     " vim-polyglot
-    let g:polyglot_disabled = ['markdown', 'less', 'typescript', 'typescript.tsx']
+    let g:polyglot_disabled = ['markdown', 'less', 'typescript', 'jsx']
     let g:haskell_enable_quantification = 1
     let g:haskell_enable_pattern_synonyms = 1
     let g:haskell_indent_disable = 1
     let g:haskell_enable_typeroles = 1
     let g:php_html_load = 1
-
-    " vim-jsx
-    augroup vim_jsx_pretty
-        au!
-        au FileType *.tsx,*.jsx call plug#load('vim-jsx-pretty') | au! vim_jsx_pretty
-    augroup END
-
     let g:vim_jsx_pretty_colorful_config = 1
     let g:vim_jsx_pretty_template_tags = []
+
+    " " vim-jsx
+    " augroup vim_jsx_pretty
+    "     au!
+    "     au FileType *.tsx,*.jsx call plug#load('vim-jsx-pretty') | au! vim_jsx_pretty
+    " augroup END
 
     " vim-closetag
     let g:closetag_filenames = '*.html,*.jsx,*.tsx'
@@ -280,6 +286,13 @@ function! VimrcLoadPluginSettings()
 
     " vim-which-key
     nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<CR>
+
+    " vim-swap
+    omap i, <Plug>(swap-textobject-i)
+    xmap i, <Plug>(swap-textobject-i)
+    omap a, <Plug>(swap-textobject-a)
+    xmap a, <Plug>(swap-textobject-a)
+
 endfunction
 
 function! VimrcLoadMappings()
@@ -394,6 +407,7 @@ function! VimrcLoadSettings()
         au VimResized * :wincmd =
         au BufWritePost $MYVIMRC nested source $MYVIMRC
         au BufEnter * :syntax sync fromstart
+        " au VimLeave * set guicursor=a:
     augroup END
 endfunction
 

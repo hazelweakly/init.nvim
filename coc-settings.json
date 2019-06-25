@@ -11,11 +11,12 @@
     "coc.preferences.messageLevel": "warning",
     "codeLens.enable": true,
     "suggest.maxCompleteItemCount": 30,
-    // "rust-client.channel": "stable",
+    "git.enableGutters": true,
     "coc.preferences.formatOnSaveFiletypes": [
         "jsonc",
         "json",
         "css",
+        "scss",
         "typescript",
         "javascript",
         "typescriptreact",
@@ -23,6 +24,9 @@
     ],
     "scss.lint.unknownProperties": "ignore",
     "css.lint.unknownProperties": "ignore",
+    "yaml.schemas": {
+        "https://raw.githubusercontent.com/docker/cli/master/cli/compose/schema/data/config_schema_v3.7.json": "/docker-compose.*yml"
+    },
     "languageserver": {
         "docker": {
             "enable": false,
