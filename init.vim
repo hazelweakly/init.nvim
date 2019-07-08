@@ -153,6 +153,7 @@ function! VimrcLoadPluginSettings()
                 \ 'coc-vimlsp',
                 \ 'coc-vimtex',
                 \ 'coc-yaml',
+                \ 'coc-xml'
                 \ ]
 
     if executable('docker-langserver')
