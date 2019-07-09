@@ -77,6 +77,8 @@ function! VimrcLoadPlugins()
     Plug 'alvan/vim-closetag'
 
     Plug 'HerringtonDarkholme/yats.vim'
+    Plug 'jxnblk/vim-mdx-js'
+    Plug 'styled-components/vim-styled-components', {'branch': 'main'}
     Plug 'sheerun/vim-polyglot'
     call plug#end()
     runtime macros/sandwich/keymap/surround.vim
