@@ -27,7 +27,7 @@ function! VimrcLoadPlugins()
     call plug#begin('~/.local/share/nvim/plugged')
 
     " Linting + LSP
-    Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
+    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 
     " Enhancements: TODO, split into improvements, vimlike, and additions
     Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey','WhichKey!'] }
@@ -269,9 +269,9 @@ function! VimrcLoadPluginSettings()
     let g:VM_maps["Undo"] = 'u'
     let g:VM_maps["Redo"] = '<C-r>'
 
-    " sideways.vim
-    nnoremap <silent> <leader><c-h> :SidewaysLeft<cr>
-    nnoremap <silent> <leader><c-l> :SidewaysRight<cr>
+    " " sideways.vim
+    " nnoremap <silent> <leader><c-h> :SidewaysLeft<cr>
+    " nnoremap <silent> <leader><c-l> :SidewaysRight<cr>
 
     " sandwich.vim
     let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
