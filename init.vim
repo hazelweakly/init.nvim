@@ -36,7 +36,9 @@ function! VimrcLoadPlugins()
     Plug 'tmux-plugins/vim-tmux'
     Plug 'dhruvasagar/vim-table-mode'
     Plug 'farmergreg/vim-lastplace'
-    Plug 'tmsvg/pear-tree'
+    " Plug 'tmsvg/pear-tree'
+    Plug 'kkoomen/vim-doge'
+    Plug 'cohama/lexima.vim'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --xdg --no-update-rc' }
     Plug 'junegunn/fzf.vim'
     Plug 'junegunn/vim-easy-align'
@@ -68,6 +70,7 @@ function! VimrcLoadPlugins()
     Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
 
     " Languages
+    Plug 'lervag/vimtex'
     Plug 'hail2u/vim-css3-syntax'
     Plug 'cakebaker/scss-syntax.vim'
 
@@ -105,11 +108,18 @@ function! VimrcLoadPluginSettings()
     let g:matchup_surround_enabled = 1
     let g:matchup_matchparen_deferred = 1
     let g:matchup_matchparen_status_offscreen = 0
+    let g:matchup_delim_stopline = 2500
 
-    " pear-tree
-    let g:pear_tree_smart_openers = 1
-    let g:pear_tree_smart_closers = 1
-    let g:pear_tree_smart_backspace = 1
+    " " pear-tree
+    " let g:pear_tree_smart_openers = 1
+    " let g:pear_tree_smart_closers = 1
+    " let g:pear_tree_smart_backspace = 1
+
+    " vim-doge
+    let g:doge_mapping = '<leader>d'
+    let g:doge_comment_interactive = 0
+    let g:doge_mapping_comment_jump_forward = '_____'
+    let g:doge_mapping_comment_jump_backward = '______'
 
     " fzf.vim
     nnoremap <silent> <leader>f :Files<CR>
@@ -308,7 +318,8 @@ function! VimrcLoadMappings()
     nnoremap <silent> <leader>s :noh<CR>
 
     " paste over a visual selection without nuking your paste
-    xnoremap <silent> <expr> p CopyWithoutClobberRepl()
+    xnoremap <silent> <expr> p Paste()
+    xnoremap <silent> <expr> P Paste()
 
     "Insert new lines in normal mode
     nnoremap <silent> go :pu _<CR>:'[-1<CR>

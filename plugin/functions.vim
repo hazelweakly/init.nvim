@@ -5,26 +5,12 @@ function LargeFile()
     autocmd VimEnter *  echo "The file is larger than " . (g:LargeFile / 1024 / 1024) . " MB, so some options are changed (see .vimrc for details)."
 endfunction
 
-function RestoreRegister()
-    if &clipboard != "unnamed" && &clipboard != "unnamedplus"
-        let @" = s:restore_reg
-    elseif &clipboard == "unnamed"
-        let @* = s:restore_reg
-    elseif &clipboard == "unnamedplus"
-        let @+ = s:restore_reg
-    endif
-    return ''
-endfunction
-
-function CopyWithoutClobberRepl()
-    if &clipboard != "unnamed" && &clipboard != "unnamedplus"
-        let s:restore_reg = @"
-    elseif &clipboard == "unnamed"
-        let s:restore_reg = @*
-    elseif &clipboard == "unnamedplus"
-        let s:restore_reg = @+
-    endif
-    return "p@=RestoreRegister()\<cr>"
+function Paste()
+  if col('.') == col('$') - 1
+    return '"_dp'
+  else
+    return '"_dP'
+  endif
 endfunction
 
 function VisualSearchCurrentSelection(direction)
