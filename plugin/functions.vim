@@ -6,11 +6,11 @@ function LargeFile()
 endfunction
 
 function Paste()
-  if col('.') == col('$') - 1
-    return '"_dp'
-  else
-    return '"_dP'
-  endif
+    if col('.') == col('$') - 1
+        return '"_dp'
+    else
+        return '"_dP'
+    endif
 endfunction
 
 function VisualSearchCurrentSelection(direction)

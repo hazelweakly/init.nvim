@@ -28,6 +28,7 @@ function! VimrcLoadPlugins()
 
     " Linting + LSP
     Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'kizza/actionmenu.nvim'
 
     " Enhancements: TODO, split into improvements, vimlike, and additions
     Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey','WhichKey!'] }
@@ -42,7 +43,7 @@ function! VimrcLoadPlugins()
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --xdg --no-update-rc' }
     Plug 'junegunn/fzf.vim'
     Plug 'junegunn/vim-easy-align'
-    Plug 'sickill/vim-pasta'
+    " Plug 'sickill/vim-pasta'
     Plug '907th/vim-auto-save'
 
     Plug 'tomtom/tcomment_vim'
@@ -51,6 +52,7 @@ function! VimrcLoadPlugins()
     Plug 'idbrii/textobj-word-column.vim'
     Plug 'tommcdo/vim-exchange'
     Plug 'machakann/vim-swap'
+    Plug 'nelstrom/vim-visual-star-search'
 
     " Plug 'liuchengxu/vista.vim'
     Plug 'mg979/vim-visual-multi', {'branch': 'test'}
@@ -136,7 +138,8 @@ function! VimrcLoadPluginSettings()
     nmap <silent> gh :call CocActionAsync('doHover')<CR>
 
     nmap <silent> gl <Plug>(coc-codelens-action)
-    nmap <silent> ga <Plug>(coc-codeaction)
+    " nmap <silent> ga <Plug>(coc-codeaction)
+    nnoremap <silent> ga :call ActionMenuCodeActions()<CR>
     nmap <silent> gA <Plug>(coc-fix-current)
     nmap <silent> <C-n> <Plug>(coc-diagnostic-next)
     nmap <silent> <C-p> <Plug>(coc-diagnostic-prev)
@@ -194,6 +197,21 @@ function! VimrcLoadPluginSettings()
 
     nmap gp <Plug>(coc-git-prevchunk)
     nmap gn <Plug>(coc-git-nextchunk)
+
+    let s:code_actions = []
+
+    func! ActionMenuCodeActions() abort
+        let s:code_actions = CocAction('codeActions')
+        let l:menu_items = map(copy(s:code_actions), { index, item -> item['title'] })
+        call actionmenu#open(l:menu_items, 'ActionMenuCodeActionsCallback')
+    endfunc
+
+    func! ActionMenuCodeActionsCallback(index, item) abort
+        if a:index >= 0
+            let l:selected_code_action = s:code_actions[a:index]
+            let l:response = CocAction('doCodeAction', l:selected_code_action)
+        endif
+    endfunc
 
     " targets.vim
     autocmd User targets#mappings#user call targets#mappings#extend({
@@ -318,8 +336,8 @@ function! VimrcLoadMappings()
     nnoremap <silent> <leader>s :noh<CR>
 
     " paste over a visual selection without nuking your paste
-    xnoremap <silent> <expr> p Paste()
-    xnoremap <silent> <expr> P Paste()
+    xnoremap <expr> p Paste()
+    xnoremap <expr> P Paste()
 
     "Insert new lines in normal mode
     nnoremap <silent> go :pu _<CR>:'[-1<CR>
@@ -391,6 +409,7 @@ function! VimrcLoadSettings()
     set sidescrolloff=2
     set number
     set shortmess+=caIA
+    set formatoptions+=j
 
     set expandtab
     set softtabstop=4

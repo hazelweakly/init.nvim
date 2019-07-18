@@ -6,7 +6,7 @@
     "diagnostic.errorSign": "🕱",
     "diagnostic.warningSign": "☢",
     "diagnostic.infoSign": "",
-    "diagnostic.hintSign": "ﯦ",
+    "diagnostic.hintSign": "💡",
     "coc.preferences.messageLevel": "warning",
     "codeLens.enable": true,
     "suggest.maxCompleteItemCount": 30,
