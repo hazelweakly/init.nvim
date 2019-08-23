@@ -48,11 +48,20 @@
             "command": "hie-wrapper",
             "filetypes": ["hs", "lhs", "haskell"],
             "rootPatterns": [
-                "stack.yaml",
+                ".stack.yaml",
                 "cabal.config",
                 "cabal.project",
-                "shell.nix"
-            ]
+                "shell.nix",
+                "package.yaml"
+            ],
+            "initializationOptions": {},
+            "settings": {
+                "languageServerHaskell": {
+                    "hlintOn": true,
+                    "maxNumberOfProblems": 10,
+                    "completionSnippetsOn": true
+                }
+            }
         }
     }
 }

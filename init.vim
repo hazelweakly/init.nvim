@@ -38,13 +38,14 @@ function! VimrcLoadPlugins()
     Plug 'dhruvasagar/vim-table-mode'
     Plug 'farmergreg/vim-lastplace'
     " Plug 'tmsvg/pear-tree'
-    Plug 'kkoomen/vim-doge'
+    " Plug 'kkoomen/vim-doge'
     Plug 'cohama/lexima.vim'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --xdg --no-update-rc' }
     Plug 'junegunn/fzf.vim'
     Plug 'junegunn/vim-easy-align'
     " Plug 'sickill/vim-pasta'
     Plug '907th/vim-auto-save'
+    Plug 'arp242/jumpy.vim'
 
     Plug 'tomtom/tcomment_vim'
     Plug 'kana/vim-textobj-user'
