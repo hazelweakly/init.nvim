@@ -1,6 +1,6 @@
 {
     "suggest.preferCompleteThanJumpPlaceholder": true,
-    "suggest.detailField": "abbr",
+    "suggest.detailField": "preview",
     "signature.preferShownAbove": true,
     "suggest.enablePreview": true,
     "diagnostic.errorSign": "🕱",

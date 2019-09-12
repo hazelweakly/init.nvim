@@ -28,7 +28,7 @@ function! VimrcLoadPlugins()
 
     " Linting + LSP
     Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-    Plug 'kizza/actionmenu.nvim'
+    " Plug 'kizza/actionmenu.nvim'
 
     " Enhancements: TODO, split into improvements, vimlike, and additions
     Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey','WhichKey!'] }
@@ -38,7 +38,6 @@ function! VimrcLoadPlugins()
     Plug 'dhruvasagar/vim-table-mode'
     Plug 'farmergreg/vim-lastplace'
     " Plug 'tmsvg/pear-tree'
-    " Plug 'kkoomen/vim-doge'
     Plug 'cohama/lexima.vim'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --xdg --no-update-rc' }
     Plug 'junegunn/fzf.vim'
@@ -54,6 +53,7 @@ function! VimrcLoadPlugins()
     Plug 'tommcdo/vim-exchange'
     Plug 'machakann/vim-swap'
     Plug 'nelstrom/vim-visual-star-search'
+    Plug 'airblade/vim-rooter'
 
     " Plug 'liuchengxu/vista.vim'
     Plug 'mg979/vim-visual-multi', {'branch': 'test'}
@@ -118,12 +118,6 @@ function! VimrcLoadPluginSettings()
     " let g:pear_tree_smart_closers = 1
     " let g:pear_tree_smart_backspace = 1
 
-    " vim-doge
-    let g:doge_mapping = '<leader>d'
-    let g:doge_comment_interactive = 0
-    let g:doge_mapping_comment_jump_forward = '_____'
-    let g:doge_mapping_comment_jump_backward = '______'
-
     " fzf.vim
     nnoremap <silent> <leader>f :Files<CR>
     nnoremap <silent> <leader>b :Buffers<CR>
@@ -137,13 +131,20 @@ function! VimrcLoadPluginSettings()
     nmap <silent> gi <Plug>(coc-implementation)
     nmap <silent> gR <Plug>(coc-references)
     nmap <silent> gh :call CocActionAsync('doHover')<CR>
+    nmap <silent> gz <Plug>(coc-refactor)
 
     nmap <silent> gl <Plug>(coc-codelens-action)
-    " nmap <silent> ga <Plug>(coc-codeaction)
-    nnoremap <silent> ga :call ActionMenuCodeActions()<CR>
+    nmap <silent> ga <Plug>(coc-codeaction)
+    " nnoremap <silent> ga :call ActionMenuCodeActions()<CR>
     nmap <silent> gA <Plug>(coc-fix-current)
     nmap <silent> <C-n> <Plug>(coc-diagnostic-next)
     nmap <silent> <C-p> <Plug>(coc-diagnostic-prev)
+
+    " Requires support from language server
+    xmap if <Plug>(coc-funcobj-i)
+    xmap af <Plug>(coc-funcobj-a)
+    omap if <Plug>(coc-funcobj-i)
+    omap af <Plug>(coc-funcobj-a)
 
     let g:coc_filetype_map = {
                 \ 'yaml.docker-compose': 'yaml',
@@ -169,7 +170,8 @@ function! VimrcLoadPluginSettings()
                 \ 'coc-vimlsp',
                 \ 'coc-vimtex',
                 \ 'coc-yaml',
-                \ 'coc-xml'
+                \ 'coc-xml',
+                \ 'coc-emmet'
                 \ ]
 
     if executable('docker-langserver')
@@ -191,28 +193,32 @@ function! VimrcLoadPluginSettings()
     inoremap <expr> <Tab> pumvisible() ? coc#_select_confirm() : "\<Tab>"
     inoremap <expr> <S-Tab> "\<C-h>"
 
+    nmap <silent> <TAB> <Plug>(coc-range-select)
+    xmap <silent> <TAB> <Plug>(coc-range-select)
+    xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
+
     nmap <silent> <leader>c :CocCommand<CR>
     nmap <silent> <leader>lo :<C-u>CocList outline<CR>
-    nmap <silent> <leader>ls :<C-u>CocList symbols<CR>
+    nmap <silent> <leader>ls :<C-u>CocList -I symbols<CR>
     nmap <silent> <leader>ld :<C-u>CocList diagnostics<CR>
 
     nmap gp <Plug>(coc-git-prevchunk)
     nmap gn <Plug>(coc-git-nextchunk)
 
-    let s:code_actions = []
+    " let s:code_actions = []
 
-    func! ActionMenuCodeActions() abort
-        let s:code_actions = CocAction('codeActions')
-        let l:menu_items = map(copy(s:code_actions), { index, item -> item['title'] })
-        call actionmenu#open(l:menu_items, 'ActionMenuCodeActionsCallback')
-    endfunc
-
-    func! ActionMenuCodeActionsCallback(index, item) abort
-        if a:index >= 0
-            let l:selected_code_action = s:code_actions[a:index]
-            let l:response = CocAction('doCodeAction', l:selected_code_action)
-        endif
-    endfunc
+    " func! ActionMenuCodeActions() abort
+    "     let s:code_actions = CocAction('codeActions')
+    "     let l:menu_items = map(copy(s:code_actions), { index, item -> item['title'] })
+    "     call actionmenu#open(l:menu_items, 'ActionMenuCodeActionsCallback')
+    " endfunc
+    "
+    " func! ActionMenuCodeActionsCallback(index, item) abort
+    "     if a:index >= 0
+    "         let l:selected_code_action = s:code_actions[a:index]
+    "         let l:response = CocAction('doCodeAction', l:selected_code_action)
+    "     endif
+    " endfunc
 
     " targets.vim
     autocmd User targets#mappings#user call targets#mappings#extend({
