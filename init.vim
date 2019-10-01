@@ -41,6 +41,7 @@ function! VimrcLoadPlugins()
     Plug 'cohama/lexima.vim'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --xdg --no-update-rc' }
     Plug 'junegunn/fzf.vim'
+    Plug 'jesseleite/vim-agriculture'
     Plug 'junegunn/vim-easy-align'
     " Plug 'sickill/vim-pasta'
     Plug '907th/vim-auto-save'
@@ -83,7 +84,6 @@ function! VimrcLoadPlugins()
     Plug 'alvan/vim-closetag'
 
     Plug 'HerringtonDarkholme/yats.vim'
-    Plug 'jxnblk/vim-mdx-js'
     Plug 'styled-components/vim-styled-components', {'branch': 'main'}
     Plug 'sheerun/vim-polyglot'
     call plug#end()
@@ -100,10 +100,10 @@ function! VimrcLoadPluginSettings()
     let g:CoolTotalMatches = 1
 
     " neoterm
-    tnoremap <Esc> <C-\><C-n>
-    nnoremap <silent> <F12> :botright Ttoggle<CR>
-    let g:neoterm_autoinsert = 1
-    let g:neoterm_size = 12
+    " tnoremap <Esc> <C-\><C-n>
+    " nnoremap <silent> <F12> :botright Ttoggle<CR>
+    " let g:neoterm_autoinsert = 1
+    " let g:neoterm_size = 12
 
     " machup
     let g:matchup_transmute_enabled = 0
@@ -120,9 +120,15 @@ function! VimrcLoadPluginSettings()
 
     " fzf.vim
     nnoremap <silent> <leader>f :Files<CR>
+    nnoremap <silent> <Leader>h :History<CR>
     nnoremap <silent> <leader>b :Buffers<CR>
     nnoremap <silent> <leader><space> :Rg<CR>
     xnoremap <silent> <leader><space> y:Rg <C-R>"<CR>
+
+    " vim-agriculture
+    nmap <Leader>/ <Plug>RgRawSearch
+    vmap <Leader>/ <Plug>RgRawVisualSelection
+    nmap <Leader>* <Plug>RgRawWordUnderCursor
 
     " coc.nvim
     nmap <silent> gd <Plug>(coc-definition)
@@ -440,6 +446,10 @@ function! VimrcLoadSettings()
     set splitbelow
     set nofixendofline
     set autoread
+
+    if has('nvim-0.3.2') || has("patch-8.1.0360")
+        set diffopt=filler,internal,algorithm:histogram,indent-heuristic
+    endif
 
     augroup vimrc_settings
         au!
