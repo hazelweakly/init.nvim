@@ -137,6 +137,7 @@ function! VimrcLoadPluginSettings()
     nmap <silent> gi <Plug>(coc-implementation)
     nmap <silent> gR <Plug>(coc-references)
     nmap <silent> gh :call CocActionAsync('doHover')<CR>
+    nmap <silent> K :call CocActionAsync('doHover')<CR>
     nmap <silent> gz <Plug>(coc-refactor)
 
     nmap <silent> gl <Plug>(coc-codelens-action)
@@ -168,7 +169,7 @@ function! VimrcLoadPluginSettings()
                 \ 'coc-json',
                 \ 'coc-phpls',
                 \ 'coc-prettier',
-                \ 'coc-rls',
+                \ 'coc-rust-analyzer',
                 \ 'coc-sh',
                 \ 'coc-svg',
                 \ 'coc-tslint-plugin',
@@ -184,7 +185,7 @@ function! VimrcLoadPluginSettings()
         call coc#config('languageserver.docker.enable', v:true)
     endif
 
-    if executable('hie-wrapper')
+    if executable('stack')
         call coc#config('languageserver.haskell.enable', v:true)
     endif
 
@@ -199,7 +200,6 @@ function! VimrcLoadPluginSettings()
     inoremap <expr> <Tab> pumvisible() ? coc#_select_confirm() : "\<Tab>"
     inoremap <expr> <S-Tab> "\<C-h>"
 
-    nmap <silent> <TAB> <Plug>(coc-range-select)
     xmap <silent> <TAB> <Plug>(coc-range-select)
     xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
 
@@ -356,8 +356,6 @@ function! VimrcLoadMappings()
     nnoremap <silent> go :pu _<CR>:'[-1<CR>
     nnoremap <silent> gO :pu! _<CR>:']+1<CR>
 
-    " J is 'join' so K is 'kut'
-    nnoremap K i<CR><ESC>
     nnoremap Y y$
 
     " suda.vim: Write file with sudo
