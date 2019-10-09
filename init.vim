@@ -38,7 +38,7 @@ function! VimrcLoadPlugins()
     Plug 'dhruvasagar/vim-table-mode'
     Plug 'farmergreg/vim-lastplace'
     " Plug 'tmsvg/pear-tree'
-    Plug 'cohama/lexima.vim'
+    " Plug 'cohama/lexima.vim'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --xdg --no-update-rc' }
     Plug 'junegunn/fzf.vim'
     Plug 'jesseleite/vim-agriculture'
@@ -81,8 +81,6 @@ function! VimrcLoadPlugins()
     Plug 'vim-pandoc/vim-pandoc'
     Plug 'vim-pandoc/vim-pandoc-syntax'
 
-    Plug 'alvan/vim-closetag'
-
     Plug 'HerringtonDarkholme/yats.vim'
     Plug 'styled-components/vim-styled-components', {'branch': 'main'}
     Plug 'sheerun/vim-polyglot'
@@ -119,6 +117,17 @@ function! VimrcLoadPluginSettings()
     " let g:pear_tree_smart_backspace = 1
 
     " fzf.vim
+
+    " Customize Rg and Files commands to add preview
+    command! -bang -nargs=* Rg
+                \ call fzf#vim#grep(
+                \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+                \   fzf#vim#with_preview('right:40%', '?'),
+                \   <bang>0)
+
+    command! -bang -nargs=? -complete=dir Files
+                \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
     nnoremap <silent> <leader>f :Files<CR>
     nnoremap <silent> <Leader>h :History<CR>
     nnoremap <silent> <leader>b :Buffers<CR>
@@ -163,14 +172,19 @@ function! VimrcLoadPluginSettings()
     let g:coc_global_extensions = [
                 \ 'coc-css',
                 \ 'coc-diagnostic',
+                \ 'coc-docker',
+                \ 'coc-eslint',
                 \ 'coc-git',
                 \ 'coc-highlight',
                 \ 'coc-html',
                 \ 'coc-json',
+                \ 'coc-lit-html',
+                \ 'coc-pairs',
                 \ 'coc-phpls',
                 \ 'coc-prettier',
                 \ 'coc-rust-analyzer',
                 \ 'coc-sh',
+                \ 'coc-styled-components',
                 \ 'coc-svg',
                 \ 'coc-tslint-plugin',
                 \ 'coc-tsserver',
@@ -198,6 +212,8 @@ function! VimrcLoadPluginSettings()
     augroup END
 
     inoremap <expr> <Tab> pumvisible() ? coc#_select_confirm() : "\<Tab>"
+    inoremap <silent><expr> <cr> "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
     inoremap <expr> <S-Tab> "\<C-h>"
 
     xmap <silent> <TAB> <Plug>(coc-range-select)
@@ -255,21 +271,6 @@ function! VimrcLoadPluginSettings()
     let g:php_html_load = 1
     let g:vim_jsx_pretty_colorful_config = 1
     let g:vim_jsx_pretty_template_tags = []
-
-    " " vim-jsx
-    " augroup vim_jsx_pretty
-    "     au!
-    "     au FileType *.tsx,*.jsx call plug#load('vim-jsx-pretty') | au! vim_jsx_pretty
-    " augroup END
-
-    " vim-closetag
-    let g:closetag_filenames = '*.html,*.jsx,*.tsx'
-    let g:closetag_xhtml_filenames = '*.xhtml,*.jsx,*.tsx'
-    let g:closetag_xhtml_filetypes = 'xhtml,jsx,tsx'
-    let g:closetag_regions =  {
-                \ 'typescript.tsx': 'jsxRegion,tsxRegion',
-                \ 'javascript.jsx': 'jsxRegion',
-                \ }
 
     " vim-table-mode
     let g:table_mode_motion_up_map = ''
@@ -348,6 +349,8 @@ function! VimrcLoadMappings()
 
     nnoremap <silent> <leader>s :noh<CR>
 
+    nnoremap <BS> <C-^>
+
     " paste over a visual selection without nuking your paste
     xnoremap <expr> p Paste()
     xnoremap <expr> P Paste()
@@ -392,7 +395,8 @@ function! VimrcLoadSettings()
     set incsearch
     set nojoinspaces
     set inccommand=nosplit
-    set pumblend=15
+    set pumblend=30
+    set winblend=30
     set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
     set hidden " Required for coc.nvim
     set complete+=k
@@ -448,6 +452,7 @@ function! VimrcLoadSettings()
     if has('nvim-0.3.2') || has("patch-8.1.0360")
         set diffopt=filler,internal,algorithm:histogram,indent-heuristic
     endif
+    set diffopt+=hiddenoff
 
     augroup vimrc_settings
         au!

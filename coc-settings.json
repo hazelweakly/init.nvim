@@ -1,4 +1,5 @@
 {
+    "emmet.optimizeStylesheetParsing": false,
     "suggest.preferCompleteThanJumpPlaceholder": true,
     "suggest.detailField": "preview",
     "signature.preferShownAbove": true,
@@ -29,13 +30,19 @@
         "typescript",
         "javascript",
         "typescriptreact",
-        "javascriptreact"
+        "javascriptreact",
+        "php",
+        "haskell",
+        "*"
     ],
+    "eslint.autoFixOnSave": true,
+    "tslint.autoFixOnSave": true,
     "scss.lint.unknownProperties": "ignore",
     "css.lint.unknownProperties": "ignore",
     "yaml.schemas": {
         "https://raw.githubusercontent.com/docker/cli/master/cli/compose/schema/data/config_schema_v3.7.json": "/docker-compose.*yml"
     },
+    "yaml.format.enable": true,
     "languageserver": {
         "docker": {
             "enable": false,
@@ -45,7 +52,6 @@
         },
         "haskell": {
             "enable": false,
-
             "command": "stack",
             "args": ["exec", "ghcide", "--", "--lsp"],
             "rootPatterns": [
