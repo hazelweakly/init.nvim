@@ -468,6 +468,7 @@ function! VimrcLoadFiletypeSettings()
     augroup filetype_settings
         au!
         au FileType sql nmap <silent> <leader>f :%! sqlformat -i=lower -k=upper -r -<CR>
+        au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
     augroup END
 
     let g:LargeFile = 1024 * 768 * 1
