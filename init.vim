@@ -56,11 +56,12 @@ function! VimrcLoadPlugins()
     Plug 'nelstrom/vim-visual-star-search'
     Plug 'airblade/vim-rooter'
 
-    " Plug 'liuchengxu/vista.vim'
+    Plug 'liuchengxu/vista.vim'
+    Plug 'rhysd/git-messenger.vim'
     Plug 'mg979/vim-visual-multi', {'branch': 'test'}
     " Plug 'tpope/vim-rsi'
     Plug 'dhruvasagar/vim-zoom'
-    " Plug 'kassio/neoterm'
+    Plug 'voldikss/vim-floaterm'
 
     Plug 'tpope/vim-repeat'
     Plug 'machakann/vim-sandwich'
@@ -117,6 +118,27 @@ function! VimrcLoadPluginSettings()
     " let g:pear_tree_smart_backspace = 1
 
     " fzf.vim
+
+    " fzf in floating windows
+    let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+    function! FloatingFZF()
+        let buf = nvim_create_buf(v:false, v:true)
+        call setbufvar(buf, '&signcolumn', 'no')
+
+        let height = &lines - 8
+        let width = float2nr(&columns - (&columns * 2 / 10))
+        let col = float2nr((&columns - width) / 2)
+
+        let opts = {
+                    \ 'relative': 'editor',
+                    \ 'row': 4,
+                    \ 'col': col,
+                    \ 'width': width,
+                    \ 'height': height
+                    \ }
+
+        call nvim_open_win(buf, v:true, opts)
+    endfunction
 
     " Customize Rg and Files commands to add preview
     command! -bang -nargs=* Rg
@@ -226,6 +248,23 @@ function! VimrcLoadPluginSettings()
 
     nmap gp <Plug>(coc-git-prevchunk)
     nmap gn <Plug>(coc-git-nextchunk)
+
+    " vista.vim
+    let g:vista#renderer#enable_icon = 1
+    let g:vista_fzf_preview = ['right:40%']
+    let g:vista_echo_cursor_strategy = 'floating_win'
+    nmap <silent> <C-T> :Vista finder<CR>
+
+    " vim-floaterm
+    let g:floaterm_position = 'center'
+    let g:floaterm_winblend = '30'
+    noremap  <silent> <F12> :FloatermToggle<CR>i
+    noremap! <silent> <F12> <Esc>:FloatermToggle<CR>i
+    tnoremap <silent> <F12> <C-\><C-n>:FloatermToggle<CR>
+    tnoremap <silent> <C-l> <nop>
+
+    " git-messenger
+    " <leader>gm already set
 
     " let s:code_actions = []
 
@@ -460,8 +499,15 @@ function! VimrcLoadSettings()
         au VimResized * :wincmd =
         au BufWritePost $MYVIMRC nested source $MYVIMRC
         au BufEnter * :syntax sync fromstart
-        " au VimLeave * set guicursor=a:
+        au VimEnter * call vista#RunForNearestMethodOrFunction()
     augroup END
+
+    " vista.vim
+    function! NearestMethodOrFunction() abort
+        return get(b:, 'vista_nearest_method_or_function', '')
+    endfunction
+
+    set statusline=%f\ %h%w%m%r%=%{NearestMethodOrFunction()}%-8.(%)\ %-14.(%l,%c%V%)\ %P
 endfunction
 
 function! VimrcLoadFiletypeSettings()
