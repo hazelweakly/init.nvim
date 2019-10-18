@@ -234,9 +234,11 @@ function! VimrcLoadPluginSettings()
     augroup END
 
     inoremap <expr> <Tab> pumvisible() ? coc#_select_confirm() : "\<Tab>"
-    inoremap <silent><expr> <cr> "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
+    " inoremap <silent><expr> <cr> "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+    " inoremap <expr> <CR> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+    inoremap <expr> <CR> complete_info()["selected"] != "-1" ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
     inoremap <expr> <S-Tab> "\<C-h>"
+    inoremap <silent><expr> <c-space> coc#refresh()
 
     xmap <silent> <TAB> <Plug>(coc-range-select)
     xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)

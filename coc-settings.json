@@ -9,6 +9,7 @@
     "diagnostic.infoSign": "",
     "diagnostic.hintSign": "💡",
     "coc.preferences.messageLevel": "warning",
+    "coc.preferences.formatOnType": true,
     "codeLens.enable": true,
     "suggest.maxCompleteItemCount": 30,
     "git.enableGutters": true,
@@ -22,6 +23,7 @@
     "git.removedSign.text": "▏",
     "git.topRemovedSign.text": "▔",
     "git.changeRemovedSign.text": "▋",
+    "rust-analyzer.enableCargoWatchOnStartup": "enabled",
     "coc.preferences.formatOnSaveFiletypes": [
         "jsonc",
         "json",
