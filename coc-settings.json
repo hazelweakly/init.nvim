@@ -1,69 +1,74 @@
 {
-    "emmet.optimizeStylesheetParsing": false,
-    "suggest.preferCompleteThanJumpPlaceholder": true,
-    "suggest.detailField": "preview",
-    "signature.preferShownAbove": true,
-    "suggest.enablePreview": true,
-    "diagnostic.errorSign": "🕱",
-    "diagnostic.warningSign": "☢",
-    "diagnostic.infoSign": "",
-    "diagnostic.hintSign": "💡",
-    "coc.preferences.messageLevel": "warning",
-    "coc.preferences.formatOnType": true,
-    "codeLens.enable": true,
-    "suggest.maxCompleteItemCount": 30,
-    "git.enableGutters": true,
-    "git.addedSign.hlGroup": "GitGutterAdd",
-    "git.changedSign.hlGroup": "GitGutterChange",
-    "git.removedSign.hlGroup": "GitGutterDelete",
-    "git.topRemovedSign.hlGroup": "GitGutterDelete",
-    "git.changeRemovedSign.hlGroup": "GitGutterChangeDelete",
-    "git.addedSign.text": "▎",
-    "git.changedSign.text": "▎",
-    "git.removedSign.text": "▏",
-    "git.topRemovedSign.text": "▔",
-    "git.changeRemovedSign.text": "▋",
-    "rust-analyzer.enableCargoWatchOnStartup": "enabled",
-    "coc.preferences.formatOnSaveFiletypes": [
-        "jsonc",
-        "json",
-        "css",
-        "scss",
-        "typescript",
-        "javascript",
-        "typescriptreact",
-        "javascriptreact",
-        "php",
-        "haskell",
-        "*"
-    ],
-    "eslint.autoFixOnSave": true,
-    "tslint.autoFixOnSave": true,
-    "scss.lint.unknownProperties": "ignore",
-    "css.lint.unknownProperties": "ignore",
-    "yaml.schemas": {
-        "https://raw.githubusercontent.com/docker/cli/master/cli/compose/schema/data/config_schema_v3.7.json": "/docker-compose.*yml"
+  "emmet.optimizeStylesheetParsing": false,
+  "suggest.preferCompleteThanJumpPlaceholder": true,
+  "suggest.detailField": "preview",
+  "signature.preferShownAbove": true,
+  "suggest.enablePreview": true,
+  "diagnostic.errorSign": "🕱",
+  "diagnostic.warningSign": "☢",
+  "diagnostic.infoSign": "",
+  "diagnostic.hintSign": "💡",
+  "coc.preferences.messageLevel": "warning",
+  "coc.preferences.formatOnType": true,
+  "codeLens.enable": true,
+  "suggest.maxCompleteItemCount": 30,
+  "git.enableGutters": true,
+  "git.addedSign.hlGroup": "GitGutterAdd",
+  "git.changedSign.hlGroup": "GitGutterChange",
+  "git.removedSign.hlGroup": "GitGutterDelete",
+  "git.topRemovedSign.hlGroup": "GitGutterDelete",
+  "git.changeRemovedSign.hlGroup": "GitGutterChangeDelete",
+  "git.addedSign.text": "▎",
+  "git.changedSign.text": "▎",
+  "git.removedSign.text": "▏",
+  "git.topRemovedSign.text": "▔",
+  "git.changeRemovedSign.text": "▋",
+  "rust-analyzer.enableCargoWatchOnStartup": "enabled",
+  "coc.preferences.formatOnSaveFiletypes": [
+    "jsonc",
+    "json",
+    "css",
+    "scss",
+    "typescript",
+    "javascript",
+    "typescriptreact",
+    "javascriptreact",
+    "php",
+    "haskell",
+    "*"
+  ],
+  "eslint.autoFixOnSave": true,
+  "tslint.autoFixOnSave": true,
+  "scss.lint.unknownProperties": "ignore",
+  "css.lint.unknownProperties": "ignore",
+  "yaml.schemas": {
+    "https://raw.githubusercontent.com/docker/cli/master/cli/compose/schema/data/config_schema_v3.7.json": "/docker-compose.*yml"
+  },
+  "yaml.format.enable": true,
+  "languageserver": {
+    "docker": {
+      "enable": false,
+      "command": "docker-langserver",
+      "args": ["--stdio"],
+      "filetypes": ["Dockerfile"]
     },
-    "yaml.format.enable": true,
-    "languageserver": {
-        "docker": {
-            "enable": false,
-            "command": "docker-langserver",
-            "args": ["--stdio"],
-            "filetypes": ["Dockerfile"]
-        },
-        "haskell": {
-            "enable": false,
-            "command": "stack",
-            "args": ["exec", "ghcide", "--", "--lsp"],
-            "rootPatterns": [
-                ".stack.yaml",
-                ".hie-bios",
-                "BUILD.bazel",
-                "cabal.config",
-                "package.yaml"
-            ],
-            "filetypes": ["hs", "lhs", "haskell"]
+    "ghcide": {
+      "enable": false,
+      "command": "ghcide",
+      "args": ["--lsp"],
+      "filetypes": ["hs", "lhs", "haskell"],
+      "rootPatterns": [".stack.yaml", "cabal.config", "package.yaml"]
+    },
+    "haskell": {
+      "enable": false,
+      "command": "hie-wrapper",
+      "rootPatterns": ["stack.yaml", "cabal.config", "package.yaml"],
+      "filetypes": ["hs", "lhs", "haskell"],
+      "initializationOptions": {
+        "languageServerHaskell": {
+          "hlintOn": true
         }
+      }
     }
+  }
 }

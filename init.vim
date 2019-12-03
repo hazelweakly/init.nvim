@@ -1,13 +1,3 @@
-" speed improvements
-let g:node_host_prog = '/usr/local/bin/neovim-node-host'
-let g:ruby_host_prog = '/usr/local/bin/neovim-ruby-host'
-let g:python3_host_prog = '/usr/bin/python3'
-let g:python_host_prog = '/usr/bin/python2'
-
-" TODO: Apply this and filtch some ideas.
-" https://vimways.org/2018/from-vimrc-to-vim/
-" https://github.com/zSucrilhos/dotfiles
-
 function! VimrcLoadPlugins()
     " Install vim-plug if not available
     if &runtimepath !~# '/plug.vim'
@@ -191,6 +181,7 @@ function! VimrcLoadPluginSettings()
     let g:coc_snippet_next = '<M-n>'
     let g:coc_snippet_prev = '<M-p>'
 
+                " \ 'coc-xml',
     let g:coc_global_extensions = [
                 \ 'coc-css',
                 \ 'coc-diagnostic',
@@ -213,7 +204,6 @@ function! VimrcLoadPluginSettings()
                 \ 'coc-vimlsp',
                 \ 'coc-vimtex',
                 \ 'coc-yaml',
-                \ 'coc-xml',
                 \ 'coc-emmet'
                 \ ]
 
@@ -221,8 +211,12 @@ function! VimrcLoadPluginSettings()
         call coc#config('languageserver.docker.enable', v:true)
     endif
 
-    if executable('stack')
+    if executable('hie-wrapper')
         call coc#config('languageserver.haskell.enable', v:true)
+    endif
+
+    if executable('ghcide')
+        call coc#config('languageserver.ghcide.enable', v:true)
     endif
 
     augroup coc
@@ -436,8 +430,8 @@ function! VimrcLoadSettings()
     set incsearch
     set nojoinspaces
     set inccommand=nosplit
-    set pumblend=30
-    set winblend=30
+    " set pumblend=30
+    " set winblend=30
     set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
     set hidden " Required for coc.nvim
     set complete+=k
@@ -456,7 +450,7 @@ function! VimrcLoadSettings()
     set backupdir=~/.config/nvim/backup//
     set noerrorbells visualbell t_vb=
     set list
-    set listchars=tab:▸\ ,extends:❯,precedes:❮,eol:¬,trail:⌴
+    set listchars=tab:▸\ ,extends:❯,precedes:❮,trail:⌴
     set showbreak=↪\ \ 
     set fillchars=diff:⣿,vert:│,fold:\
     set showcmd
