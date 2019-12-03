@@ -84,6 +84,10 @@ function! VimrcLoadPlugins()
                 \| endif
 endfunction
 
+function! VimrcPrePluginSettings()
+    let g:polyglot_disabled = ['markdown', 'less', 'typescript', 'jsx']
+endfunction
+
 function! VimrcLoadPluginSettings()
     " vim-cool
     let g:CoolTotalMatches = 1
@@ -110,25 +114,8 @@ function! VimrcLoadPluginSettings()
     " fzf.vim
 
     " fzf in floating windows
-    let g:fzf_layout = { 'window': 'call FloatingFZF()' }
-    function! FloatingFZF()
-        let buf = nvim_create_buf(v:false, v:true)
-        call setbufvar(buf, '&signcolumn', 'no')
-
-        let height = &lines - 8
-        let width = float2nr(&columns - (&columns * 2 / 10))
-        let col = float2nr((&columns - width) / 2)
-
-        let opts = {
-                    \ 'relative': 'editor',
-                    \ 'row': 4,
-                    \ 'col': col,
-                    \ 'width': width,
-                    \ 'height': height
-                    \ }
-
-        call nvim_open_win(buf, v:true, opts)
-    endfunction
+    lua require('navigation')
+    let g:fzf_layout = { 'window': 'lua NavigationFloatingWin()' }
 
     " Customize Rg and Files commands to add preview
     command! -bang -nargs=* Rg
@@ -298,7 +285,6 @@ function! VimrcLoadPluginSettings()
     let g:pandoc#formatting#equalprg=''
 
     " vim-polyglot
-    let g:polyglot_disabled = ['markdown', 'less', 'typescript', 'jsx']
     let g:haskell_enable_quantification = 1
     let g:haskell_enable_pattern_synonyms = 1
     let g:haskell_indent_disable = 1
@@ -528,6 +514,7 @@ function! VimrcLoadColors()
 endfunction
 
 let g:mapleader = "\<Space>"
+call VimrcPrePluginSettings()
 call VimrcLoadPlugins()
 call VimrcLoadPluginSettings()
 call VimrcLoadMappings()
