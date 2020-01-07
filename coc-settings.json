@@ -13,36 +13,18 @@
   "codeLens.enable": true,
   "suggest.maxCompleteItemCount": 30,
   "git.enableGutters": true,
-  "git.addedSign.hlGroup": "GitGutterAdd",
-  "git.changedSign.hlGroup": "GitGutterChange",
-  "git.removedSign.hlGroup": "GitGutterDelete",
-  "git.topRemovedSign.hlGroup": "GitGutterDelete",
-  "git.changeRemovedSign.hlGroup": "GitGutterChangeDelete",
   "git.addedSign.text": "▎",
   "git.changedSign.text": "▎",
   "git.removedSign.text": "▏",
   "git.topRemovedSign.text": "▔",
   "git.changeRemovedSign.text": "▋",
-  "rust-analyzer.enableCargoWatchOnStartup": "enabled",
-  "coc.preferences.formatOnSaveFiletypes": [
-    "jsonc",
-    "json",
-    "css",
-    "scss",
-    "typescript",
-    "javascript",
-    "typescriptreact",
-    "javascriptreact",
-    "php",
-    "haskell",
-    "*"
-  ],
+  "coc.preferences.formatOnSaveFiletypes": ["*"],
   "eslint.autoFixOnSave": true,
   "tslint.autoFixOnSave": true,
   "scss.lint.unknownProperties": "ignore",
   "css.lint.unknownProperties": "ignore",
   "yaml.schemas": {
-    "https://raw.githubusercontent.com/docker/cli/master/cli/compose/schema/data/config_schema_v3.7.json": "/docker-compose.*yml"
+    "https://raw.githubusercontent.com/docker/cli/master/cli/compose/schema/data/config_schema_v3.9.json": "/docker-compose.*yml"
   },
   "yaml.format.enable": true,
   "languageserver": {

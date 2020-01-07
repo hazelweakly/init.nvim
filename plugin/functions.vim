@@ -5,14 +5,6 @@ function LargeFile()
     autocmd VimEnter *  echo "The file is larger than " . (g:LargeFile / 1024 / 1024) . " MB, so some options are changed (see .vimrc for details)."
 endfunction
 
-function Paste()
-    if col('.') == col('$') - 1
-        return '"_dp'
-    else
-        return '"_dP'
-    endif
-endfunction
-
 function VisualSearchCurrentSelection(direction)
     let       l:saved_reg = @"
     execute   'normal! vgvy'
@@ -27,7 +19,7 @@ function VisualSearchCurrentSelection(direction)
     let       @" = l:saved_reg
 endfunction
 
-function Op_adjust_window_height(motion_wiseness)
-    execute (line("']") - line("'[") + 1) 'wincmd' '_'
-    normal! `[zt
+" vista.vim
+function! NearestMethodOrFunction() abort
+    return get(b:, 'vista_nearest_method_or_function', '')
 endfunction
