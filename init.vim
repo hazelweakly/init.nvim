@@ -62,7 +62,6 @@ function! VimrcLoadPlugins()
 
     Plug 'laggardkernel/vim-one'
     Plug 'https://gitlab.com/protesilaos/tempus-themes-vim.git'
-    Plug 'jeffkreeftmeijer/vim-dim'
 
     Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
 
@@ -510,12 +509,8 @@ function! VimrcLoadFiletypeSettings()
 endfunction
 
 function! VimrcLoadColors()
-    colorscheme one
-    let g:one_allow_italics = 1
-    " colorscheme tempus_totus
-    " colorscheme dim
+    colorscheme tempus_dawn
     highlight! Comment gui=italic
-    set background=light
 endfunction
 
 let g:mapleader = "\<Space>"
