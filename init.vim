@@ -61,6 +61,8 @@ function! VimrcLoadPlugins()
     Plug 'andymass/vim-matchup'
 
     Plug 'laggardkernel/vim-one'
+    Plug 'https://gitlab.com/protesilaos/tempus-themes-vim.git'
+    Plug 'jeffkreeftmeijer/vim-dim'
 
     Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
 
@@ -416,8 +418,8 @@ function! VimrcLoadSettings()
     set incsearch
     set nojoinspaces
     set inccommand=nosplit
-    " set pumblend=30
-    " set winblend=30
+    set pumblend=30
+    set winblend=30
     set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
     set hidden " Required for coc.nvim
     set complete+=k
@@ -469,6 +471,7 @@ function! VimrcLoadSettings()
     set splitbelow
     set nofixendofline
     set autoread
+    set pyx=3
 
     if has('nvim-0.3.2') || has("patch-8.1.0360")
         set diffopt=filler,internal,algorithm:histogram,indent-heuristic
@@ -509,6 +512,8 @@ endfunction
 function! VimrcLoadColors()
     colorscheme one
     let g:one_allow_italics = 1
+    " colorscheme tempus_totus
+    " colorscheme dim
     highlight! Comment gui=italic
     set background=light
 endfunction
