@@ -1,9 +1,15 @@
 function! VimrcLoadPlugins()
     " Install vim-plug if not available
-    if empty(glob('~/.vim/autoload/plug.vim'))
-        silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+        silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
                     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
         autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    endif
+
+    if !isdirectory($HOME . '/.local/share/nvim/backup')
+        call mkdir($HOME . '/.local/share/nvim/swap', "p", 0700)
+        call mkdir($HOME . '/.local/share/nvim/undo', "p", 0700)
+        call mkdir($HOME . '/.local/share/nvim/backup', "p", 0700)
     endif
 
     call plug#begin('~/.local/share/nvim/plugged')
@@ -278,9 +284,9 @@ function! VimrcLoadSettings()
     set lazyredraw
     set virtualedit=block
     set mouse=
-    set dir=~/.config/nvim/backup//
-    set undodir=~/.config/nvim/backup//
-    set backupdir=~/.config/nvim/backup//
+    set dir=$XDG_DATA_HOME/nvim/swap//
+    set undodir=$XDG_DATA_HOME/nvim/undo//
+    set backupdir=$XDG_DATA_HOME/nvim/backup//
     set noerrorbells visualbell t_vb=
     set list
     set listchars=tab:▸\ ,extends:❯,precedes:❮,trail:⌴
@@ -327,6 +333,10 @@ function! VimrcLoadSettings()
         au!
         au FocusGained * :checktime
         au BufWritePost $MYVIMRC nested source $MYVIMRC
+        au BufWritePost $MYVIMRC
+                    \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+                    \|   PlugInstall --sync | q
+                    \| endif
         au VimEnter * call vista#RunForNearestMethodOrFunction()
     augroup END
 
